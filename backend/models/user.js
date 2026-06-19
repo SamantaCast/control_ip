@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
 
-  // USUARIO LOGIN
   usuario: {
     type: String,
     required: true,
@@ -12,13 +11,17 @@ const userSchema = new mongoose.Schema({
     trim: true
   },
 
-  // CONTRASEÑA
+  nombre: {
+    type: String,
+    required: true,
+    trim: true
+  },
+
   password: {
     type: String,
     required: true
   },
 
-  // ROL DEL USUARIO
   rol: {
     type: String,
     default: 'admin'

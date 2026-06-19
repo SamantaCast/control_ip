@@ -56,6 +56,35 @@ router.get('/count', async (req, res) => {
   }
 });
 
+// OBTENER EDIFICIOS ÚNICOS
+router.get('/edificios', async (req, res) => {
+
+  try {
+
+    const edificios = await Impresora.distinct('edificio');
+
+    edificios.sort((a, b) =>
+      a.localeCompare(b)
+    );
+
+    res.json(edificios);
+
+  } catch (error) {
+
+    res.status(500).json({
+      mensaje: 'Error al obtener edificios'
+    });
+
+  }
+
+});
+
+
+
+
+
+
+
 // AGREGAR
 // Solo administradores
 
@@ -94,3 +123,5 @@ router.delete('/:id', verificarToken, soloAdmin, async (req, res) => {
 });
 
 module.exports = router;
+
+

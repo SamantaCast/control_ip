@@ -33,8 +33,11 @@ app.post('/login', async (req, res) => {
     const { usuario, password } = req.body;
 
     const user = await User.findOne({ usuario });
+
     if (!user) {
-      return res.status(401).json({ mensaje: 'Datos incorrectos' });
+      return res.status(401).json({
+        mensaje: 'Datos incorrectos'
+      });
     }
 
     const coincide = user.password.startsWith('$2')
@@ -42,7 +45,9 @@ app.post('/login', async (req, res) => {
       : password === user.password;
 
     if (!coincide) {
-      return res.status(401).json({ mensaje: 'Datos incorrectos' });
+      return res.status(401).json({
+        mensaje: 'Datos incorrectos'
+      });
     }
 
     const token = jwt.sign(
@@ -55,13 +60,27 @@ app.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    return res.json({
-      mensaje: 'Login correcto',
-      token,
-      rol: user.rol
-    });
+    console.log("RESPUESTA LOGIN:");
+console.log({
+  mensaje: 'Login correcto',
+  token,
+  rol: user.rol,
+  nombre: user.nombre,
+  usuario: user.usuario
+});
+
+return res.json({
+  mensaje: 'Login correcto',
+  token,
+  rol: user.rol,
+  nombre: user.nombre,
+  usuario: user.usuario
+});
+
   } catch (error) {
-    return res.status(500).json({ mensaje: 'Error en el servidor' });
+    return res.status(500).json({
+      mensaje: 'Error en el servidor'
+    });
   }
 });
 

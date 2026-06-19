@@ -1,0 +1,503 @@
+/* ==========================================================
+   MODAL.CSS
+   Estilos exclusivos para los modales del sistema
+========================================================== */
+
+
+/* ==========================================================
+   ANIMACIÓN DE APERTURA
+========================================================== */
+
+@keyframes modalShow{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px) scale(.98);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0) scale(1);
+
+    }
+
+}
+
+
+/* ==========================================================
+   OVERLAY
+========================================================== */
+
+.overlayStyle{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:16px;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(4px);
+
+    z-index:1000;
+
+}
+
+
+/* ==========================================================
+   MODAL PRINCIPAL
+========================================================== */
+
+.modalStyle{
+
+    position:relative;
+
+    width:min(920px,94vw);
+
+    padding:22px 26px;
+
+    background:var(--crema-modal);
+
+    border-radius:28px;
+
+    border:1px solid rgba(138,32,54,.08);
+
+    overflow:hidden;
+
+    animation:modalShow .25s ease;
+
+    box-shadow:
+        0 24px 60px rgba(0,0,0,.28),
+        0 4px 14px rgba(0,0,0,.08);
+
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.modalHeader{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:10px;
+
+}
+
+
+/* ==========================================================
+   ICONO DEL HEADER
+========================================================== */
+
+.modalHeaderIcon{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:16px;
+
+    background:#F7E8EA;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--vino);
+
+    font-size:28px;
+
+}
+
+
+/* ==========================================================
+   TÍTULO
+========================================================== */
+
+.modalTitle{
+
+    margin:0;
+
+    color:var(--vino);
+
+    font-family:"Titulo";
+
+    font-size:38px;
+
+    font-weight:700;
+
+    line-height:1.1;
+
+}
+
+
+/* ==========================================================
+   DESCRIPCIÓN
+========================================================== */
+
+.modalDescription{
+
+    margin-top:6px;
+
+    margin-bottom:0;
+
+    color:var(--dorado);
+
+    font-family:"Texto";
+
+    font-size:15px;
+
+}
+
+
+/* ==========================================================
+   DIVISOR
+========================================================== */
+
+.modalDivider{
+
+    width:100%;
+
+    height:1px;
+
+    background:#D8CEC1;
+
+    margin-top:18px;
+
+    margin-bottom:20px;
+
+}
+/* ==========================================================
+   BOTÓN CERRAR
+========================================================== */
+
+.closeModalBtn{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    width:38px;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--vino);
+
+    color:#FFFFFF;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.20s;
+
+}
+
+.closeModalBtn:hover{
+
+    background:var(--vino-hover);
+
+}
+
+
+
+/* ==========================================================
+   MODAL DE ADMINISTRADOR
+========================================================== */
+
+.adminModalStyle{
+
+    position:relative;
+
+    width:min(550px,50vw);
+
+    padding:20px 26px 24px;
+
+    background:var(--crema-modal);
+
+    border-radius:28px;
+
+    border:1px solid rgba(138,32,54,.08);
+
+    overflow:hidden;
+
+    animation:modalShow .25s ease;
+
+    box-shadow:
+        0 24px 60px rgba(0,0,0,.28),
+        0 4px 14px rgba(0,0,0,.08);
+
+}
+
+
+
+/* ==========================================================
+   MODAL LISTA DE ADMINISTRADORES
+========================================================== */
+
+.adminListModal{
+
+    position:relative;
+
+    width:min(450px,45vw);
+
+    padding:22px 28px 20px;
+
+    background:var(--crema-modal);
+
+    border-radius:28px;
+
+    border:1px solid rgba(138,32,54,.08);
+
+    overflow:hidden;
+
+    animation:modalShow .25s ease;
+
+    box-shadow:
+        0 24px 60px rgba(0,0,0,.28),
+        0 4px 14px rgba(0,0,0,.08);
+
+}
+
+
+
+/* ==========================================================
+   BOTÓN CERRAR MODAL ADMINISTRADORES
+========================================================== */
+
+.adminCloseBtn{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    width:38px;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--vino);
+
+    color:#FFFFFF;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.20s;
+
+}
+
+.adminCloseBtn:hover{
+
+    background:var(--vino-hover);
+
+}
+
+
+
+/* ==========================================================
+   CONTENIDO DEL MODAL ADMINISTRADORES
+========================================================== */
+
+.adminListBody{
+
+    padding-top:0;
+
+}
+
+
+
+/* ==========================================================
+   TOTAL DE REGISTROS
+========================================================== */
+
+.adminListTotal{
+
+    margin:0 0 18px;
+
+    font-family:"Subtitulo";
+
+    font-size:18px;
+
+    font-weight:500;
+
+    color:var(--vino);
+
+}
+
+
+
+/* ==========================================================
+   CONTENEDOR DE LA TABLA
+========================================================== */
+
+.adminTableBox{
+
+    overflow:hidden;
+
+    background:#FFFFFF;
+
+    border:1px solid #E5D9D1;
+
+    border-radius:18px;
+
+    margin-bottom:24px;
+
+}
+
+
+
+/* ==========================================================
+   TABLA
+========================================================== */
+
+.adminDataTable{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+/* ==========================================================
+   CABECERA
+========================================================== */
+
+.adminHeadCell{
+
+    padding:13px;
+
+    background:var(--vino);
+
+    color:#FFFFFF;
+
+    font-family:"Subtitulo";
+
+    font-size:17px;
+
+    font-weight:500;
+
+    text-align:left;
+
+}
+
+
+
+/* ==========================================================
+   CELDAS
+========================================================== */
+
+.adminCell{
+
+    padding:4px 10px;
+
+    border-bottom:1px solid #EFE6DB;
+
+    font-size:17px;
+
+    line-height:1.2;
+
+    vertical-align:middle;
+
+}
+
+
+
+/* ==========================================================
+   BOTONES DE ACCIONES
+========================================================== */
+
+.adminActionBtns{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+
+/* ==========================================================
+   BOTONES DE ICONOS
+========================================================== */
+
+.adminIconBtn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#F5F5F5;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    transition:.20s;
+
+}
+
+.adminIconBtn:hover{
+
+    transform:scale(1.08);
+
+}

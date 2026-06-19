@@ -1,0 +1,184 @@
+/* ==================================================
+   BARRA SUPERIOR
+================================================== */
+
+.topBar{
+
+    height:70px;
+
+    padding:0 18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#FFF;
+
+    border-bottom:1px solid #ECECEC;
+
+}
+
+
+/* ==================================================
+   LOGOS
+================================================== */
+
+.logosLeft{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.topLogo{
+
+    height:48px;
+
+    width:auto;
+
+}
+
+.logoDivider{
+
+    color:#999;
+
+    font-size:24px;
+
+}
+
+
+/* ==================================================
+   PANEL PRINCIPAL
+================================================== */
+
+.panel{
+
+    padding:10px 24px;
+
+}
+
+
+/* ==================================================
+   ENCABEZADO
+================================================== */
+
+.panelHeader{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.headerTopRow{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+/* ==================================================
+   TITULO PRINCIPAL
+================================================== */
+
+.panelTitle{
+
+    margin:0;
+
+    font-family:"Titulo";
+
+    font-size:40px;
+
+    font-weight:700;
+
+    line-height:1;
+
+    color:#B8861F;
+
+}
+
+
+/* ==================================================
+   CONTENIDO
+================================================== */
+
+.panelContent{
+
+    margin-top:4px;
+
+}
+
+
+/* ==================================================
+   CONTENEDOR BOTON NUEVO REGISTRO
+================================================== */
+
+.panelTop{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-bottom:14px;
+
+}
+
+
+/* ==================================================
+   BOTÓN NUEVO REGISTRO
+================================================== */
+
+.dashboardNewBtn{
+
+    height:46px;
+
+    padding:0 22px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#8A2036;
+
+    color:#FFF;
+
+    font-family:"Texto";
+
+    font-size:15px;
+
+    font-weight:600;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.dashboardNewBtn:hover{
+
+    background:#6F1A2C;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(138,32,54,.25);
+
+}
