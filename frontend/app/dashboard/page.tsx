@@ -23,6 +23,9 @@ import "../../styles/pagination.css";
 import "../../styles/user-menu.css";
 import "../../styles/searchbar.css";
 import type {Impresora, UsuarioAdmin, FormAdmin, } from "./types";
+import { exportarExcel } from "../utils/exportExcel";
+import { exportarPDF } from "../utils/exportPDF";
+
 
 /* ==========================================================
    CONSTANTES
@@ -72,6 +75,22 @@ export default function Page() {
 
   const [busqueda, setBusqueda] = useState("");
   const [filtroEdificio, setFiltroEdificio] = useState("");
+  const [filtroDepartamento, setFiltroDepartamento] = useState("");
+
+const [filtroUbicacion, setFiltroUbicacion] = useState("");
+
+const [filtroEquipo, setFiltroEquipo] = useState("");
+
+
+  //filtros
+
+
+  const [departamentos, setDepartamentos] = useState<string[]>([]);
+
+const [ubicaciones, setUbicaciones] = useState<string[]>([]);
+
+const [equipos, setEquipos] = useState<string[]>([]);
+
   const [edificios, setEdificios] = useState<string[]>([]);
 
   /* ======================================================
@@ -125,26 +144,6 @@ export default function Page() {
   const adminInputRefs =
     useRef<(HTMLInputElement | null)[]>([]);
 
-  /* ======================================================
-     PAGINACIÓN
-  ====================================================== */
-
-  const [paginaActual, setPaginaActual] = useState(1);
-
-  const registrosPorPagina = 15;
-
-  const totalPaginas = Math.ceil(
-    impresoras.length / registrosPorPagina
-  );
-
-  const indiceInicio =
-    (paginaActual - 1) * registrosPorPagina;
-
-  const indiceFin =
-    indiceInicio + registrosPorPagina;
-
-  const impresorasPaginadas =
-    impresoras.slice(indiceInicio, indiceFin);
 
   /* ======================================================
      FORMULARIO DE ADMINISTRADORES
@@ -181,6 +180,125 @@ export default function Page() {
     }
   };
 
+  /* ===========================================
+   ESTADÍSTICAS DEL DASHBOARD
+=========================================== */
+
+const [stats, setStats] = useState({
+
+  totalEquipos: 0,
+
+  equiposActivos: 0,
+
+  totalUsuarios: 0,
+
+  totalIPs: 0,
+
+});
+/* ==========================================
+   ORDENAMIENTO
+========================================== */
+
+const [ordenCampo, setOrdenCampo] = useState("");
+
+const [ordenDireccion, setOrdenDireccion] =
+useState<"asc" | "desc">("asc");
+
+function ordenarPor(campo: string) {
+
+    if (ordenCampo === campo) {
+
+        setOrdenDireccion(
+            ordenDireccion === "asc"
+                ? "desc"
+                : "asc"
+        );
+
+    } else {
+
+        setOrdenCampo(campo);
+
+        setOrdenDireccion("asc");
+
+    }
+
+}
+/* ===========================================
+   EXPORTAR A EXCEL y pdf
+=========================================== */
+
+const descargarExcel = () => {
+
+    exportarExcel(impresoras);
+
+};
+const generarPDF = () => {
+
+    exportarPDF(impresorasOrdenadas);
+
+};
+
+
+
+
+/////////////////comentario
+
+const impresorasOrdenadas = [...impresoras].sort((a, b) => {
+
+    if (!ordenCampo) return 0;
+
+    const valorA = String(
+        a[ordenCampo as keyof Impresora] ?? ""
+    ).toLowerCase();
+
+    const valorB = String(
+        b[ordenCampo as keyof Impresora] ?? ""
+    ).toLowerCase();
+
+    if (valorA < valorB)
+        return ordenDireccion === "asc" ? -1 : 1;
+
+    if (valorA > valorB)
+        return ordenDireccion === "asc" ? 1 : -1;
+
+    return 0;
+
+});
+
+
+
+    
+  /* ======================================================
+     PAGINACIÓN
+  ====================================================== */
+
+  const [paginaActual, setPaginaActual] = useState(1);
+
+/* ==========================================
+   REGISTROS POR PÁGINA
+========================================== */
+
+const [registrosPorPagina, setRegistrosPorPagina] =
+    useState(15);
+
+
+    //////////////////////////////comentario 
+
+  const totalPaginas = Math.ceil(
+    impresoras.length / registrosPorPagina
+  );
+
+  const indiceInicio =
+    (paginaActual - 1) * registrosPorPagina;
+
+  const indiceFin =
+    indiceInicio + registrosPorPagina;
+
+  const impresorasPaginadas =
+    impresorasOrdenadas.slice(
+        indiceInicio,
+        indiceFin
+    );
   /* ======================================================
      CARGA INICIAL
      - Recupera la sesión almacenada.
@@ -189,29 +307,35 @@ export default function Page() {
   ====================================================== */
 
   useEffect(() => {
-    const tokenGuardado =
-      localStorage.getItem("token");
 
-    const rolGuardado =
-      localStorage.getItem("rol");
+  const tokenGuardado =
+    localStorage.getItem("token");
 
-    const nombreGuardado =
-      localStorage.getItem("nombre");
+  const rolGuardado =
+    localStorage.getItem("rol");
 
-    cargarImpresoras("", "");
-    cargarEdificios();
+  const nombreGuardado =
+    localStorage.getItem("nombre");
 
-    if (!tokenGuardado) return;
+  cargarImpresoras("", "");
+  cargarFiltros();
+  cargarEdificios();
+  cargarStats();
 
-    setToken(tokenGuardado);
-    setRol(rolGuardado || "");
-    setNombreUsuario(nombreGuardado || "");
-    setLogueado(true);
+  if (!tokenGuardado) return;
 
-    if (rolGuardado === "admin") {
-      cargarAdministradores(tokenGuardado);
-    }
-  }, []);
+  setToken(tokenGuardado);
+  setRol(rolGuardado || "");
+  setNombreUsuario(nombreGuardado || "");
+  setLogueado(true);
+
+  if (rolGuardado === "admin") {
+
+    cargarAdministradores(tokenGuardado);
+
+  }
+
+}, []);
 
   useEffect(() => {
 
@@ -223,7 +347,15 @@ export default function Page() {
 
   return () => clearTimeout(tiempo);
 
-}, [busqueda, filtroEdificio]);
+}, [busqueda,
+
+    filtroDepartamento,
+
+    filtroEdificio,
+
+    filtroUbicacion,
+
+    filtroEquipo]);
 
   /* ======================================================
      CABECERA DE AUTORIZACIÓN
@@ -260,6 +392,57 @@ const cargarEdificios = async () => {
   }
 
 };
+/* ===========================================
+   CARGAR ESTADÍSTICAS
+=========================================== */
+
+const cargarStats = async () => {
+
+  try {
+
+    const res = await axios.get(
+
+      `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/stats`
+
+    );
+
+    setStats(res.data);
+
+  } catch (error) {
+
+    console.error("Error al cargar estadísticas:", error);
+
+  }
+
+};
+
+//cargar filtros
+async function cargarFiltros() {
+
+    try {
+
+        const respuesta = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/filtros`
+);
+
+        const datos = await respuesta.json();
+
+        setDepartamentos(datos.departamentos);
+
+        setEdificios(datos.edificios);
+
+        setUbicaciones(datos.ubicaciones);
+
+        setEquipos(datos.equipos);
+
+
+    } catch (error) {
+
+        console.error("Error cargando filtros", error);
+
+    }
+
+}
 
   /* ======================================================
      INICIAR SESIÓN
@@ -300,7 +483,9 @@ const cargarEdificios = async () => {
 
       // Cargar los registros disponibles
       cargarImpresoras("", "");
+      cargarFiltros();
       cargarEdificios();
+      cargarStats();
 
       // Si el usuario es administrador, cargar la lista de administradores
       if (res.data.rol === "admin") {
@@ -356,42 +541,47 @@ const cargarEdificios = async () => {
      BUSCAR REGISTROS
   =========================================== */
 
-  const buscar = async () => {
+const buscar = async () => {
+
     try {
-      const texto = busqueda.trim();
-      const edificio = filtroEdificio.trim();
 
-      const config = token ? authHeader(token) : {};
+        const config = token ? authHeader(token) : {};
 
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras?busqueda=${encodeURIComponent(
-          texto
-        )}&edificio=${encodeURIComponent(edificio)}`,
-        config
-      );
+        const params = new URLSearchParams({
 
-      // Actualizar resultados
-      setImpresoras(res.data);
+            busqueda: busqueda.trim(),
 
-      // Regresar a la primera página
-      setPaginaActual(1);
+            departamento: filtroDepartamento,
 
-      // Actualizar contador de coincidencias
-      setCoincidencias(res.data.length);
+            edificio: filtroEdificio,
 
+            ubicacion: filtroUbicacion,
+
+            equipo: filtroEquipo,
+
+        });
+
+        const res = await axios.get(
+
+            `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras?${params.toString()}`,
+
+            config
+
+        );
+
+        setImpresoras(res.data);
+
+        setPaginaActual(1);
+
+        setCoincidencias(res.data.length);
 
     } catch (error) {
-      console.log(error);
 
-      await Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Error al buscar.",
-        confirmButtonColor: "#8A2036",
-        confirmButtonText: "Aceptar",
-      });
+        console.log(error);
+
     }
-  };
+
+};
 
   /* ===========================================
      ABRIR FORMULARIO PARA NUEVO REGISTRO
@@ -506,6 +696,7 @@ const cargarEdificios = async () => {
 
       // Recargar la información
       await cargarImpresoras(token, busqueda);
+      await cargarStats();
 
     } catch (error: any) {
 
@@ -558,6 +749,7 @@ const cargarEdificios = async () => {
 
       // Actualizar información
       await cargarImpresoras(token, busqueda);
+      await cargarStats();
 
     } catch (error) {
 
@@ -1025,34 +1217,60 @@ const cargarEdificios = async () => {
 
     edificios={edificios}
 
-    buscar={buscar}
-
-    cargarImpresoras={cargarImpresoras}
-
     abrirNuevo={abrirNuevo}
+
+    stats={stats}
+    departamentos={departamentos}
+
+ubicaciones={ubicaciones}
+
+equipos={equipos}
+
+
+filtroDepartamento={filtroDepartamento}
+setFiltroDepartamento={setFiltroDepartamento}
+
+filtroUbicacion={filtroUbicacion}
+setFiltroUbicacion={setFiltroUbicacion}
+
+filtroEquipo={filtroEquipo}
+setFiltroEquipo={setFiltroEquipo}
+
+exportarExcel={descargarExcel}
+exportarPDF={generarPDF}
+
+
+
 
 />
 
         {/* Tabla de registros */}
 
         <EquipmentTable
-          impresoras={impresoras}
-          impresorasPaginadas={impresorasPaginadas}
-          logueado={logueado}
-          abrirEditar={abrirEditar}
-          eliminar={eliminar}
-        />
+  impresoras={impresoras}
+  impresorasPaginadas={impresorasPaginadas}
+  logueado={logueado}
+  abrirEditar={abrirEditar}
+  eliminar={eliminar}
+
+  ordenarPor={ordenarPor}
+  ordenCampo={ordenCampo}
+  ordenDireccion={ordenDireccion}
+/>
 
         {/* Controles de paginación */}
 
         <Pagination
-          impresoras={impresoras}
-          indiceInicio={indiceInicio}
-          indiceFin={indiceFin}
-          paginaActual={paginaActual}
-          totalPaginas={totalPaginas}
-          setPaginaActual={setPaginaActual}
-        />
+    impresoras={impresoras}
+    indiceInicio={indiceInicio}
+    indiceFin={indiceFin}
+    paginaActual={paginaActual}
+    totalPaginas={totalPaginas}
+    setPaginaActual={setPaginaActual}
+
+    registrosPorPagina={registrosPorPagina}
+    setRegistrosPorPagina={setRegistrosPorPagina}
+/>
       </div>
 
       {/* =======================================

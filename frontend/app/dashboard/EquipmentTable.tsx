@@ -9,8 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPenToSquare,
   faTrash,
+  faArrowUp,
+  faArrowDown,
+  faArrowsUpDown,
 } from "@fortawesome/free-solid-svg-icons";
-
 import type { Impresora } from "./types";
 
 /* ==================================================
@@ -18,28 +20,67 @@ import type { Impresora } from "./types";
 ================================================== */
 
 interface Props {
+
   impresoras: Impresora[];
 
   impresorasPaginadas: Impresora[];
 
   logueado: boolean;
 
-  abrirEditar: (imp: Impresora) => void;
+  abrirEditar:(imp:Impresora)=>void;
 
-  eliminar: (id?: string) => void;
+  eliminar:(id?:string)=>void;
+
+  ordenarPor:(campo:string)=>void;
+
+  ordenCampo:string;
+
+  ordenDireccion:"asc" | "desc";
+
 }
-
 /* ==================================================
    COMPONENTE
 ================================================== */
 
 export default function EquipmentTable({
+
   impresoras,
+
   impresorasPaginadas,
+
   logueado,
+
   abrirEditar,
+
   eliminar,
+
+  ordenarPor,
+
+  ordenCampo,
+
+  ordenDireccion,
+
 }: Props) {
+
+  /* ===========================================
+   ICONO DE ORDEN
+=========================================== */
+
+const iconoOrden = (campo: string) => {
+
+    if (ordenCampo !== campo) {
+
+        return faArrowsUpDown;
+
+    }
+
+    return ordenDireccion === "asc"
+
+        ? faArrowUp
+
+        : faArrowDown;
+
+};
   return (
 
     /* ===============================================
@@ -58,49 +99,159 @@ export default function EquipmentTable({
 
           <tr>
 
-            <th className="tableHeadCell">
-              Departamento
-            </th>
+    {/* DEPARTAMENTO */}
 
-            <th className="tableHeadCell">
-              Edificio
-            </th>
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("departamento")}
+    >
 
-            <th className="tableHeadCell">
-              Ubicación
-            </th>
+        Departamento
 
-            <th className="tableHeadCell">
-              Nombre
-            </th>
+        <FontAwesomeIcon
+            icon={iconoOrden("departamento")}
+            className="sortIcon"
+        />
 
-            <th className="tableHeadCell">
-              Email
-            </th>
+    </th>
 
-            <th className="tableHeadCell">
-              Equipo
-            </th>
+    {/* EDIFICIO */}
 
-            <th className="tableHeadCell">
-              Usuario
-            </th>
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("edificio")}
+    >
 
-            <th className="tableHeadCell">
-              IP
-            </th>
+        Edificio
 
-            <th className="tableHeadCell">
-              Código
-            </th>
+        <FontAwesomeIcon
+            icon={iconoOrden("edificio")}
+            className="sortIcon"
+        />
 
-            {logueado && (
-              <th className="tableHeadCell">
-                Acciones
-              </th>
-            )}
+    </th>
 
-          </tr>
+    {/* UBICACIÓN */}
+
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("ubicacion")}
+    >
+
+        Ubicación
+
+        <FontAwesomeIcon
+            icon={iconoOrden("ubicacion")}
+            className="sortIcon"
+        />
+
+    </th>
+
+    {/* NOMBRE */}
+
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("nombre")}
+    >
+
+        Nombre
+
+        <FontAwesomeIcon
+            icon={iconoOrden("nombre")}
+            className="sortIcon"
+        />
+
+    </th>
+
+    {/* EMAIL */}
+
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("email")}
+    >
+
+        Email
+
+        <FontAwesomeIcon
+            icon={iconoOrden("email")}
+            className="sortIcon"
+        />
+
+    </th>
+
+    {/* EQUIPO */}
+
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("equipo")}
+    >
+
+        Equipo
+
+        <FontAwesomeIcon
+            icon={iconoOrden("equipo")}
+            className="sortIcon"
+        />
+
+    </th>
+
+    {/* USUARIO */}
+
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("usuario")}
+    >
+
+        Usuario
+
+        <FontAwesomeIcon
+            icon={iconoOrden("usuario")}
+            className="sortIcon"
+        />
+
+    </th>
+
+    {/* IP */}
+
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("ip")}
+    >
+
+        IP
+
+        <FontAwesomeIcon
+            icon={iconoOrden("ip")}
+            className="sortIcon"
+        />
+
+    </th>
+
+    {/* CÓDIGO */}
+
+    <th
+        className="tableHeadCell sortable"
+        onClick={() => ordenarPor("codigo")}
+    >
+
+        Código
+
+        <FontAwesomeIcon
+            icon={iconoOrden("codigo")}
+            className="sortIcon"
+        />
+
+    </th>
+
+    {logueado && (
+
+        <th className="tableHeadCell">
+            Acciones
+        </th>
+
+    )}
+
+</tr>
 
         </thead>
 

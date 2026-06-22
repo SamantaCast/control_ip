@@ -1,138 +1,285 @@
 /* ==================================================
-   CONTENEDOR GENERAL
+   CONTENEDOR GENERAL DE FILTROS
 ================================================== */
 
-.topActions{
+.filtersCard{
+
+    background:#ffffff00;
+
+    border:1px solid #e9e9e900;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    margin-top:-26px;
+
+    box-shadow:0 4px 14px rgba(0, 0, 0, 0);
+
+}
+
+/*==================================================
+  PRIMERA FILA DE FILTROS
+==================================================*/
+
+.filtersRow{
+
+    display:grid;
+
+    grid-template-columns:
+        2fr
+        1fr
+        1fr
+        1fr
+        1fr;
+
+    gap:22px;
+
+    align-items:end;
+
+}
+
+/* ==================================================
+   CONTENEDOR SUPERIOR
+================================================== */
+/* ==================================================
+   CONTENEDOR SUPERIOR
+================================================== */
+
+.headerTopRow{
 
     display:flex;
 
     justify-content:space-between;
 
-    align-items:center;
+    align-items:flex-start;
 
     gap:24px;
 
-     margin:6px 0 18px;
+    margin-bottom:12px;
+
+}
+/* ==================================================
+   CONTENEDOR DEL TÍTULO
+================================================== */
+
+.titleArea{
+
+     flex:1;
+
+    max-width:600px;
+
+    padding-top:4px;
+
+}
+/* ==================================================
+   SUBTÍTULO
+================================================== */
+
+.panelSubtitle{
+
+    margin-top:10px;
+
+    font-size:18px;
+
+    color:#666;
+
+    font-weight:400;
 
 }
 
 /* ==================================================
-   LADO IZQUIERDO
+   CONTENEDOR DE ESTADÍSTICAS
 ================================================== */
 
-.leftActions{
+.statsArea{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,185px);
+
+    gap:16px;
+
+    margin-left:70px;
+
+    flex-shrink:0;
+
+}
+/* ==================================================
+   TARJETA
+================================================== */
+/* ==================================================
+   TARJETA
+================================================== */
+
+.statCard{
+
+    background:#FFF;
+
+    border:1px solid #ECECEC;
+
+    border-radius:16px;
+
+    padding:14px 16px;
 
     display:flex;
 
     align-items:center;
+
+    gap:14px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.05);
+
+}
+/* ==================================================
+   EFECTO HOVER TARJETA
+================================================== */
+
+.statCard:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 24px rgba(0,0,0,.10);
+
+}
+/* ==================================================
+   ICONO DE TARJETA
+================================================== */
+
+.statIcon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:22px;
+
+    color:#8A2036;
+
+    background:#F9F1F3;
+
+}
+/* ==================================================
+   COLORES DE LOS ICONOS
+================================================== */
+
+.statIcon.active{
+
+    color:#1F8A4C;
+
+    background:#EEF8F1;
+
+}
+
+.statIcon.users{
+
+    color:#D6336C;
+
+    background:#FFF0F5;
+
+}
+
+.statIcon.ip{
+
+    color:#8A2036;
+
+    background:#FCEEF2;
+
+}
+/* ==================================================
+   TEXTO DE LAS TARJETAS
+================================================== */
+
+.statLabel{
+
+    display:block;
+
+    font-size:13px;
+
+    color:#666;
+
+    margin-bottom:2px;
+
+}
+
+.statNumber{
+
+    margin:0;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    line-height:1.1;
+
+    color:#222;
+
+}
+
+.statSmall{
+
+    font-size:12px;
+
+    color:#8A8A8A;
+
+}
+
+
+/* ==================================================
+   CONTENEDOR INDIVIDUAL DE CADA FILTRO
+================================================== */
+
+.filterItem{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
 
     flex:1;
 
 }
 
+
 /* ==================================================
-   LADO DERECHO
+   ETIQUETAS DE LOS FILTROS
 ================================================== */
 
-.rightActions{
+.filterItem label{
 
-    display:flex;
+    font-size:13px;
 
-    justify-content:flex-end;
+    font-weight:600;
 
-    align-items:center;
+    color:#555;
 
 }
 
-/* ==================================================
-   CONTENEDOR DEL BUSCADOR
-================================================== */
-
-.panelSearch{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
-
-}
 
 /* ==================================================
-   CAJA DEL INPUT
+   SELECT DE LOS FILTROS
 ================================================== */
 
-.searchBox{
+.filterSelect{
 
-    position:relative;
+    width:100%;
 
-    display:flex;
+    height:48px;
 
-    align-items:center;
+    padding:0 16px;
 
-}
+    border:1px solid #DDDDDD;
 
-/* ==================================================
-   ICONO
-================================================== */
-.searchIcon{
-
-    position:absolute;
-
-    left:14px;
-
-    color:#8A2036;
-
-    font-size:15px;
-
-    top:50%;
-
-    transform:translateY(-50%);
-
-    pointer-events:none;
-
-    opacity:.9;
-
-}
-
-/* Línea separadora entre icono y texto */
-
-.searchBox::after{
-     left:34px;
-
-    height:18px;
-
-    content:"";
-
-    position:absolute;
-
-
-    top:50%;
-
-    transform:translateY(-50%);
-
-    width:1px;
-
-
-    background:#E5E5E5;
-
-}
-
-/* ==================================================
-   INPUT BUSCAR
-================================================== */
-
-.searchInput{
-
-    width:270px;
-
-    height:42px;
-
-    padding:0 16px 0 60px;
-
-    border:1px solid #E2E2E2;
-
-    border-radius:14px;
+    border-radius:12px;
 
     background:#FFF;
 
@@ -140,107 +287,274 @@
 
     font-size:15px;
 
-    transition:.25s;
-
-}
-
-.searchInput::placeholder{
-
-    color:#9A9A9A;
-
-    font-weight:500;
-
-}
-
-.searchInput:focus{
-
     outline:none;
-
-    border-color:#B8861F;
-
-    box-shadow:0 0 0 4px rgba(184,134,31,.12);
-
-}
-
-/* ==================================================
-   SELECT EDIFICIO
-================================================== */
-.searchSelect{
-
-    appearance:none;
-    -webkit-appearance:none;
-    -moz-appearance:none;
-
-    width:90px;
-
-    height:42px;
-
-    border:1px solid #D9D9D9;
-
-    border-radius:14px;
-
-    background:#FFF;
-
-    padding:0 30px 0 42px;
-
-    color:#555;
-
-    font-size:14px;
-
-    font-weight:600;
 
     cursor:pointer;
 
-    outline:none;
+    transition:.25s;
+
+    appearance:none;
+
+    -webkit-appearance:none;
+
+    -moz-appearance:none;
 
 }
 
-.searchSelect:hover{
 
-    border-color:#B8861F;
+/* ==================================================
+   HOVER DEL SELECT
+================================================== */
 
-}
+.filterSelect:hover{
 
-.searchSelect:focus{
-
-    border-color:#B8861F;
-
-    box-shadow:0 0 0 4px rgba(184,134,31,.15);
+    border-color:#C7C7C7;
 
 }
 
 /* ==================================================
-   FLECHA
+   FOCUS DEL SELECT
 ================================================== */
 
-.selectArrow{
-      right:14px;
+.filterSelect:focus{
 
-    color:#B8861F;
+    border-color:#8A2036;
 
-    font-size:11px;
-
-    position:absolute;
-
-    pointer-events:none;
+    box-shadow:0 0 0 4px rgba(138,32,54,.10);
 
 }
 
 /* ==================================================
-   BOTÓN VER TODOS
+   FILA INFERIOR DE BOTONES
 ================================================== */
 
-.btnTodos{
+.actionsRow{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:18px;
+
+}
+
+
+/* ==================================================
+   CONTENEDOR BOTONES IZQUIERDOS
+================================================== */
+
+.leftButtons{
+
+    display:flex;
+
+    gap:14px;
+
+}
+
+
+/* ==================================================
+   CONTENEDOR BOTONES DERECHOS
+================================================== */
+
+.rightButtons{
+
+    display:flex;
+
+}
+
+
+/* ==================================================
+   BOTÓN LIMPIAR FILTROS
+================================================== */
+
+.btnClear{
 
     height:46px;
 
     padding:0 24px;
 
+    background:#FFF;
+
+    border:1px solid #DDD;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+/* ==================================================
+   EFECTO HOVER BOTÓN LIMPIAR
+================================================== */
+
+.btnClear:hover{
+
+    background:#F8F8F8;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================================================
+   CONTENEDOR DEL BUSCADOR
+================================================== */
+
+.searchBox{
+
+     position:relative;
+
+    width:100%;
+
+    height:48px;
+
+    display:flex;
+
+    align-items:center;
+
+    flex:none;
+
+}
+/* ==================================================
+   ICONO DEL BUSCADOR
+================================================== */
+
+.searchIcon{
+
+    position:absolute;
+
+    left:18px;
+
+    font-size:17px;
+
+    color:#9A9A9A;
+
+    pointer-events:none;
+
+    z-index:2;
+
+}
+/* ==================================================
+   INPUT DEL BUSCADOR
+================================================== */
+.searchInput{
+
+    width:100%;
+
+    height:52px;
+
+    padding-left:52px;
+
+    padding-right:20px;
+
+    border:1px solid #DDDDDD;
+
+    border-radius:14px;
+
+    font-size:15px;
+
+    transition:.25s;
+
+    background:#FFF;
+
+}
+/* ==================================================
+   PLACEHOLDER
+================================================== */
+
+.searchInput::placeholder{
+
+    color:#B2B2B2;
+
+    font-weight:500;
+
+}
+/* ==================================================
+   HOVER DEL BUSCADOR
+================================================== */
+
+.searchInput:hover{
+
+    border-color:#C9C9C9;
+
+}
+/* ==================================================
+   FOCUS DEL BUSCADOR
+================================================== */
+
+.searchInput:focus{
+
+    border-color:#8A2036;
+
+    box-shadow:0 0 0 4px rgba(138,32,54,.10);
+
+}
+.filterItem{
+
+    width:190px;
+
+    flex:none;
+
+}
+
+
+
+
+
+
+
+
+/* ==================================================
+   BOTÓN EXPORTAR EXCEL
+================================================== */
+
+.btnExcel{
+
+    height:46px;
+
+    padding:0 22px;
+
     border:none;
 
     border-radius:12px;
 
-    background:#8A2036;
+    background:#1D6F42;
 
     color:#FFF;
 
@@ -258,12 +572,61 @@
 
     cursor:pointer;
 
-    transition:.20s;
+    transition:.25s;
 
 }
 
-.btnTodos:hover{
+.btnExcel:hover{
 
-    background:#6F1A2C;
+    background:#185C37;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(29,111,66,.25);
+
+}
+/* ==================================================
+   BOTÓN PDF
+================================================== */
+
+.btnPDF{
+
+    height:46px;
+
+    padding:0 18px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#b8861f;
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.btnPDF:hover{
+
+    background:#9d7218;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(184,134,31,.25);
 
 }

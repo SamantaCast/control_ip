@@ -9,7 +9,13 @@ const { verificarToken, soloAdmin } = require('../middleware/auth');
 // para que funcione el buscador sin iniciar sesión
 router.get('/', async (req, res) => {
   try {
-    const { busqueda, edificio } = req.query;
+    const {
+  busqueda,
+  departamento,
+  edificio,
+  ubicacion,
+  equipo
+} = req.query;
 
     let filtro = {};
 
@@ -29,6 +35,10 @@ router.get('/', async (req, res) => {
       ];
     }
 
+        /* ==========================================
+   FILTRO EDIF..
+========================================== */
+
     if (edificio && edificio.trim() !== '') {
       const letra = edificio.trim();
 
@@ -37,6 +47,45 @@ router.get('/', async (req, res) => {
         $options: 'i'
       };
     }
+
+    /* ==========================================
+   FILTRO DEPARTAMENTO
+========================================== */
+
+if (departamento && departamento.trim() !== '') {
+
+  filtro.departamento = {
+    $regex: `^${departamento.trim()}$`,
+    $options: 'i'
+  };
+
+}
+
+/* ==========================================
+   FILTRO UBICACIÓN
+========================================== */
+
+if (ubicacion && ubicacion.trim() !== '') {
+
+  filtro.ubicacion = {
+    $regex: `^${ubicacion.trim()}$`,
+    $options: 'i'
+  };
+
+}
+
+/* ==========================================
+   FILTRO EQUIPO
+========================================== */
+
+if (equipo && equipo.trim() !== '') {
+
+  filtro.equipo = {
+    $regex: `^${equipo.trim()}$`,
+    $options: 'i'
+  };
+
+}
 
     const datos = await Impresora.find(filtro)
   .sort({ departamento: 1 });
@@ -76,6 +125,47 @@ router.get('/edificios', async (req, res) => {
     });
 
   }
+
+});
+// ==============================================
+// OBTENER FILTROS
+// ==============================================
+
+router.get("/filtros", async (req, res) => {
+
+    try {
+
+        const departamentos = await Impresora.distinct("departamento");
+
+        const edificios = await Impresora.distinct("edificio");
+
+        const ubicaciones = await Impresora.distinct("ubicacion");
+
+        const equipos = await Impresora.distinct("equipo");
+
+
+        res.json({
+
+            departamentos: departamentos.sort(),
+
+            edificios: edificios.sort(),
+
+            ubicaciones: ubicaciones.sort(),
+
+            equipos: equipos.sort(),
+
+
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+
+            mensaje: "Error al obtener filtros"
+
+        });
+
+    }
 
 });
 
@@ -120,6 +210,53 @@ router.delete('/:id', verificarToken, soloAdmin, async (req, res) => {
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al eliminar impresora' });
   }
+});
+
+
+/* ==========================================
+   ESTADÍSTICAS DEL DASHBOARD
+========================================== */
+
+router.get("/stats", async (req, res) => {
+
+  try {
+
+    const totalEquipos = await Impresora.countDocuments();
+
+    const totalIPs = await Impresora.countDocuments({
+      ip: {
+        $exists: true,
+        $ne: ""
+      }
+    });
+
+    const totalUsuarios = await Impresora.countDocuments({
+      usuario: {
+        $exists: true,
+        $ne: ""
+      }
+    });
+
+    res.json({
+
+      totalEquipos,
+
+      totalUsuarios,
+
+      totalIPs,
+
+      equiposActivos: totalEquipos
+
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      mensaje: "Error al obtener estadísticas"
+    });
+
+  }
+
 });
 
 module.exports = router;

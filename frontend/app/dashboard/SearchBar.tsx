@@ -12,6 +12,11 @@ import {
   faSearch,
   faBuilding,
   faChevronDown,
+   faDesktop,
+  faComputer,
+  faUsers,
+  faNetworkWired,
+
 } from "@fortawesome/free-solid-svg-icons";
 
 /* ==================================================
@@ -37,16 +42,53 @@ interface SearchBarProps {
 /* Lista de edificios */
 
 edificios: string[];
-  /* Funciones */
-  buscar: () => void;
+departamentos: string[];
 
-  cargarImpresoras: (
-    token: string,
-    textoBusqueda: string
-  ) => void;
+ubicaciones: string[];
 
-  abrirNuevo: () => void;
-}
+equipos: string[];
+
+filtroDepartamento: string;
+
+setFiltroDepartamento: React.Dispatch<
+React.SetStateAction<string>
+>;
+
+filtroUbicacion: string;
+
+setFiltroUbicacion: React.Dispatch<
+React.SetStateAction<string>
+>;
+
+filtroEquipo: string;
+
+setFiltroEquipo: React.Dispatch<
+React.SetStateAction<string>
+>;
+
+
+stats: {
+
+  totalEquipos: number;
+
+  equiposActivos: number;
+
+  totalUsuarios: number;
+
+  totalIPs: number;
+
+};
+
+/* ==================================================
+   FUNCIONES
+================================================== */
+
+abrirNuevo: () => void;
+
+exportarExcel: () => void;
+exportarPDF: () => void;
+
+}   // <-- ESTA LLAVE FALTA
 
 /* ==================================================
    COMPONENTE
@@ -60,9 +102,26 @@ export default function SearchBar({
   filtroEdificio,
   setFiltroEdificio,
   edificios,
-  buscar,
-  cargarImpresoras,
-  abrirNuevo,
+  stats,
+   abrirNuevo,
+
+  exportarExcel,
+  exportarPDF,
+
+  departamentos,
+
+ubicaciones,
+
+equipos,
+filtroDepartamento,
+setFiltroDepartamento,
+
+filtroUbicacion,
+setFiltroUbicacion,
+
+filtroEquipo,
+setFiltroEquipo,
+
 }: SearchBarProps) {
 
   return (
@@ -79,128 +138,412 @@ export default function SearchBar({
 
       <div className="headerTopRow">
 
+    <div className="titleArea">
+
         <div className="panelTitle">
-          Control Equipos de Cómputo
+            Control Equipos de Cómputo
         </div>
 
-      </div>
+        <p className="panelSubtitle">
+            Sistema de Gestión de Activos Informáticos
+        </p>
+
+    </div>
+
+    <div className="statsArea">
+
+        <div className="statCard">
+
+            <div className="statIcon">
+
+    <FontAwesomeIcon icon={faDesktop} />
+
+</div>
+
+            <div>
+
+                <span className="statLabel">
+                    Total de equipos
+                </span>
+
+                <h3 className="statNumber">
+                    {stats.totalEquipos.toLocaleString()}
+                </h3>
+
+                <small className="statSmall">
+                    Registros
+                </small>
+
+            </div>
+
+        </div>
+
+        <div className="statCard">
+
+            <div className="statIcon users">
+
+    <FontAwesomeIcon icon={faUsers} />
+
+</div>
+
+            <div>
+
+                <span className="statLabel">
+                    Usuarios
+                </span>
+
+                <h3 className="statNumber">
+                    {stats.totalUsuarios.toLocaleString()}
+                </h3>
+
+                <small className="statSmall">
+                    Registrados
+                </small>
+
+            </div>
+
+        </div>
+
+        <div className="statCard">
+
+            <div className="statIcon ip">
+
+    <FontAwesomeIcon icon={faNetworkWired} />
+
+</div>
+
+            <div>
+
+                <span className="statLabel">
+                    IPs registradas
+                </span>
+
+                <h3 className="statNumber">
+                    {stats.totalIPs.toLocaleString()}
+                </h3>
+
+                <small className="statSmall">
+                    Asignadas
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
       {/* ===========================================
           BARRA DE ACCIONES
       ============================================ */}
 
-      <div className="topActions">
 
-        {/* =======================================
-            BUSCADOR Y FILTROS
-        ======================================== */}
 
-        <div className="leftActions">
 
-          <div className="panelSearch">
 
-    {/* Buscar */}
 
-    <div className="searchBox">
 
-        <FontAwesomeIcon
-            icon={faSearch}
-            className="searchIcon"
-        />
 
-        <input
-            type="text"
-            className="searchInput"
-            placeholder=" "
-            value={busqueda}
-            onChange={(e)=>
-                setBusqueda(e.target.value)
-            }
-        />
 
-    </div>
 
-    {/* Edificio */}
 
-    <div className="searchBox">
 
-        <FontAwesomeIcon
-            icon={faBuilding}
-            className="searchIcon"
-        />
 
-        <select
-            className="searchSelect"
-            value={filtroEdificio}
-            onChange={(e)=>
-                setFiltroEdificio(e.target.value)
-            }
-        >
 
-            <option value="">Todos</option>
 
-            {edificios.map((edificio) => (
 
-                <option
-                    key={edificio}
-                    value={edificio}
-                >
-                    {edificio}
-                </option>
 
-            ))}
 
-        </select>
 
-        <FontAwesomeIcon
-            icon={faChevronDown}
-            className="selectArrow"
-        />
 
-    </div>
 
-    {/* Ver todos */}
 
-    <button
-        type="button"
-        className="btnTodos"
-        onClick={()=>{
-            setBusqueda("");
-            setFiltroEdificio("");
-        }}
-    >
 
-        <FontAwesomeIcon icon={faList}/>
 
-        Ver todos
 
-    </button>
 
-</div>
+
+
+
+
+
+
+
+<div className="filtersCard">
+
+    {/* ===========================================
+        FILA DE FILTROS
+    ============================================ */}
+
+    <div className="filtersRow">
+
+        {/* BUSCADOR */}
+
+        <div className="searchBox">
+
+            <FontAwesomeIcon
+                icon={faSearch}
+                className="searchIcon"
+            />
+
+            <input
+                type="text"
+                className="searchInput"
+                placeholder="Buscar por nombre, usuario, IP..."
+                value={busqueda}
+                onChange={(e) =>
+                    setBusqueda(e.target.value)
+                }
+            />
+
         </div>
 
-        {/* =======================================
-            BOTÓN NUEVO REGISTRO
-        ======================================== */}
+        {/* DEPARTAMENTO */}
 
-        <div className="rightActions">
+        <div className="filterItem">
 
-          {logueado && (
+            <label>Departamento</label>
+
+            <select
+    className="filterSelect"
+    value={filtroDepartamento}
+    onChange={(e)=>setFiltroDepartamento(e.target.value)}
+>
+
+                <option value="">Todos</option>
+
+{departamentos.map((item) => (
+
+    <option
+        key={item}
+        value={item}
+    >
+        {item}
+    </option>
+
+))}
+
+            </select>
+
+        </div>
+
+        {/* EDIFICIO */}
+
+        <div className="filterItem">
+
+            <label>Edificio</label>
+
+            <select
+                className="filterSelect"
+                value={filtroEdificio}
+                onChange={(e) =>
+                    setFiltroEdificio(e.target.value)
+                }
+            >
+
+                <option value="">Todos</option>
+
+                {edificios.map((edificio) => (
+
+                    <option
+                        key={edificio}
+                        value={edificio}
+                    >
+                        {edificio}
+                    </option>
+
+                ))}
+
+            </select>
+
+        </div>
+
+        {/* UBICACIÓN */}
+
+        <div className="filterItem">
+
+            <label>Ubicación</label>
+
+            <select
+    className="filterSelect"
+    value={filtroUbicacion}
+    onChange={(e)=>setFiltroUbicacion(e.target.value)}
+>
+
+                <option value="">Todos</option>
+
+{ubicaciones.map((item) => (
+
+    <option
+        key={item}
+        value={item}
+    >
+        {item}
+    </option>
+
+))}
+
+            </select>
+
+        </div>
+
+        {/* EQUIPO */}
+
+        <div className="filterItem">
+
+            <label>Equipo</label>
+
+            <select
+    className="filterSelect"
+    value={filtroEquipo}
+    onChange={(e)=>setFiltroEquipo(e.target.value)}
+>
+
+               <option value="">Todos</option>
+
+{equipos.map((item) => (
+
+    <option
+        key={item}
+        value={item}
+    >
+        {item}
+    </option>
+
+))}
+
+            </select>
+
+        </div>
+
+    </div>
+
+    {/* ===========================================
+        BOTONES
+    ============================================ */}
+
+    <div className="actionsRow">
+
+        <div className="leftButtons">
 
             <button
-  type="button"
-  className="dashboardNewBtn"
-  onClick={abrirNuevo}
+    className="btnTodos"
+    onClick={() => {
+
+        setBusqueda("");
+
+        setFiltroDepartamento("");
+
+        setFiltroEdificio("");
+
+        setFiltroUbicacion("");
+
+        setFiltroEquipo("");
+
+    }}
 >
-  <FontAwesomeIcon icon={faPlus} />
-  Nuevo registro
+
+                <FontAwesomeIcon icon={faList} />
+
+                Ver todos
+
+            </button>
+
+            <button
+    className="btnClear"
+    onClick={() => {
+
+        setBusqueda("");
+
+        setFiltroDepartamento("");
+
+        setFiltroEdificio("");
+
+        setFiltroUbicacion("");
+
+        setFiltroEquipo("");
+
+    }}
+>
+
+                Limpiar filtros
+
+            </button>
+
+            {/* ===========================================
+    EXPORTAR EXCEL
+=========================================== */}
+
+<button
+    className="btnExcel"
+    onClick={exportarExcel}
+>
+
+    📊
+
+    Exportar Excel
+
 </button>
 
-          )}
+<button
+    className="btnPDF"
+    onClick={exportarPDF}
+>
+
+    📄
+
+    Exportar PDF
+
+</button>
 
         </div>
 
-      </div>
+        <div className="rightButtons">
+
+            {logueado && (
+
+                <button
+                    className="dashboardNewBtn"
+                    onClick={abrirNuevo}
+                >
+
+                    <FontAwesomeIcon icon={faPlus} />
+
+                    Nuevo registro
+
+                </button>
+
+            )}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </div>
 

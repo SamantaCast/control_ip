@@ -11,21 +11,30 @@ import type { Impresora } from "./types";
 ================================================== */
 
 interface Props {
+
   /* Registros mostrados en la tabla */
   impresoras: Impresora[];
 
-  /* Índices de la paginación */
+  /* Índices */
   indiceInicio: number;
   indiceFin: number;
 
-  /* Estado de la paginación */
+  /* Estado */
   paginaActual: number;
   totalPaginas: number;
 
-  /* Cambiar la página actual */
+  /* Página actual */
   setPaginaActual: React.Dispatch<
     React.SetStateAction<number>
   >;
+
+  /* Registros por página */
+  registrosPorPagina: number;
+
+  setRegistrosPorPagina: React.Dispatch<
+    React.SetStateAction<number>
+  >;
+
 }
 
 /* ==================================================
@@ -33,12 +42,23 @@ interface Props {
 ================================================== */
 
 export default function Pagination({
+
   impresoras,
+
   indiceInicio,
+
   indiceFin,
+
   paginaActual,
+
   totalPaginas,
+
   setPaginaActual,
+
+  registrosPorPagina,
+
+  setRegistrosPorPagina,
+
 }: Props) {
   return (
 
@@ -46,100 +66,150 @@ export default function Pagination({
        PAGINACIÓN
     ================================================ */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div className="tablePagination">
 
-      {/* ===========================================
-          INFORMACIÓN DE REGISTROS
-      ============================================ */}
+    {/* ===========================================
+        INFORMACIÓN
+    ============================================ */}
 
-      <div className="paginationInfo">
+    <div className="paginationInfo">
 
-        Mostrando{" "}
+        Mostrando
 
-        {impresoras.length === 0
-          ? 0
-          : indiceInicio + 1}
+        <strong>
 
-        {" - "}
+            {impresoras.length === 0
+                ? 0
+                : indiceInicio + 1}
 
-        {Math.min(
-          indiceFin,
-          impresoras.length
-        )}
+            {" - "}
 
-        {" de "}
+            {Math.min(indiceFin, impresoras.length)}
 
-        {impresoras.length}
+        </strong>
 
-        {" registros"}
+        de
 
-      </div>
+        <strong>
 
-      {/* ===========================================
-          CONTROLES DE PAGINACIÓN
-      ============================================ */}
+            {impresoras.length}
 
-      <div className="paginationControls">
+        </strong>
 
-        {/* Página anterior */}
-
-        <button
-          className="pageBtn"
-          disabled={paginaActual === 1}
-          onClick={() =>
-            setPaginaActual((prev) => prev - 1)
-          }
-        >
-          &lt;
-        </button>
-
-        {/* Números de página */}
-
-        {Array.from(
-          { length: totalPaginas },
-          (_, i) => i + 1
-        )
-          .filter(
-            (pagina) =>
-              pagina === 1 ||
-              pagina === totalPaginas ||
-              (pagina >= paginaActual - 2 &&
-                pagina <= paginaActual + 2)
-          )
-          .map((pagina) => (
-
-            <button
-              key={pagina}
-              className={`pageBtn ${
-                paginaActual === pagina
-                  ? "activePageBtn"
-                  : ""
-              }`}
-              onClick={() =>
-                setPaginaActual(pagina)
-              }
-            >
-              {pagina}
-            </button>
-
-          ))}
-
-        {/* Página siguiente */}
-
-        <button
-          className="pageBtn"
-          disabled={
-            paginaActual === totalPaginas
-          }
-          onClick={() =>
-            setPaginaActual((prev) => prev + 1)
-          }
-        >
-          &gt;
-        </button>
-
-      </div>
+        registros
 
     </div>
+
+    {/* ===========================================
+        CONTROLES
+    ============================================ */}
+
+    <div className="paginationControls">
+
+        <button
+            className="pageBtn"
+            disabled={paginaActual === 1}
+            onClick={() =>
+                setPaginaActual((p) => p - 1)
+            }
+        >
+
+            Anterior
+
+        </button>
+
+        {Array.from(
+            { length: totalPaginas },
+            (_, i) => i + 1
+        ).map((pagina) => (
+
+            <button
+                key={pagina}
+                className={`pageBtn ${
+                    paginaActual === pagina
+                        ? "activePageBtn"
+                        : ""
+                }`}
+                onClick={() =>
+                    setPaginaActual(pagina)
+                }
+            >
+
+                {pagina}
+
+            </button>
+
+        ))}
+
+        <button
+            className="pageBtn"
+            disabled={paginaActual === totalPaginas}
+            onClick={() =>
+                setPaginaActual((p) => p + 1)
+            }
+        >
+
+            Siguiente
+
+        </button>
+
+    </div>
+
+    {/* ===========================================
+        REGISTROS POR PÁGINA
+    ============================================ */}
+
+    <div className="rowsPerPage">
+
+        <span>
+
+            Registros por página
+
+        </span>
+
+        <select
+            value={registrosPorPagina}
+            onChange={(e) => {
+
+                setPaginaActual(1);
+
+                setRegistrosPorPagina(
+                    Number(e.target.value)
+                );
+
+            }}
+        >
+
+            <option value={15}>15</option>
+
+            <option value={25}>25</option>
+
+            <option value={50}>50</option>
+
+            <option value={100}>100</option>
+
+        </select>
+
+    </div>
+
+</div>
   );
 }

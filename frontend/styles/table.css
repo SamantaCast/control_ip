@@ -6,19 +6,19 @@
 
     width:100%;
 
-    background:#ffffff;
+    background:#FFF;
 
-    border:1px solid #d8d8d8;
+    border:1px solid #E8E8E8;
 
-    border-radius:12px;
+    border-radius:18px;
 
     overflow:auto;
 
-    box-shadow:
-        0 2px 10px rgba(0,0,0,.05);
+    box-shadow:0 4px 16px rgba(0,0,0,.05);
+
+    margin-top:-10px;
 
 }
-
 
 /* ==================================================
    TABLA
@@ -55,18 +55,29 @@
 /* ==================================================
    TITULOS DE COLUMNAS
 ================================================== */
+/* ==================================================
+   ENCABEZADO DE COLUMNAS
+================================================== */
 
 .tableHeadCell{
 
-    color:#ffffff;
+    background:#8A2036;
 
-    font-size:17px;
+    color:#FFF;
+
+    font-size:14px;
 
     font-weight:600;
 
+    padding:10px 16px;
+
     text-align:left;
- padding:8px 12px;
-    border-right:1px solid rgba(255,255,255,.20);
+
+    white-space:nowrap;
+
+    border-right:1px solid rgba(255,255,255,.12);
+
+    letter-spacing:.2px;
 
 }
 
@@ -97,27 +108,23 @@
 /* ==================================================
    CELDAS
 ================================================== */
+/* ==================================================
+   CELDAS
+================================================== */
+
 .tableCell{
 
-    padding:5px 12px;
+    padding:1px 16px;
 
     font-size:14px;
 
-    color:#333;
+    color:#444;
+
+    border-bottom:1px solid #EEEEEE;
 
     vertical-align:middle;
 
-    border-bottom:1px solid #dddddd;
-
-    border-right:1px solid #e6e6e6;
-
-    line-height:1.1;
-
-}
-
-.tableCell:last-child{
-
-    border-right:none;
+    line-height:1.35;
 
 }
 
@@ -126,23 +133,21 @@
    PRIMERA FILA
 ================================================== */
 
-.dataTable tbody tr:first-child td{
-
-    border-top:1px solid #dcdcdc;
-
-}
-
-
 /* ==================================================
-   ULTIMA FILA
+   EFECTO HOVER
 ================================================== */
 
-.dataTable tbody tr:last-child td{
+.dataTable tbody tr{
 
-    border-bottom:none;
+    transition:.20s;
 
 }
 
+.dataTable tbody tr:hover{
+
+    background:#F9F9F9;
+
+}
 
 /* ==================================================
    DEPARTAMENTO
@@ -186,18 +191,21 @@
 /* ==================================================
    BOTON GENERAL
 ================================================== */
+/* ==================================================
+   BOTONES
+================================================== */
 
 .iconBtn{
 
-    width:32px;
+    width:36px;
 
-    height:32px;
+    height:36px;
 
     border:none;
 
-    border-radius:8px;
+    border-radius:10px;
 
-    color:#fff;
+    color:#FFF;
 
     cursor:pointer;
 
@@ -207,9 +215,9 @@
 
     align-items:center;
 
-    font-size:13px;
+    font-size:14px;
 
-    transition:.20s;
+    transition:.25s;
 
 }
 
@@ -223,7 +231,6 @@
 /* ==================================================
    BOTON EDITAR
 ================================================== */
-
 .editBtn{
 
     background:#B8861F;
@@ -232,15 +239,13 @@
 
 .editBtn:hover{
 
-    background:#c99628;
+    background:#9D731A;
 
 }
-
 
 /* ==================================================
    BOTON ELIMINAR
 ================================================== */
-
 .deleteBtn{
 
     background:#8A2036;
@@ -249,7 +254,7 @@
 
 .deleteBtn:hover{
 
-    background:#74192d;
+    background:#6F1A2C;
 
 }
 
@@ -302,5 +307,54 @@
 .tableBox::-webkit-scrollbar-thumb:hover{
 
     background:#999;
+
+}
+/* ==================================================
+   COLUMNAS ORDENABLES
+================================================== */
+
+.tableHeadCell.sortable{
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:.20s;
+
+}
+
+.tableHeadCell.sortable:hover{
+
+    background:#74192d;
+
+}
+
+.sortIcon{
+
+    margin-left:8px;
+
+    font-size:11px;
+
+    opacity:.85;
+
+}
+
+/* ==================================================
+   COLUMNAS ORDENABLES
+================================================== */
+
+.sortable{
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:.2s;
+
+}
+
+.sortable:hover{
+
+    background:#a32540;
 
 }

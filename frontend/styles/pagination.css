@@ -1,16 +1,18 @@
 /* ==================================================
-   CONTENEDOR PAGINACIÓN
+   CONTENEDOR PRINCIPAL DE PAGINACIÓN
 ================================================== */
 
 .tablePagination{
 
-    margin-top:6px;
+    margin-top:18px;
 
-    background:#fff;
+    background:#FFF;
 
-    border-radius:14px;
+    border:1px solid #E8E8E8;
 
-    padding:10px 22px;
+    border-radius:18px;
+
+    padding:16px 24px;
 
     display:flex;
 
@@ -18,21 +20,39 @@
 
     align-items:center;
 
-    box-shadow:0 2px 8px rgba(0,0,0,.05);
+    gap:20px;
+
+    box-shadow:0 4px 14px rgba(0,0,0,.05);
+
 }
 
+
 /* ==================================================
-   TEXTO
+   INFORMACIÓN DE REGISTROS
 ================================================== */
 
 .paginationInfo{
 
-    font-size:16px;
+    display:flex;
 
-    color:#222;
+    align-items:center;
 
-    font-weight:500;
+    gap:6px;
+
+    font-size:14px;
+
+    color:#555;
+
 }
+
+.paginationInfo strong{
+
+    color:#8A2036;
+
+    font-weight:700;
+
+}
+
 
 /* ==================================================
    CONTROLES
@@ -45,41 +65,151 @@
     align-items:center;
 
     gap:8px;
+
 }
 
+
 /* ==================================================
-   BOTONES
+   BOTONES DE PAGINACIÓN
 ================================================== */
 
 .pageBtn{
 
-    width:40px;
+    min-width:42px;
 
-    height:40px;
+    height:42px;
 
-    border:none;
+    padding:0 14px;
 
-    border-radius:10px;
+    border:1px solid #E2E2E2;
 
-    background:#fff;
+    border-radius:12px;
+
+    background:#FFF;
+
+    color:#555;
+
+    font-size:14px;
+
+    font-weight:600;
 
     cursor:pointer;
 
-    box-shadow:0 1px 5px rgba(0,0,0,.08);
+    transition:.20s;
 
-    transition:.2s;
 }
 
 .pageBtn:hover{
 
-    transform:translateY(-1px);
+    background:#F8F8F8;
+
+    border-color:#B8861F;
+
+    color:#8A2036;
+
 }
+
+
+/* ==================================================
+   BOTÓN ACTIVO
+================================================== */
 
 .activePageBtn{
 
     background:#8A2036;
 
-    color:#fff;
+    border-color:#8A2036;
 
-    font-weight:bold;
+    color:#FFF;
+
+}
+
+.activePageBtn:hover{
+
+    background:#74192D;
+
+    color:#FFF;
+
+}
+
+
+/* ==================================================
+   BOTÓN DESHABILITADO
+================================================== */
+
+.pageBtn:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+.pageBtn:disabled:hover{
+
+    background:#FFF;
+
+    border-color:#E2E2E2;
+
+    color:#555;
+
+}
+
+
+/* ==================================================
+   REGISTROS POR PÁGINA
+================================================== */
+
+.rowsPerPage{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:14px;
+
+    color:#555;
+
+}
+
+.rowsPerPage select{
+
+    width:80px;
+
+    height:42px;
+
+    border:1px solid #DDDDDD;
+
+    border-radius:12px;
+
+    background:#FFF;
+
+    padding:0 12px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    outline:none;
+
+    transition:.20s;
+
+}
+
+.rowsPerPage select:hover{
+
+    border-color:#B8861F;
+
+}
+
+.rowsPerPage select:focus{
+
+    border-color:#B8861F;
+
+    box-shadow:0 0 0 4px rgba(184,134,31,.12);
+
 }
