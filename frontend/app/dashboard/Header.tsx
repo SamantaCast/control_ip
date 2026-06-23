@@ -5,12 +5,14 @@
 ================================================== */
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useRef } from "react";
 
 import {
   faUser,
-  faUserPlus,
   faRightFromBracket,
   faXmark,
+  faUsers,
+  faLock,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* ==================================================
@@ -39,10 +41,13 @@ type HeaderProps = {
     React.SetStateAction<boolean>
   >;
 
-  /* Funciones */
-  abrirNuevoAdmin: () => void;
-  cerrarSesion: () => void;
-  login: () => void;
+/* Funciones */
+
+abrirAdministradoresRegistrados: () => void;
+
+cerrarSesion: () => void;
+
+login: () => void;
 
   /* Estados del formulario */
   setUsuario: React.Dispatch<
@@ -66,22 +71,83 @@ export default function Header({
   nombreUsuario,
   rol,
 
+  abrirAdministradoresRegistrados,
+
   mostrarMenuUsuario,
   setMostrarMenuUsuario,
 
   mostrarLogin,
   setMostrarLogin,
-
-  abrirNuevoAdmin,
   cerrarSesion,
 
   login,
 
   setUsuario,
   setPassword,
+  
 }: HeaderProps) {
 
+
+
+  //COMENTAR
+const menuRef = useRef<HTMLDivElement>(null);
+const loginRef = useRef<HTMLFormElement>(null);
+
+//COEMNTAR
+useEffect(() => {
+
+    function handleClickOutside(event: MouseEvent) {
+
+    // Cerrar menú de usuario
+
+    if (
+        mostrarMenuUsuario &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+    ) {
+
+        setMostrarMenuUsuario(false);
+
+    }
+
+    // Cerrar formulario de login
+
+    if (
+        mostrarLogin &&
+        loginRef.current &&
+        !loginRef.current.contains(event.target as Node)
+    ) {
+
+        setMostrarLogin(false);
+
+    }
+
+}
+
+    document.addEventListener(
+        "mousedown",
+        handleClickOutside
+    );
+
+    return () => {
+
+        document.removeEventListener(
+            "mousedown",
+            handleClickOutside
+        );
+
+    };
+
+}, [
+    mostrarMenuUsuario,
+    mostrarLogin,
+    setMostrarMenuUsuario,
+    setMostrarLogin
+]);
+
+
   return (
+
     <>
       {/* ===========================================
           BARRA SUPERIOR
@@ -131,7 +197,10 @@ export default function Header({
                MENÚ DEL USUARIO
             ==================================== */
 
-            <div className="userMenuContainer">
+            <div
+    className="userMenuContainer"
+    ref={menuRef}
+>
 
               <button
                 className="userProfileBtn"
@@ -176,40 +245,47 @@ export default function Header({
                   MENÚ DESPLEGABLE
               ==================================== */}
 
-              {mostrarMenuUsuario && (
+             {mostrarMenuUsuario && (
 
-                <div className="userDropdown">
+    <div className="userDropdown">
 
-                  <button
-                    className="dropdownItem"
-                    onClick={() => {
-                      abrirNuevoAdmin();
-                      setMostrarMenuUsuario(false);
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faUserPlus}
-                    />
+        <button
+            className="dropdownItem"
+            onClick={() => {
 
-                    Agregar nuevo administrador
+                setMostrarMenuUsuario(false);
 
-                  </button>
+                abrirAdministradoresRegistrados();
 
-                  <button
-                    className="dropdownItem"
-                    onClick={cerrarSesion}
-                  >
-                    <FontAwesomeIcon
-                      icon={faRightFromBracket}
-                    />
+            }}
+        >
 
-                    Cerrar sesión
+            <FontAwesomeIcon icon={faUsers} />
 
-                  </button>
+            Ver administradores registrados
 
-                </div>
+        </button>
 
-              )}
+        <button
+            className="dropdownItem"
+            onClick={() => {
+
+                setMostrarMenuUsuario(false);
+
+                cerrarSesion();
+
+            }}
+        >
+
+            <FontAwesomeIcon icon={faRightFromBracket} />
+
+            Cerrar sesión
+
+        </button>
+
+    </div>
+
+)}
 
             </div>
 
@@ -236,68 +312,71 @@ export default function Header({
 
               {mostrarLogin && (
 
-                <form
-                  className="loginBox"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    login();
-                  }}
-                >
+<form
+    ref={loginRef}
+    className="loginBox"
+    onSubmit={(e) => {
+        e.preventDefault();
+        login();
+    }}
+>
 
-                  {/* Cerrar */}
+    <div className="loginInputs">
 
-                  <button
-                    type="button"
-                    className="closeLoginBtn"
-                    onClick={() =>
-                      setMostrarLogin(false)
-                    }
-                  >
-                    <FontAwesomeIcon
-                      icon={faXmark}
-                    />
-                  </button>
+        {/* Usuario */}
 
-                  {/* Usuario */}
+        <div className="inputGroup">
 
-                  <input
-                    className="loginInput"
-                    type="text"
-                    placeholder="Usuario"
-                    value={usuario}
-                    onChange={(e) =>
-                      setUsuario(e.target.value)
-                    }
-                    autoComplete="username"
-                    required
-                  />
+            <FontAwesomeIcon
+                icon={faUser}
+                className="inputIcon"
+            />
 
-                  {/* Contraseña */}
+            <input
+                type="text"
+                placeholder="Usuario"
+                value={usuario}
+                onChange={(e)=>setUsuario(e.target.value)}
+                autoComplete="username"
+                required
+            />
 
-                  <input
-                    className="loginInput"
-                    type="password"
-                    placeholder="Contraseña"
-                    value={password}
-                    onChange={(e) =>
-                      setPassword(e.target.value)
-                    }
-                    autoComplete="current-password"
-                    required
-                  />
+        </div>
 
-                  {/* Botón */}
+        {/* Contraseña */}
 
-                  <button
-                    type="submit"
-                    className="loginBtn"
-                  >
-                    Iniciar sesión
-                  </button>
+        <div className="inputGroup">
 
-                </form>
+            <FontAwesomeIcon
+                icon={faLock}
+                className="inputIcon"
+            />
 
-              )}
+            <input
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
+                autoComplete="current-password"
+                required
+            />
+
+        </div>
+
+        {/* Botón */}
+
+        <button
+            type="submit"
+            className="btnLogin"
+        >
+            Iniciar sesión
+        </button>
+
+    </div>
+
+</form>
+
+)}
 
             </>
 

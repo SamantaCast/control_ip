@@ -6,17 +6,17 @@
 
     margin-top:18px;
 
-    background:#FFF;
+    background:#ffffff00;
 
-    border:1px solid #E8E8E8;
+    border:1px solid #e8e8e800;
 
     border-radius:18px;
 
     padding:16px 24px;
 
-    display:flex;
+    display:grid;
 
-    justify-content:space-between;
+    grid-template-columns:240px 1fr 170px;
 
     align-items:center;
 
@@ -26,12 +26,13 @@
 
 }
 
-
 /* ==================================================
    INFORMACIÓN DE REGISTROS
 ================================================== */
 
 .paginationInfo{
+
+    justify-self:start;
 
     display:flex;
 
@@ -44,7 +45,6 @@
     color:#555;
 
 }
-
 .paginationInfo strong{
 
     color:#8A2036;
@@ -62,12 +62,13 @@
 
     display:flex;
 
+    justify-content:center;
+
     align-items:center;
 
     gap:8px;
 
 }
-
 
 /* ==================================================
    BOTONES DE PAGINACIÓN
@@ -75,6 +76,7 @@
 
 .pageBtn{
 
+    border-radius:14px;
     min-width:42px;
 
     height:42px;
@@ -82,8 +84,6 @@
     padding:0 14px;
 
     border:1px solid #E2E2E2;
-
-    border-radius:12px;
 
     background:#FFF;
 
@@ -113,7 +113,6 @@
 /* ==================================================
    BOTÓN ACTIVO
 ================================================== */
-
 .activePageBtn{
 
     background:#8A2036;
@@ -121,6 +120,10 @@
     border-color:#8A2036;
 
     color:#FFF;
+
+    transform:scale(1.05);
+
+    box-shadow:0 6px 16px rgba(138,32,54,.22);
 
 }
 
@@ -162,11 +165,13 @@
 
 .rowsPerPage{
 
+    justify-self:end;
+
     display:flex;
 
     align-items:center;
 
-    gap:12px;
+    gap:10px;
 
     font-size:14px;
 
@@ -176,13 +181,14 @@
 
 .rowsPerPage select{
 
-    width:80px;
+     width:70px;
 
-    height:42px;
+    height:40px;
+
+    border-radius:10px;
 
     border:1px solid #DDDDDD;
 
-    border-radius:12px;
 
     background:#FFF;
 
@@ -211,5 +217,65 @@
     border-color:#B8861F;
 
     box-shadow:0 0 0 4px rgba(184,134,31,.12);
+
+}
+.pageDots{
+
+    width:42px;
+
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#9A9A9A;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+/* ===========================================
+   BOTONES DE FLECHAS
+=========================================== */
+
+.pageArrow{
+padding:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+
+    width:42px;
+
+    min-width:42px;
+
+    height:42px;
+
+    border:1px solid #E2E2E2;
+
+    border-radius:12px;
+
+    background:#FFF;
+
+    color:#666;
+
+}
+
+.pageArrow:hover{
+
+    border-color:#8A2036;
+
+    color:#8A2036;
+
+    background:#FAF6F7;
 
 }

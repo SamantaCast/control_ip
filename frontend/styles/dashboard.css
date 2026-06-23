@@ -21,6 +21,7 @@
 }
 
 
+
 /* ==================================================
    LOGOS
 ================================================== */
@@ -60,7 +61,315 @@
 
     padding:10px 24px;
 
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*comentar*/
+/* ==========================================================
+   FORMULARIO LOGIN
+========================================================== */
+
+.loginBox{
+
+    position:absolute;
+
+    top:50%;
+
+    right:calc(100% + 12px);
+
+    transform:translateY(-50%);
+
+    width:390px;
+
+    padding:4px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    background:transparent;
+
+    z-index:999;
+
+}
+
+/* ==========================================================
+   CONTENEDOR DE INPUTS
+========================================================== */
+
+.loginInputs{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+/* ==========================================================
+   INPUT
+========================================================== */
+
+.inputGroup{
+
+    position:relative;
+
+    flex:1;
+
+    display:flex;
+
+    align-items:center;
+
+    height:30px;
+
+    padding:0 10px;
+
+    border:1.5px solid #B8861F;
+
+    border-radius:15px;
+
+    background:#FFF;
+
+    transition:.25s;
+
+}
+
+.inputGroup:hover{
+
+    border-color:#8A2036;
+
+}
+
+.inputGroup:focus-within{
+
+    border-color:#8A2036;
+
+    box-shadow:0 0 0 3px rgba(138,32,54,.08);
+
+}
+
+/* ==========================================================
+   ICONO
+========================================================== */
+
+.inputIcon{
+
+    color:#8A2036;
+
+    font-size:13px;
+
+    margin-right:6px;
+
+    flex-shrink:0;
+
+}
+
+/* ==========================================================
+   INPUT TEXTO
+========================================================== */
+
+.inputGroup input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    font-family:"Texto";
+
+    font-size:12px;
+
+    color:#333;
+
+}
+
+.inputGroup input::placeholder{
+
+    color:#777;
+
+}
+
+/* ==========================================================
+   BOTÓN LOGIN
+========================================================== */
+
+.btnLogin{
+
+    width:100px;
+
+    height:30px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:#8A2036;
+
+    color:#FFF;
+
+    font-family:"Texto";
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    flex-shrink:0;
+
+}
+
+.btnLogin:hover{
+
+    background:#74192D;
+
+    transform:translateY(-1px);
+
+    box-shadow:0 5px 12px rgba(138,32,54,.25);
+
+}
+
+/* ==========================================================
+   BOTÓN ICONO LOGIN
+========================================================== */
+
+.loginIconBtn{
+
+    width:30px;
+
+    height:30px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#F8F2F4;
+
+    color:#8A2036;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.25s;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.loginIconBtn:hover{
+
+    background:#8A2036;
+
+    color:#FFF;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 5px 12px rgba(138,32,54,.25);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ==================================================
@@ -96,6 +405,10 @@
 
     margin:0;
 
+    position:relative;
+
+    top:9px;          /* Baja el título */
+
     font-family:"Titulo";
 
     font-size:40px;
@@ -107,7 +420,6 @@
     color:#B8861F;
 
 }
-
 
 /* ==================================================
    CONTENIDO
@@ -141,13 +453,16 @@
 
 .dashboardNewBtn{
 
-    height:46px;
+ height:40px;
 
-    padding:0 22px;
+    padding:0 20px;
+
+    font-size:14px;
+
+    border-radius:12px;
 
     border:none;
 
-    border-radius:14px;
 
     background:#8A2036;
 
@@ -155,7 +470,6 @@
 
     font-family:"Texto";
 
-    font-size:15px;
 
     font-weight:600;
 

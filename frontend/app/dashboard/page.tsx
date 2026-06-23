@@ -149,14 +149,19 @@ const [equipos, setEquipos] = useState<string[]>([]);
      FORMULARIO DE ADMINISTRADORES
   ====================================================== */
 
-  const [formAdmin, setFormAdmin] =
-  useState<FormAdmin>({
+  const [formAdmin, setFormAdmin] = useState({
+
+    nombre: "",
+
     usuario: "",
-    passwordActual: "",
+
     password: "",
+
     repetirPassword: "",
-    rol: "admin",
-  });
+
+    passwordActual: ""
+
+});
 
   /* ======================================================
      NAVEGACIÓN ENTRE INPUTS DEL FORMULARIO ADMIN
@@ -264,6 +269,8 @@ const impresorasOrdenadas = [...impresoras].sort((a, b) => {
     return 0;
 
 });
+
+
 
 
 
@@ -823,13 +830,19 @@ const buscar = async () => {
     setMostrarAdministradoresRegistrados(false);
     setEditandoAdminId(null);
 
-    setFormAdmin({
-      usuario: "",
-      passwordActual: "",
-      password: "",
-      repetirPassword: "",
-      rol: "admin",
-    });
+   setFormAdmin({
+
+    nombre: "",
+
+    usuario: "",
+
+    password: "",
+
+    repetirPassword: "",
+
+    passwordActual: ""
+
+});
 
     setMostrarAdmins(true);
   };
@@ -845,12 +858,18 @@ const buscar = async () => {
     setEditandoAdminId(admin._id || null);
 
     setFormAdmin({
-      usuario: admin.usuario,
-      passwordActual: "",
-      password: "",
-      repetirPassword: "",
-      rol: admin.rol,
-    });
+
+    nombre: admin.nombre,
+
+    usuario: admin.usuario,
+
+    password: "",
+
+    repetirPassword: "",
+
+    passwordActual: ""
+
+});
 
     setMostrarAdmins(true);
   };
@@ -992,12 +1011,18 @@ const buscar = async () => {
       setEditandoAdminId(null);
 
       setFormAdmin({
-        usuario: "",
-        passwordActual: "",
-        password: "",
-        repetirPassword: "",
-        rol: "admin",
-      });
+
+    nombre: "",
+
+    usuario: "",
+
+    password: "",
+
+    repetirPassword: "",
+
+    passwordActual: ""
+
+});
 
       /* Actualizar listas */
 
@@ -1091,12 +1116,29 @@ const buscar = async () => {
      la lista de administradores.
   =========================================== */
 
-  const cerrarFormularioAdmin = () => {
+ const cerrarFormularioAdmin = () => {
+
     setMostrarAdmins(false);
+
     setEditandoAdminId(null);
-    setMostrarAdministradoresRegistrados(true);
+
+    setMostrarAdministradoresRegistrados(false);
+
     setMostrarContrasenasAdmin(false);
-  };
+
+};
+
+const cancelarFormularioAdmin = () => {
+
+    setMostrarAdmins(false);
+
+    setEditandoAdminId(null);
+
+    setMostrarAdministradoresRegistrados(true);
+
+    setMostrarContrasenasAdmin(false);
+
+};
 
   /* ===========================================
      CERRAR SESIÓN
@@ -1151,18 +1193,32 @@ const buscar = async () => {
 
     setForm(vacioImpresora);
 
-    setFormAdmin({
-      usuario: "",
-      passwordActual: "",
-      password: "",
-      repetirPassword: "",
-      rol: "admin",
-    });
+   setFormAdmin({
+
+    nombre: "",
+
+    usuario: "",
+
+    password: "",
+
+    repetirPassword: "",
+
+    passwordActual: ""
+
+});
 
     /* Cargar nuevamente los registros públicos */
 
     await cargarImpresoras("", "");
   };
+
+
+  //comentar
+const abrirAdministradoresRegistrados = () => {
+
+    cargarAdministradoresRegistrados(token);
+
+};
 
   /* ===========================================
      INTERFAZ PRINCIPAL
@@ -1189,8 +1245,11 @@ const buscar = async () => {
         setUsuario={setUsuario}
         setPassword={setPassword}
         login={login}
-        abrirNuevoAdmin={abrirNuevoAdmin}
+        abrirAdministradoresRegistrados={
+        abrirAdministradoresRegistrados
+    }
         cerrarSesion={cerrarSesion}
+        
       />
 
       {/* =======================================
@@ -1308,6 +1367,7 @@ exportarPDF={generarPDF}
         cerrarFormularioAdmin={cerrarFormularioAdmin}
         handleAdminChange={handleAdminChange}
         moverAdminConEnter={moverAdminConEnter}
+    cancelarFormularioAdmin={cancelarFormularioAdmin}
       />
 
       {/* Modal con la lista de administradores */}

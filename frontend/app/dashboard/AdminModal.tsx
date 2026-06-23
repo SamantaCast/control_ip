@@ -49,6 +49,7 @@ interface Props {
   guardarAdmin: () => void;
 
   cerrarFormularioAdmin: () => void;
+  cancelarFormularioAdmin: () => void;
 
   handleAdminChange: (
     e: React.ChangeEvent<HTMLInputElement>
@@ -79,6 +80,7 @@ export default function AdminModal({
   adminInputRefs,
   guardarAdmin,
   cerrarFormularioAdmin,
+  cancelarFormularioAdmin,
   handleAdminChange,
   moverAdminConEnter,
 }: Props) {
@@ -120,8 +122,8 @@ export default function AdminModal({
 
             <h2 className="modalTitle">
               {editandoAdminId
-                ? "Editar administrador"
-                : "Nuevo administrador"}
+                ? "Editar Administrador"
+                : "Nuevo Administrador"}
             </h2>
 
             <p className="modalDescription">
@@ -131,6 +133,22 @@ export default function AdminModal({
           </div>
 
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <div className="modalDivider"></div>
 
@@ -144,11 +162,137 @@ export default function AdminModal({
           <FontAwesomeIcon icon={faXmark} />
         </button>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         {/* =======================================
             CUERPO DEL FORMULARIO
         ======================================== */}
 
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div className="formSection">
+
+
+           {/* Nombre completo */}
+
+<div className="inputWrapper">
+
+    <div className="inputIcon">
+
+        <FontAwesomeIcon icon={faUser}/>
+
+    </div>
+
+    <input
+        ref={(el) => {
+            adminInputRefs.current[0] = el;
+        }}
+
+        name="nombre"
+
+        placeholder="Nombre completo"
+
+        value={formAdmin.nombre}
+
+        onChange={handleAdminChange}
+
+        onKeyDown={(e) => moverAdminConEnter(e, 0)}
+
+        className="formInput"
+
+        required
+    />
+
+</div>
 
           {/* Usuario */}
 
@@ -159,14 +303,15 @@ export default function AdminModal({
             </div>
 
             <input
-              ref={(el) => {
-                adminInputRefs.current[0] = el;
-              }}
+             ref={(el) => {
+    adminInputRefs.current[1] = el;
+}}
+
+onKeyDown={(e) => moverAdminConEnter(e, 1)}
               name="usuario"
               placeholder="Usuario"
               value={formAdmin.usuario}
               onChange={handleAdminChange}
-              onKeyDown={(e) => moverAdminConEnter(e, 0)}
               className="formInput"
               autoComplete="username"
               required
@@ -184,8 +329,8 @@ export default function AdminModal({
 
             <input
               ref={(el) => {
-                adminInputRefs.current[1] = el;
-              }}
+    adminInputRefs.current[2] = el;
+}}
               name="password"
               type={
                 mostrarContrasenasAdmin
@@ -195,7 +340,7 @@ export default function AdminModal({
               placeholder="Contraseña"
               value={formAdmin.password}
               onChange={handleAdminChange}
-              onKeyDown={(e) => moverAdminConEnter(e, 1)}
+              onKeyDown={(e) => moverAdminConEnter(e, 2)}
               className="formInput"
               required
             />
@@ -256,7 +401,7 @@ export default function AdminModal({
 
             <input
               ref={(el) => {
-                adminInputRefs.current[2] = el;
+                adminInputRefs.current[3] = el;
               }}
               name="repetirPassword"
               type={
@@ -267,7 +412,7 @@ export default function AdminModal({
               placeholder="Repetir contraseña"
               value={formAdmin.repetirPassword}
               onChange={handleAdminChange}
-              onKeyDown={(e) => moverAdminConEnter(e, 2)}
+              onKeyDown={(e) => moverAdminConEnter(e, 3)}
               className="formInput"
               required
             />
@@ -283,12 +428,12 @@ export default function AdminModal({
         <div className="modalFooter">
 
           <button
-            type="button"
-            className="cancelBtn"
-            onClick={cerrarFormularioAdmin}
-          >
-            Cancelar
-          </button>
+    type="button"
+    className="cancelBtn"
+    onClick={cancelarFormularioAdmin}
+>
+    Cancelar
+</button>
 
           <button
             type="submit"

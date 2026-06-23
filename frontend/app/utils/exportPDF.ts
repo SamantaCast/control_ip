@@ -102,116 +102,29 @@ export async function exportarPDF(
         await cargarImagen("/logos/3.png");
 
     /* ==========================================
-       INSERTAR LOGOS
-    ========================================== */
-
-// Agricultura
-doc.addImage(
-    logo1,
-    "PNG",
-    10,
-    8,
-    56,
-    18
-);
-
-// Liconsa
-doc.addImage(
-    logo2,
-    "PNG",
-    58,
-    8,
-    52,
-    18
-);
-
-// Margarita
-doc.addImage(
-    logo3,
-    "PNG",
-    114,
-    8,
-    35,
-    18
-);
-
-    /* ==========================================
-       TÍTULO
-    ========================================== */
-
-    doc.setFont("helvetica", "bold");
-
-    doc.setFontSize(22);
-
-    doc.setTextColor(138, 32, 54);
-
-    doc.text(
-    "Control Equipos de Cómputo",
-    165,
-    36,
-    {
-        align: "center"
-    }
-);
-
-    /* ==========================================
-       SUBTÍTULO
-    ========================================== */
-
-    doc.setFontSize(11);
-
-    doc.setFont("helvetica", "normal");
-
-    doc.setTextColor(90);
-
-   doc.text(
-    "Sistema de Gestión de Activos Informáticos",
-    165,
-    44,
-    {
-        align: "center"
-    }
-);
-
-    /* ==========================================
-       FECHA Y HORA
+       FECHA ACTUAL
     ========================================== */
 
     const fecha = new Date();
-
-    doc.setFontSize(10);
-
-    doc.setTextColor(60);
-
-doc.text(
-    `Fecha: ${fecha.toLocaleDateString("es-MX")}`,
-    14,
-    50
-);
-
-doc.text(
-    `Hora: ${fecha.toLocaleTimeString("es-MX")}`,
-    72,
-    50
-);
-
-doc.text(
-    `Total de registros: ${impresoras.length}`,
-    235,
-    50
-);
 
     /* ==========================================
        TABLA
     ========================================== */
 
-    autoTable(doc, {
+    autoTable(doc,{
 
-        startY: 58,
+        startY:59,
 
-        theme: "grid",
+        theme:"grid",
 
-        head: [[
+        margin:{
+    top:12,
+    left:10,
+    right:10,
+    bottom:20
+},
+
+        head:[[
 
             "Departamento",
 
@@ -233,7 +146,7 @@ doc.text(
 
         ]],
 
-        body: impresoras.map((imp) => [
+        body: impresoras.map((imp)=>[
 
             imp.departamento,
 
@@ -255,158 +168,239 @@ doc.text(
 
         ]),
 
-        headStyles: {
+        headStyles:{
 
-            fillColor: [138, 32, 54],
+            fillColor:[138,32,54],
 
-            textColor: [255, 255, 255],
+            textColor:[255,255,255],
 
-            halign: "center",
+            halign:"center",
 
-            fontStyle: "bold"
-
-        },
-
-        styles: {
-
-    fontSize: 7,
-
-    cellPadding: 1.6,
-
-    overflow: "linebreak"
-
-},
-
-                /* ==========================================
-           ESTILOS DE FILAS ALTERNADAS
-        ========================================== */
-
-        alternateRowStyles: {
-
-            fillColor: [248, 248, 248]
+            fontStyle:"bold"
 
         },
 
+        styles:{
+
+            fontSize:7,
+
+            cellPadding:1.6,
+
+            overflow:"linebreak"
+
+        },
+
+        alternateRowStyles:{
+
+            fillColor:[248,248,248]
+
+        },
         /* ==========================================
-           ESTILOS GENERALES
-        ========================================== */
+   ENCABEZADO
+   (Sólo en la primera página)
+========================================== */
 
-margin: {
+willDrawPage:(data)=>{
 
-    top:58,
+    if(data.pageNumber!==1)return;
 
-    left:10,
+    /* ======================================
+       LOGOS
+    ====================================== */
 
-    right:10,
-
-    bottom:20
-
-},
-
-        didDrawPage: (data) => {
-
-            /* ======================================
-               LÍNEA INFERIOR DEL ENCABEZADO
-            ======================================= */
-
-            doc.setDrawColor(138, 32, 54);
-
-            doc.setLineWidth(.5);
-
-           doc.line(
+   doc.addImage(
+    logo1,
+    "PNG",
     10,
-    54,
-    287,
-    54
+    10,
+    43,
+    13
 );
 
-        }
+    doc.setFont(
+        "helvetica",
+        "bold"
+    );
 
+    doc.setFontSize(18);
+
+    doc.setTextColor(170);
+
+    doc.text("|",55,18);
+
+    doc.addImage(
+        logo2,
+        "PNG",
+        59,
+10,
+39,
+13
+    );
+
+    doc.addImage(
+        logo3,
+        "PNG",
+       101,
+9,
+26,
+13
+    );
+
+    /* ======================================
+       TÍTULO
+    ====================================== */
+
+    doc.setFont(
+        "helvetica",
+        "bold"
+    );
+
+    doc.setFontSize(22);
+
+    doc.setTextColor(
+        138,
+        32,
+        54
+    );
+
+    doc.text(
+        "Control Equipos de Cómputo",
+        165,
+        35,
+        {
+            align:"center"
+        }
+    );
+
+    /* ======================================
+       SUBTÍTULO
+    ====================================== */
+
+    doc.setFont(
+        "helvetica",
+        "normal"
+    );
+
+    doc.setFontSize(11);
+
+    doc.setTextColor(90);
+
+    doc.text(
+        "Sistema de Gestión de Activos Informáticos",
+        165,
+        43,
+        {
+            align:"center"
+        }
+    );
+
+    /* ======================================
+       FECHA / HORA / TOTAL
+    ====================================== */
+
+    doc.setFont(
+        "helvetica",
+        "bold"
+    );
+
+    doc.setFontSize(10);
+
+    doc.setTextColor(
+        138,
+        32,
+        54
+    );
+
+    doc.text(
+        "FECHA:",
+        168,
+        52
+    );
+
+    doc.text(
+        "HORA:",
+        215,
+        52
+    );
+
+    doc.text(
+        "TOTAL:",
+        258,
+        52
+    );
+
+    doc.setFont(
+        "helvetica",
+        "normal"
+    );
+
+    doc.setTextColor(70);
+
+    doc.text(
+        fecha.toLocaleDateString("es-MX"),
+        184,
+        52
+    );
+
+    doc.text(
+        fecha.toLocaleTimeString("es-MX"),
+        228,
+        52
+    );
+
+    doc.text(
+        `${impresoras.length}`,
+        287,
+        52,
+        {
+            align:"right"
+        }
+    );
+
+
+},
     });
 
-    /* ==========================================
-       PIE DE PÁGINA
-    ========================================== */
+/* ==========================================
+   AGREGAR PIE DE PÁGINA
+========================================== */
 
-    const paginas = doc.getNumberOfPages();
+const paginas = doc.getNumberOfPages();
 
-    for (
+for (let pagina = 1; pagina <= paginas; pagina++) {
 
-        let pagina = 1;
+    doc.setPage(pagina);
 
-        pagina <= paginas;
+    doc.setDrawColor(220);
+    doc.setLineWidth(.3);
 
-        pagina++
+    doc.line(
+        10,
+        196,
+        287,
+        196
+    );
 
-    ) {
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(9);
+    doc.setTextColor(90);
 
-        doc.setPage(pagina);
+    doc.text(
+        "Documento generado automáticamente por el Sistema Control Equipos de Cómputo | Departamento de Informática",
+        10,
+        201
+    );
 
-        doc.setDrawColor(220);
+    doc.text(
+        `Página ${pagina} de ${paginas}`,
+        287,
+        201,
+        {
+            align: "right"
+        }
+    );
 
-        doc.line(
-
-            10,
-
-            196,
-
-            287,
-
-            196
-
-        );
-
-        doc.setFont(
-
-            "helvetica",
-
-            "normal"
-
-        );
-
-        doc.setFontSize(9);
-
-        doc.setTextColor(90);
-
-        doc.text(
-
-    "Sistema Control Equipos de Cómputo",
-
-    10,
-
-    201
-
-);
-
-doc.text(
-
-    "Generado automáticamente",
-
-    90,
-
-    201
-
-);
-
-
-        doc.text(
-
-            `Página ${pagina} de ${paginas}`,
-
-            287,
-
-            201,
-
-            {
-
-                align: "right"
-
-            }
-
-        );
-
-    }
-
+}
     /* ==========================================
        GUARDAR PDF
     ========================================== */
@@ -415,12 +409,10 @@ doc.text(
 
         `Control_Equipos_${fecha
             .toLocaleDateString("es-MX")
-            .replace(/\//g, "-")}.pdf`;
+            .replace(/\//g,"-")}.pdf`;
 
     doc.save(
-
         nombreArchivo
-
     );
 
 }

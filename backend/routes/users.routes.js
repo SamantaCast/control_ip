@@ -39,11 +39,19 @@ router.post('/', async (req, res) => {
   try {
     console.log('DATOS RECIBIDOS POST:', req.body);
 
-    const { usuario, password, repetirPassword, rol } = req.body;
+    const {
+  nombre,
+  usuario,
+  password,
+  repetirPassword,
+  rol
+} = req.body;
 
-    if (!usuario || !password || !repetirPassword) {
-      return res.status(400).json({ mensaje: 'Completa usuario y contraseña' });
-    }
+    if (!nombre || !usuario || !password || !repetirPassword) {
+  return res.status(400).json({
+    mensaje: "Completa todos los campos"
+  });
+}
 
     if (password !== repetirPassword) {
       return res.status(400).json({ mensaje: 'Las contraseñas no coinciden' });
@@ -63,11 +71,12 @@ router.post('/', async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10);
 
-    const nuevo = new User({
-      usuario: usuario.trim(),
-      password: hash,
-      rol: rol || 'admin'
-    });
+   const nuevo = new User({
+  nombre: nombre.trim(),
+  usuario: usuario.trim(),
+  password: hash,
+  rol: rol || "admin"
+});
 
     await nuevo.save();
 
@@ -84,18 +93,32 @@ router.put('/:id', async (req, res) => {
   try {
     console.log('DATOS RECIBIDOS PUT:', req.body);
 
-    const { usuario, passwordActual, password, repetirPassword, rol } = req.body;
+    const {
+  nombre,
+  usuario,
+  passwordActual,
+  password,
+  repetirPassword,
+  rol
+} = req.body;
 
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ mensaje: 'Administrador no encontrado' });
     }
 
-    if (!usuario || !passwordActual || !password || !repetirPassword) {
-      return res.status(400).json({
-        mensaje: 'Debes escribir usuario, contraseña anterior y la nueva dos veces'
-      });
-    }
+    if (
+  !nombre ||
+  !usuario ||
+  !passwordActual ||
+  !password ||
+  !repetirPassword
+) {
+  return res.status(400).json({
+    mensaje:
+      "Debes escribir nombre, usuario, contraseña anterior y la nueva dos veces"
+  });
+}
 
     const usuarioRepetido = await User.findOne({
       usuario: usuario.trim(),
@@ -121,9 +144,10 @@ router.put('/:id', async (req, res) => {
       });
     }
 
-    user.usuario = usuario.trim();
-    user.rol = rol || 'admin';
-    user.password = await bcrypt.hash(password, 10);
+    user.nombre = nombre.trim();
+user.usuario = usuario.trim();
+user.rol = rol || "admin";
+user.password = await bcrypt.hash(password, 10);
 
     await user.save();
 

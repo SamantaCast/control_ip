@@ -475,6 +475,69 @@
 
 }
 
+/* ==========================================================
+   BOTÓN NUEVO ADMINISTRADOR
+========================================================== */
+
+.newAdminBtn{
+
+    min-width:135px;
+
+    height:38px;
+
+    padding:0 16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#8A2036;
+
+    color:#FFF;
+
+    font-family:"Texto";
+
+    font-size:13px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .20s ease;
+
+    box-shadow:0 4px 10px rgba(138,32,54,.18);
+
+}
+
+.newAdminBtn:hover{
+
+    background:#74192D;
+
+    transform:translateY(-1px);
+
+    box-shadow:0 6px 14px rgba(138,32,54,.25);
+
+}
+
+.newAdminBtn:active{
+
+    transform:translateY(0);
+
+}
+
+.newAdminBtn svg{
+
+    font-size:12px;
+
+}
 
 
 /* ==========================================================

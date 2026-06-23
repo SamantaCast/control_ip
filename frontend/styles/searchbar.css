@@ -3,6 +3,10 @@
 ================================================== */
 
 .filtersCard{
+      padding:14px 0;
+
+    margin-top:-30px;
+    
 
     background:#ffffff00;
 
@@ -10,35 +14,79 @@
 
     border-radius:18px;
 
-    padding:22px;
-
-    margin-top:-26px;
-
     box-shadow:0 4px 14px rgba(0, 0, 0, 0);
 
 }
 
+.filtersRight{
+
+    flex:1;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-left:22px;
+
+}
 /*==================================================
   PRIMERA FILA DE FILTROS
 ==================================================*/
-
 .filtersRow{
 
-    display:grid;
+     display:flex;
+    align-items:center;
+    width:100%;
+    
 
-    grid-template-columns:
-        2fr
-        1fr
-        1fr
-        1fr
-        1fr;
+}
+.filterActions{
 
-    gap:22px;
+    display:flex;
 
-    align-items:end;
+    align-items:center;
+
+    gap:8px;
 
 }
 
+
+/*VER TODOS*/
+.btnTodos{
+     margin-left:-2px;
+
+
+    width:38px;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#8A2036;
+
+    color:#FFF;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.btnTodos:hover{
+
+    background:#72192d;
+
+}
 /* ==================================================
    CONTENEDOR SUPERIOR
 ================================================== */
@@ -78,7 +126,7 @@
 
 .panelSubtitle{
 
-    margin-top:10px;
+    margin-top:25px;
 
     font-size:18px;
 
@@ -96,11 +144,11 @@
 
     display:grid;
 
-    grid-template-columns:repeat(3,185px);
+     grid-template-columns:repeat(3,160px);
 
-    gap:16px;
+    gap:12px;
 
-    margin-left:70px;
+    margin-left:45px;
 
     flex-shrink:0;
 
@@ -239,76 +287,54 @@
 
 .filterItem{
 
+   width:160px;
+
+    flex:0 0 160px;
+
     display:flex;
 
-    flex-direction:column;
-
-    gap:8px;
-
-    flex:1;
-
 }
 
-
-/* ==================================================
-   ETIQUETAS DE LOS FILTROS
-================================================== */
-
-.filterItem label{
-
-    font-size:13px;
-
-    font-weight:600;
-
-    color:#555;
-
-}
-
-
-/* ==================================================
-   SELECT DE LOS FILTROS
-================================================== */
+/*==================================================
+  SELECT MODERNO
+==================================================*/
 
 .filterSelect{
+     width:100%;
+    height:42px;
 
-    width:100%;
+    padding:0 38px 0 14px;
 
-    height:48px;
+    border:1px solid #E4E6EB;
 
-    padding:0 16px;
+    border-radius:14px;
 
-    border:1px solid #DDDDDD;
-
-    border-radius:12px;
-
-    background:#FFF;
+    background:#FFFFFF;
 
     color:#444;
 
-    font-size:15px;
+    font-size:14px;
+     font-family:"Subtitulo";
+
+    font-weight:500;
 
     outline:none;
 
     cursor:pointer;
 
-    transition:.25s;
-
     appearance:none;
-
     -webkit-appearance:none;
-
     -moz-appearance:none;
 
-}
+    transition:.25s;
 
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
 
-/* ==================================================
-   HOVER DEL SELECT
-================================================== */
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 20 20'%3E%3Cpath fill='%238A2036' d='M5.5 7.5L10 12l4.5-4.5'/%3E%3C/svg%3E");
 
-.filterSelect:hover{
+    background-repeat:no-repeat;
 
-    border-color:#C7C7C7;
+    background-position:right 12px center;
 
 }
 
@@ -339,49 +365,60 @@
     margin-top:18px;
 
 }
-
-
 /* ==================================================
    CONTENEDOR BOTONES IZQUIERDOS
 ================================================== */
-
 .leftButtons{
 
-    display:flex;
+   display:flex;
 
     gap:14px;
 
 }
 
-
 /* ==================================================
    CONTENEDOR BOTONES DERECHOS
 ================================================== */
-
 .rightButtons{
 
-    display:flex;
+     display:flex;
+
+    justify-content:flex-end;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:8px;
+
+    margin-right:0;
+
+    padding-right:0;
+    
 
 }
-
 
 /* ==================================================
    BOTÓN LIMPIAR FILTROS
 ================================================== */
 
-.btnClear{
+.btnClearMini{
 
-    height:46px;
+    height:38px;
 
-    padding:0 24px;
+    padding:0 16px;
 
-    background:#FFF;
+    border:1px solid #D8D8D8;
 
-    border:1px solid #DDD;
+    border-radius:10px;
 
-    border-radius:12px;
+    background:#F8F8F8;
 
-    font-size:15px;
+    color:#666;
+
+    font-family:"Texto";
+
+    font-size:14px;
 
     font-weight:600;
 
@@ -391,20 +428,15 @@
 
 }
 
+.btnClearMini:hover{
 
-/* ==================================================
-   EFECTO HOVER BOTÓN LIMPIAR
-================================================== */
+    background:#EEEEEE;
 
-.btnClear:hover{
+    border-color:#C8C8C8;
 
-    background:#F8F8F8;
+    color:#333;
 
 }
-
-
-
-
 
 
 
@@ -438,17 +470,27 @@
 
 .searchBox{
 
-     position:relative;
+    width:360px;
 
-    width:100%;
+    flex:none;
 
-    height:48px;
+    height:42px;
 
     display:flex;
 
     align-items:center;
 
-    flex:none;
+    background:#FFF;
+
+    border:1px solid #E4E6EB;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+
+    transition:.25s;
 
 }
 /* ==================================================
@@ -457,17 +499,27 @@
 
 .searchIcon{
 
-    position:absolute;
+    width:20px;
 
-    left:18px;
+    height:100%;
 
-    font-size:17px;
+    display:flex;
 
-    color:#9A9A9A;
+    justify-content:center;
 
-    pointer-events:none;
+    align-items:center;
 
-    z-index:2;
+    font-size:13px;
+
+    color:#8A2036;
+
+    margin-left:8px;
+
+    padding-right:8px;
+
+    border-right:1px solid #ECECEC;
+
+    flex-shrink:0;
 
 }
 /* ==================================================
@@ -475,23 +527,25 @@
 ================================================== */
 .searchInput{
 
-    width:100%;
+    flex:1;
 
-    height:52px;
+    height:100%;
 
-    padding-left:52px;
+    border:none;
 
-    padding-right:20px;
+    outline:none;
 
-    border:1px solid #DDDDDD;
+    padding:0 12px;
 
-    border-radius:14px;
+    font-family:"Texto";
 
-    font-size:15px;
+    font-size:14px;
 
-    transition:.25s;
+    font-weight:500;
 
-    background:#FFF;
+    background:transparent;
+
+    color:#444;
 
 }
 /* ==================================================
@@ -500,7 +554,11 @@
 
 .searchInput::placeholder{
 
-    color:#B2B2B2;
+    font-family:"Texto";
+
+    color:#A0A0A0;
+
+    font-size:13px;
 
     font-weight:500;
 
@@ -509,29 +567,25 @@
    HOVER DEL BUSCADOR
 ================================================== */
 
-.searchInput:hover{
+.searchBox:hover{
 
-    border-color:#C9C9C9;
+    border-color:#D7D7D7;
+
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
 
 }
 /* ==================================================
    FOCUS DEL BUSCADOR
 ================================================== */
 
-.searchInput:focus{
+.searchBox:focus-within{
 
     border-color:#8A2036;
 
     box-shadow:0 0 0 4px rgba(138,32,54,.10);
 
 }
-.filterItem{
 
-    width:190px;
-
-    flex:none;
-
-}
 
 
 
@@ -628,5 +682,37 @@
     transform:translateY(-2px);
 
     box-shadow:0 8px 18px rgba(184,134,31,.25);
+
+}
+
+.btnClear,
+.btnExcel,
+.btnPDF,
+.showAllBtn{
+
+    height:38px;
+
+    padding:0 16px;
+
+    font-size:13px;
+
+    border-radius:10px;
+
+    gap:6px;
+
+}
+
+.btnExcel,
+.btnPDF{
+
+    height:36px;
+
+    padding:0 14px;
+
+    font-size:13px;
+
+    border-radius:9px;
+
+    gap:6px;
 
 }

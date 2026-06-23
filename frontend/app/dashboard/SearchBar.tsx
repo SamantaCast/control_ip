@@ -16,6 +16,9 @@ import {
   faComputer,
   faUsers,
   faNetworkWired,
+  faFileExcel,
+  faFilePdf,
+  
 
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -299,32 +302,36 @@ setFiltroEquipo,
 
         </div>
 
+<div className="filtersRight">
+
+
+
         {/* DEPARTAMENTO */}
 
         <div className="filterItem">
 
-            <label>Departamento</label>
-
-            <select
+           <select
     className="filterSelect"
     value={filtroDepartamento}
     onChange={(e)=>setFiltroDepartamento(e.target.value)}
 >
 
-                <option value="">Todos</option>
-
-{departamentos.map((item) => (
-
-    <option
-        key={item}
-        value={item}
-    >
-        {item}
+    <option value="">
+        Departamento
     </option>
 
-))}
+    {departamentos.map((item)=>(
 
-            </select>
+        <option
+            key={item}
+            value={item}
+        >
+            {item}
+        </option>
+
+    ))}
+
+</select>
 
         </div>
 
@@ -332,30 +339,28 @@ setFiltroEquipo,
 
         <div className="filterItem">
 
-            <label>Edificio</label>
+           <select
+    className="filterSelect"
+    value={filtroEdificio}
+    onChange={(e)=>setFiltroEdificio(e.target.value)}
+>
 
-            <select
-                className="filterSelect"
-                value={filtroEdificio}
-                onChange={(e) =>
-                    setFiltroEdificio(e.target.value)
-                }
-            >
+    <option value="">
+        Edificio
+    </option>
 
-                <option value="">Todos</option>
+    {edificios.map((edificio)=>(
 
-                {edificios.map((edificio) => (
+        <option
+            key={edificio}
+            value={edificio}
+        >
+            {edificio}
+        </option>
 
-                    <option
-                        key={edificio}
-                        value={edificio}
-                    >
-                        {edificio}
-                    </option>
+    ))}
 
-                ))}
-
-            </select>
+</select>
 
         </div>
 
@@ -363,141 +368,129 @@ setFiltroEquipo,
 
         <div className="filterItem">
 
-            <label>Ubicación</label>
-
-            <select
+           <select
     className="filterSelect"
     value={filtroUbicacion}
     onChange={(e)=>setFiltroUbicacion(e.target.value)}
 >
 
-                <option value="">Todos</option>
-
-{ubicaciones.map((item) => (
-
-    <option
-        key={item}
-        value={item}
-    >
-        {item}
+    <option value="">
+        Ubicación
     </option>
 
-))}
+    {ubicaciones.map((item)=>(
 
-            </select>
+        <option
+            key={item}
+            value={item}
+        >
+            {item}
+        </option>
+
+    ))}
+
+</select>
 
         </div>
 
-        {/* EQUIPO */}
+{/* EQUIPO */}
 
-        <div className="filterItem">
+<div className="filterItem">
 
-            <label>Equipo</label>
+    <select
+        className="filterSelect"
+        value={filtroEquipo}
+        onChange={(e)=>setFiltroEquipo(e.target.value)}
+    >
 
-            <select
-    className="filterSelect"
-    value={filtroEquipo}
-    onChange={(e)=>setFiltroEquipo(e.target.value)}
+        <option value="">
+            Equipo
+        </option>
+
+        {equipos.map((item)=>(
+
+            <option
+                key={item}
+                value={item}
+            >
+                {item}
+            </option>
+
+        ))}
+
+    </select>
+
+</div>
+
+{/* VER TODOS */}
+
+<button
+    className="btnTodos"
+    onClick={() => {
+
+        setBusqueda("");
+        setFiltroDepartamento("");
+        setFiltroEdificio("");
+        setFiltroUbicacion("");
+        setFiltroEquipo("");
+
+    }}
 >
 
-               <option value="">Todos</option>
+    <FontAwesomeIcon icon={faList} />
 
-{equipos.map((item) => (
+</button>
 
-    <option
-        key={item}
-        value={item}
-    >
-        {item}
-    </option>
+{/* LIMPIAR */}
 
-))}
+<button
+    className="btnClearMini"
+    onClick={() => {
 
-            </select>
+        setBusqueda("");
+        setFiltroDepartamento("");
+        setFiltroEdificio("");
+        setFiltroUbicacion("");
+        setFiltroEquipo("");
 
-        </div>
+    }}
+>
 
+    Limpiar Filtros
+
+</button>
+
+    </div>
     </div>
 
     {/* ===========================================
         BOTONES
     ============================================ */}
+ <div className="actionsRow">
 
-    <div className="actionsRow">
+        {logueado && (
 
-        <div className="leftButtons">
+    <div className="leftButtons">
 
-            <button
-    className="btnTodos"
-    onClick={() => {
+        <button
+            className="btnExcel"
+            onClick={exportarExcel}
+        >
+            <FontAwesomeIcon icon={faFileExcel}/>
+            Exportar Excel
+        </button>
 
-        setBusqueda("");
+        <button
+            className="btnPDF"
+            onClick={exportarPDF}
+        >
+            <FontAwesomeIcon icon={faFilePdf}/>
+            Exportar PDF
+        </button>
 
-        setFiltroDepartamento("");
+    </div>
 
-        setFiltroEdificio("");
-
-        setFiltroUbicacion("");
-
-        setFiltroEquipo("");
-
-    }}
->
-
-                <FontAwesomeIcon icon={faList} />
-
-                Ver todos
-
-            </button>
-
-            <button
-    className="btnClear"
-    onClick={() => {
-
-        setBusqueda("");
-
-        setFiltroDepartamento("");
-
-        setFiltroEdificio("");
-
-        setFiltroUbicacion("");
-
-        setFiltroEquipo("");
-
-    }}
->
-
-                Limpiar filtros
-
-            </button>
-
-            {/* ===========================================
-    EXPORTAR EXCEL
-=========================================== */}
-
-<button
-    className="btnExcel"
-    onClick={exportarExcel}
->
-
-    📊
-
-    Exportar Excel
-
-</button>
-
-<button
-    className="btnPDF"
-    onClick={exportarPDF}
->
-
-    📄
-
-    Exportar PDF
-
-</button>
-
-        </div>
+)}
 
         <div className="rightButtons">
 
@@ -507,11 +500,8 @@ setFiltroEquipo,
                     className="dashboardNewBtn"
                     onClick={abrirNuevo}
                 >
-
-                    <FontAwesomeIcon icon={faPlus} />
-
+                    <FontAwesomeIcon icon={faPlus}/>
                     Nuevo registro
-
                 </button>
 
             )}

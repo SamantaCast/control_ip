@@ -10,6 +10,7 @@ import {
   faPenToSquare,
   faTrash,
   faXmark,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import type { UsuarioAdmin } from "./types";
@@ -177,7 +178,7 @@ export default function AdminListModal({
                         {/* Editar */}
 
                         <button
-                          className="adminIconBtn editBtn"
+                          className="iconBtn editBtn"
                           onClick={() =>
                             abrirEditarAdmin(admin)
                           }
@@ -190,7 +191,7 @@ export default function AdminListModal({
                         {/* Eliminar */}
 
                         <button
-                          className="adminIconBtn deleteBtn"
+                          className="iconBtn deleteBtn"
                           onClick={() =>
                             eliminarAdmin(admin._id)
                           }
@@ -219,11 +220,13 @@ export default function AdminListModal({
           ======================================== */}
 
           <button
-            className="adminNewBtn"
-            onClick={abrirNuevoAdmin}
-          >
-            Nuevo registro
-          </button>
+    type="button"
+    className="newAdminBtn"
+    onClick={abrirNuevoAdmin}
+>
+    <FontAwesomeIcon icon={faPlus} />
+    Nuevo registro
+</button>
 
         </div>
 

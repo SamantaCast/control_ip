@@ -16,15 +16,27 @@ export interface Impresora {
 }
 
 export interface UsuarioAdmin {
-  _id?: string;
-  usuario: string;
-  rol: string;
+
+    _id?: string;
+
+    nombre: string;
+
+    usuario: string;
+
+    rol: string;
+
 }
 
 export interface FormAdmin {
-  usuario: string;
-  passwordActual: string;
-  password: string;
-  repetirPassword: string;
-  rol: string;
+
+    nombre: string;
+
+    usuario: string;
+
+    password: string;
+
+    repetirPassword: string;
+
+    passwordActual: string;
+
 }

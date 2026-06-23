@@ -10,13 +10,14 @@
 
     border:1px solid #E8E8E8;
 
-    border-radius:18px;
+    border-radius:10px;
 
     overflow:auto;
 
     box-shadow:0 4px 16px rgba(0,0,0,.05);
 
-    margin-top:-10px;
+    margin-top:1px;
+    
 
 }
 
@@ -78,6 +79,7 @@
     border-right:1px solid rgba(255,255,255,.12);
 
     letter-spacing:.2px;
+    
 
 }
 
@@ -120,13 +122,16 @@
 
     color:#444;
 
-    border-bottom:1px solid #EEEEEE;
+    border-bottom:1px solid #E2E2E2;
 
     vertical-align:middle;
 
     line-height:1.35;
+    border-right:1px solid #ECECEC;
 
 }
+
+
 
 
 /* ==================================================
@@ -189,72 +194,98 @@
 
 
 /* ==================================================
-   BOTON GENERAL
-================================================== */
-/* ==================================================
-   BOTONES
+   BOTÓN GENERAL
 ================================================== */
 
 .iconBtn{
 
-    width:36px;
+    width:38px;
 
-    height:36px;
+    height:38px;
 
     border:none;
 
-    border-radius:10px;
-
-    color:#FFF;
-
-    cursor:pointer;
+    border-radius:12px;
 
     display:flex;
 
+    align-items:center;
+
     justify-content:center;
 
-    align-items:center;
+    cursor:pointer;
 
     font-size:14px;
 
-    transition:.25s;
+    transition:all .20s ease;
 
-}
-
-.iconBtn:hover{
-
-    transform:translateY(-1px);
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
 
 }
 
 
 /* ==================================================
-   BOTON EDITAR
+   EDITAR
 ================================================== */
+
 .editBtn{
 
-    background:#B8861F;
+    background:#FFF7E8;
+
+    color:#B8861F;
 
 }
 
 .editBtn:hover{
 
-    background:#9D731A;
+    background:#B8861F;
+
+    color:#FFF;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 6px 14px rgba(184,134,31,.28);
 
 }
 
+
 /* ==================================================
-   BOTON ELIMINAR
+   ELIMINAR
 ================================================== */
+
 .deleteBtn{
 
-    background:#8A2036;
+    background:#FCEEEF;
+
+    color:#8A2036;
 
 }
 
 .deleteBtn:hover{
 
-    background:#6F1A2C;
+    background:#8A2036;
+
+    color:#FFF;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 6px 14px rgba(138,32,54,.28);
+
+}
+
+/* ==================================================
+   FILAS ALTERNADAS
+================================================== */
+
+.dataTable tbody tr:nth-child(even){
+
+    background:#FAFAFA;
+
+}
+
+.dataTable tbody tr:nth-child(odd){
+
+    background:#FFFFFF;
 
 }
 

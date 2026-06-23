@@ -3,7 +3,12 @@
 /* ==================================================
    IMPORTACIONES
 ================================================== */
+import {
+    faChevronLeft,
+    faChevronRight
+} from "@fortawesome/free-solid-svg-icons";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Impresora } from "./types";
 
 /* ==================================================
@@ -60,6 +65,100 @@ export default function Pagination({
   setRegistrosPorPagina,
 
 }: Props) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const obtenerPaginas = (): (number | string)[] => {
+
+    if (totalPaginas <= 7) {
+
+        return Array.from(
+            { length: totalPaginas },
+            (_, i) => i + 1
+        );
+
+    }
+
+    // Inicio
+    if (paginaActual <= 4) {
+
+        return [1, 2, 3, 4, 5, "...", totalPaginas];
+
+    }
+
+    // Final
+    if (paginaActual >= totalPaginas - 3) {
+
+        return [
+
+            1,
+
+            "...",
+
+            totalPaginas - 4,
+
+            totalPaginas - 3,
+
+            totalPaginas - 2,
+
+            totalPaginas - 1,
+
+            totalPaginas
+
+        ];
+
+    }
+
+    // Centro
+
+    return [
+
+        1,
+
+        "...",
+
+        paginaActual - 1,
+
+        paginaActual,
+
+        paginaActual + 1,
+
+        "...",
+
+        totalPaginas
+
+    ];
+
+};
+
+
+
   return (
 
     /* ===============================================
@@ -124,91 +223,116 @@ export default function Pagination({
 
     <div className="paginationControls">
 
-        <button
-            className="pageBtn"
-            disabled={paginaActual === 1}
-            onClick={() =>
-                setPaginaActual((p) => p - 1)
-            }
+       <button
+    className="pageBtn pageArrow"
+    disabled={paginaActual === 1}
+    onClick={() =>
+        setPaginaActual((p) => p - 1)
+    }
+>
+
+    <FontAwesomeIcon icon={faChevronLeft} />
+
+</button>
+
+
+
+
+
+
+
+
+
+
+
+{obtenerPaginas().map((item, index) => (
+
+    typeof item === "string"
+
+    ? (
+
+        <span
+            key={`dots-${index}`}
+            className="pageDots"
         >
-
-            Anterior
-
-        </button>
-
-        {Array.from(
-            { length: totalPaginas },
-            (_, i) => i + 1
-        ).map((pagina) => (
-
-            <button
-                key={pagina}
-                className={`pageBtn ${
-                    paginaActual === pagina
-                        ? "activePageBtn"
-                        : ""
-                }`}
-                onClick={() =>
-                    setPaginaActual(pagina)
-                }
-            >
-
-                {pagina}
-
-            </button>
-
-        ))}
-
-        <button
-            className="pageBtn"
-            disabled={paginaActual === totalPaginas}
-            onClick={() =>
-                setPaginaActual((p) => p + 1)
-            }
-        >
-
-            Siguiente
-
-        </button>
-
-    </div>
-
-    {/* ===========================================
-        REGISTROS POR PÁGINA
-    ============================================ */}
-
-    <div className="rowsPerPage">
-
-        <span>
-
-            Registros por página
-
+            ...
         </span>
 
-        <select
-            value={registrosPorPagina}
-            onChange={(e) => {
+    )
 
-                setPaginaActual(1);
+    : (
 
-                setRegistrosPorPagina(
-                    Number(e.target.value)
-                );
+        <button
 
-            }}
+            key={`page-${item}-${index}`}
+
+            className={`pageBtn ${
+                paginaActual === item
+                    ? "activePageBtn"
+                    : ""
+            }`}
+
+            onClick={() => setPaginaActual(item)}
+
         >
 
-            <option value={15}>15</option>
+            {item}
 
-            <option value={25}>25</option>
+        </button>
 
-            <option value={50}>50</option>
+    )
 
-            <option value={100}>100</option>
+))}
 
-        </select>
+       <button
+    className="pageBtn pageArrow"
+    disabled={paginaActual === totalPaginas}
+    onClick={() =>
+        setPaginaActual((p) => p + 1)
+    }
+>
 
+    <FontAwesomeIcon icon={faChevronRight} />
+
+</button>
     </div>
+
+  {/* ===========================================
+    REGISTROS POR PÁGINA
+=========================================== */}
+
+<div className="rowsPerPage">
+
+    <span>
+
+        Mostrar
+
+    </span>
+
+    <select
+        value={registrosPorPagina}
+        onChange={(e) => {
+
+            setPaginaActual(1);
+
+            setRegistrosPorPagina(
+                Number(e.target.value)
+            );
+
+        }}
+    >
+
+        <option value={15}>15</option>
+
+        <option value={25}>25</option>
+
+        <option value={50}>50</option>
+
+        <option value={100}>100</option>
+
+    </select>
+
+</div>
 
 </div>
   );

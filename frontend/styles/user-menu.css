@@ -118,6 +118,12 @@ width:320px;
   font-size:12px;
 
   flex-shrink:0;
+   transition:.25s;
+}
+.userProfileBtn.open .userArrow{
+
+    transform:rotate(180deg);
+
 }
 
 /* ==================================================
@@ -130,7 +136,7 @@ width:320px;
   right:0;
   top:66px;
 
-  width:300px;
+  width:320px;
 
   background:white;
 
@@ -147,34 +153,71 @@ width:320px;
 /* ==================================================
    OPCIONES
 ================================================== */
-
 .dropdownItem{
-  width:100%;
 
-  border:none;
+    width:100%;
 
-  background:white;
+    border:none;
 
-  padding:14px 16px;
+    background:#FFF;
 
-  text-align:left;
+    padding:10px 16px;
 
-  display:flex;
-  align-items:center;
+    display:flex;
 
-  gap:10px;
+    align-items:center;
 
-  font-size:14px;
+    gap:12px;
 
-  cursor:pointer;
+    font-family:"Texto";
 
-  transition:.2s;
+    font-size:14px;
+
+    font-weight:500;
+
+    color:#333;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    transition:.20s;
+
 }
-
 .dropdownItem:hover{
-  background:#f7f7f7;
+
+    background:#FAF6F7;
+
+    color:#8A2036;
+
+}
+.dropdownItem + .dropdownItem{
+
+    border-top:1px solid #EEEEEE;
+
 }
 
-.dropdownItem:first-child{
-  border-bottom:1px solid #ececec;
+.dropdownItem svg{
+
+    width:18px;
+
+    height:18px;
+
+    padding:10px;
+
+    border-radius:12px;
+
+    background:#F9EEF2;
+
+    color:#8A2036;
+
+    transition:.25s;
+
+}
+.dropdownItem:hover svg{
+
+    background:#8A2036;
+
+    color:#FFF;
+
 }
