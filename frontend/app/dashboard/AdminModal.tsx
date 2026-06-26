@@ -1,39 +1,32 @@
+/* MODAL DE ADMINISTRADORES: crear y editar usuarios */
+
 "use client";
 
-/* ==================================================
-   IMPORTACIONES
-================================================== */
+
+// IMPORTACIONES
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {
-  faUsers,
-  faUser,
-  faLock,
-  faEye,
-  faEyeSlash,
-  faXmark,
+  import {
+    faUsers,
+    faUser,
+    faLock,
+    faEye,
+    faEyeSlash,
+    faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-
 import type { FormAdmin } from "./types";
 
-/* ==================================================
-   PROPIEDADES DEL COMPONENTE
-================================================== */
 
+// PROPIEDADES DEL COMPONENTE
+ 
 interface Props {
   rol: string;
-
   mostrar: boolean;
-
   editandoAdminId: string | null;
-
   formAdmin: FormAdmin;
-
   mostrarContrasenasAdmin: boolean;
-
   setMostrarContrasenasAdmin: React.Dispatch<
-    React.SetStateAction<boolean>
+  React.SetStateAction<boolean>
   >;
 
   cumpleLongitud: boolean;
@@ -47,10 +40,8 @@ interface Props {
   >;
 
   guardarAdmin: () => void;
-
   cerrarFormularioAdmin: () => void;
   cancelarFormularioAdmin: () => void;
-
   handleAdminChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void;
@@ -61,9 +52,8 @@ interface Props {
   ) => void;
 }
 
-/* ==================================================
-   COMPONENTE
-================================================== */
+
+// COMPONENTE
 
 export default function AdminModal({
   rol,
@@ -85,369 +75,232 @@ export default function AdminModal({
   moverAdminConEnter,
 }: Props) {
 
-  /* ===============================================
-     SI NO ES ADMIN O EL MODAL ESTÁ CERRADO
-  ================================================ */
 
-  if (rol !== "admin" || !mostrar) {
+// SI NO ES ADMIN O EL MODAL ESTÁ CERRADO
+
+
+if (rol !== "admin" || !mostrar) {
     return null;
   }
+    return (
+      <div className="overlayStyle">
 
-  return (
-    <div className="overlayStyle">
 
-      {/* ===========================================
-          FORMULARIO
-      ============================================ */}
+{/* FORMULARIO */}
 
-      <form
-        className="adminModalStyle"
-        onSubmit={(e) => {
-          e.preventDefault();
-          guardarAdmin();
-        }}
-      >
+<form
+    className="adminModalStyle"
+      onSubmit={(e) => {
+      e.preventDefault();
+      guardarAdmin();
+    }}
+    >
 
-        {/* =======================================
-            ENCABEZADO
-        ======================================== */}
 
-        <div className="modalHeader">
+{/* ENCABEZADO */}
 
-          <div className="modalHeaderIcon">
-            <FontAwesomeIcon icon={faUsers} />
-          </div>
+<div className="modalHeader">
+  <div className="modalHeaderIcon">
+    <FontAwesomeIcon icon={faUsers} />
+</div>
 
-          <div>
+<div>
+  <h2 className="modalTitle">
+    {editandoAdminId
+      ? "Editar Administrador"
+      : "Nuevo Administrador"}
+  </h2>
 
-            <h2 className="modalTitle">
-              {editandoAdminId
-                ? "Editar Administrador"
-                : "Nuevo Administrador"}
-            </h2>
+<p className="modalDescription">
+    Capture la información del administrador.
+     </p>
+  </div>
+</div>
 
-            <p className="modalDescription">
-              Capture la información del administrador.
-            </p>
+<div className="modalDivider"></div>
 
-          </div>
+        
+{/* Botón para cerrar */}
 
-        </div>
+<button
+    type="button"
+    className="adminCloseBtn"
+    onClick={cerrarFormularioAdmin}
+  >
+    <FontAwesomeIcon icon={faXmark} />
+</button>
 
 
+{/* CUERPO DEL FORMULARIO */}
 
+<div className="formSection">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        <div className="modalDivider"></div>
-
-        {/* Botón para cerrar */}
-
-        <button
-          type="button"
-          className="adminCloseBtn"
-          onClick={cerrarFormularioAdmin}
-        >
-          <FontAwesomeIcon icon={faXmark} />
-        </button>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        {/* =======================================
-            CUERPO DEL FORMULARIO
-        ======================================== */}
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div className="formSection">
-
-
-           {/* Nombre completo */}
+{/* NOMBRE COMPLETO */}
 
 <div className="inputWrapper">
-
     <div className="inputIcon">
-
         <FontAwesomeIcon icon={faUser}/>
-
     </div>
 
     <input
-        ref={(el) => {
-            adminInputRefs.current[0] = el;
+      ref={(el) => {
+        adminInputRefs.current[0] = el;
         }}
 
-        name="nombre"
-
-        placeholder="Nombre completo"
-
-        value={formAdmin.nombre}
-
-        onChange={handleAdminChange}
-
-        onKeyDown={(e) => moverAdminConEnter(e, 0)}
-
-        className="formInput"
-
-        required
+      name="nombre"
+      placeholder="Nombre completo"
+      value={formAdmin.nombre}
+      onChange={handleAdminChange}
+      onKeyDown={(e) => moverAdminConEnter(e, 0)}
+      className="formInput"
+      required
     />
-
 </div>
 
-          {/* Usuario */}
 
-          <div className="inputWrapper">
+{/* USUARIO */}
 
-            <div className="inputIcon">
-              <FontAwesomeIcon icon={faUser} />
-            </div>
+<div className="inputWrapper">
+  <div className="inputIcon">
+    <FontAwesomeIcon icon={faUser} />
+    </div>
 
-            <input
-             ref={(el) => {
-    adminInputRefs.current[1] = el;
+      <input
+         ref={(el) => {
+      adminInputRefs.current[1] = el;
 }}
 
 onKeyDown={(e) => moverAdminConEnter(e, 1)}
-              name="usuario"
-              placeholder="Usuario"
-              value={formAdmin.usuario}
-              onChange={handleAdminChange}
-              className="formInput"
-              autoComplete="username"
-              required
-            />
+      name="usuario"
+      placeholder="Usuario"
+      value={formAdmin.usuario}
+      onChange={handleAdminChange}
+      className="formInput"
+      autoComplete="username"
+      required
+      />
+</div>
 
-          </div>
 
-          {/* Contraseña */}
+{/* CONTRASEÑA */}
 
-          <div className="inputWrapper">
+<div className="inputWrapper">
+  <div className="inputIcon">
+    <FontAwesomeIcon icon={faLock} />
+      </div>
 
-            <div className="inputIcon">
-              <FontAwesomeIcon icon={faLock} />
-            </div>
-
-            <input
-              ref={(el) => {
+      <input
+        ref={(el) => {
     adminInputRefs.current[2] = el;
 }}
-              name="password"
-              type={
-                mostrarContrasenasAdmin
-                  ? "text"
-                  : "password"
-              }
-              placeholder="Contraseña"
-              value={formAdmin.password}
-              onChange={handleAdminChange}
-              onKeyDown={(e) => moverAdminConEnter(e, 2)}
-              className="formInput"
-              required
+     name="password"
+     type={
+     mostrarContrasenasAdmin
+      ? "text"
+      : "password"
+          }
+     placeholder="Contraseña"
+     value={formAdmin.password}
+     onChange={handleAdminChange}
+     onKeyDown={(e) => moverAdminConEnter(e, 2)}
+     className="formInput"
+     required
             />
 
-            <button
-              type="button"
-              className="passwordEyeBtn"
-              onClick={() =>
-                setMostrarContrasenasAdmin(
-                  (prev) => !prev
-                )
-              }
-            >
-              <FontAwesomeIcon
-                icon={
-                  mostrarContrasenasAdmin
-                    ? faEye
-                    : faEyeSlash
-                }
-              />
-            </button>
+<button
+  type="button"
+  className="passwordEyeBtn"
+  onClick={() =>
+    setMostrarContrasenasAdmin(
+      (prev) => !prev
+        )
+      }
+      >
+      <FontAwesomeIcon
+        icon={
+        mostrarContrasenasAdmin
+          ? faEye
+          : faEyeSlash
+        }
+      />
+     </button>
+  </div>
 
-          </div>
 
-          {/* Reglas de la contraseña */}
+{/* REGLAS DE LA CONTRASEÑA */}
 
-          <div className="adminPasswordRules">
+  <div className="adminPasswordRules">
+    <div className={cumpleLongitud ? "ok" : ""}>
+      {cumpleLongitud ? "✓" : "✗"} Mínimo 8 caracteres
+    </div>
 
-            <div className={cumpleLongitud ? "ok" : ""}>
-              {cumpleLongitud ? "✓" : "✗"} Mínimo 8 caracteres
-            </div>
+    <div className={cumpleMayuscula ? "ok" : ""}>
+      {cumpleMayuscula ? "✓" : "✗"} Al menos una mayúscula
+    </div>
 
-            <div className={cumpleMayuscula ? "ok" : ""}>
-              {cumpleMayuscula ? "✓" : "✗"} Al menos una mayúscula
-            </div>
+    <div className={cumpleMinuscula ? "ok" : ""}>
+      {cumpleMinuscula ? "✓" : "✗"} Al menos una minúscula
+    </div>
 
-            <div className={cumpleMinuscula ? "ok" : ""}>
-              {cumpleMinuscula ? "✓" : "✗"} Al menos una minúscula
-            </div>
+    <div className={cumpleSimbolo ? "ok" : ""}>
+      {cumpleSimbolo ? "✓" : "✗"} Al menos un símbolo
+    </div>
 
-            <div className={cumpleSimbolo ? "ok" : ""}>
-              {cumpleSimbolo ? "✓" : "✗"} Al menos un símbolo
-            </div>
+    <div className={cumpleRepeticion ? "ok" : ""}>
+      {cumpleRepeticion ? "✓" : "✗"} Las contraseñas coinciden
+    </div>
+  </div>
 
-            <div className={cumpleRepeticion ? "ok" : ""}>
-              {cumpleRepeticion ? "✓" : "✗"} Las contraseñas coinciden
-            </div>
+{/* REPETIR CONTRASEÑA */}
 
-          </div>
+<div className="inputWrapper">
+  <div className="inputIcon">
+    <FontAwesomeIcon icon={faLock} />
+  </div>
 
-          {/* Repetir contraseña */}
+  <input
+    ref={(el) => {
+      adminInputRefs.current[3] = el;
+    }}
+      name="repetirPassword"
+      type={
+      mostrarContrasenasAdmin
+        ? "text"
+        : "password"
+          }
+      placeholder="Repetir contraseña"
+      value={formAdmin.repetirPassword}
+      onChange={handleAdminChange}
+      onKeyDown={(e) => moverAdminConEnter(e, 3)}
+      className="formInput"
+      required
+    />
+  </div>
+</div>
 
-          <div className="inputWrapper">
 
-            <div className="inputIcon">
-              <FontAwesomeIcon icon={faLock} />
-            </div>
+{/* PIE DEL MODAL*/}
 
-            <input
-              ref={(el) => {
-                adminInputRefs.current[3] = el;
-              }}
-              name="repetirPassword"
-              type={
-                mostrarContrasenasAdmin
-                  ? "text"
-                  : "password"
-              }
-              placeholder="Repetir contraseña"
-              value={formAdmin.repetirPassword}
-              onChange={handleAdminChange}
-              onKeyDown={(e) => moverAdminConEnter(e, 3)}
-              className="formInput"
-              required
-            />
-
-          </div>
-
-        </div>
-
-        {/* =======================================
-            PIE DEL MODAL
-        ======================================== */}
-
-        <div className="modalFooter">
-
-          <button
-    type="button"
-    className="cancelBtn"
-    onClick={cancelarFormularioAdmin}
+<div className="modalFooter">
+  <button
+     type="button"
+     className="cancelBtn"
+     onClick={cancelarFormularioAdmin}
 >
     Cancelar
-</button>
+  </button>
 
-          <button
-            type="submit"
-            className="saveBtn"
-          >
-            {editandoAdminId
+<button
+    type="submit"
+        className="saveBtn"
+        >
+          {editandoAdminId
               ? "Actualizar"
               : "Guardar"}
           </button>
-
         </div>
-
       </form>
-
     </div>
   );
 }

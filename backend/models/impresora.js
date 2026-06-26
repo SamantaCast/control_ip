@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
+/* MODELO DE IMPRESORAS PARA ALMACENAR Y GESTIONAR DATOS EN MONGODB */
 
+const mongoose = require('mongoose');
 const impresoraSchema = new mongoose.Schema({
   departamento: String,
   edificio: String,

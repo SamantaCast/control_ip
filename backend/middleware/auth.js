@@ -1,3 +1,5 @@
+/* MIDDLEWARE PARA AUTENTICACIÓN Y AUTORIZACIÓN USANDO JWT */
+
 const jwt = require('jsonwebtoken');
 
 function verificarToken(req, res, next) {

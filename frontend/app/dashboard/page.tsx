@@ -1,13 +1,13 @@
+// COMPONENTE PRINCIPAL DE LA APLICACIÓN
+
 "use client";
 
-/* ==========================================================
-   IMPORTACIONES
-========================================================== */
+
+// IMPORTACIONES
 
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useEffect, useRef, useState } from "react";
-
 import Header from "./Header";
 import SearchBar from "./SearchBar";
 import EquipmentTable from "./EquipmentTable";
@@ -27,9 +27,8 @@ import { exportarExcel } from "../utils/exportExcel";
 import { exportarPDF } from "../utils/exportPDF";
 
 
-/* ==========================================================
-   CONSTANTES
-========================================================== */
+// CONSTANTES
+
 const vacioImpresora: Impresora = {
   departamento: "",
   edificio: "",
@@ -42,83 +41,64 @@ const vacioImpresora: Impresora = {
   codigo: "",
 };
 
-/* ==========================================================
-   COMPONENTE PRINCIPAL
-========================================================== */
+
+// COMPONENTE PRINCIPAL
 
 export default function Page() {
-  /* ======================================================
-     ESTADOS DEL LOGIN
-  ====================================================== */
 
+
+// ESTADOS DEL LOGIN
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
-
   const [logueado, setLogueado] = useState(false);
   const [rol, setRol] = useState("");
   const [nombreUsuario, setNombreUsuario] = useState("");
-
   const [mostrarLogin, setMostrarLogin] = useState(false);
   const [mostrarMenuUsuario, setMostrarMenuUsuario] = useState(false);
 
-  /* ======================================================
-     CONTADORES
-  ====================================================== */
+
+// CONTADORES
 
   const [totalRegistros, setTotalRegistros] = useState(0);
   const [coincidencias, setCoincidencias] = useState(0);
 
-  /* ======================================================
-     BUSCADOR
-  ====================================================== */
+
+// BUSCADOR
 
   const [busqueda, setBusqueda] = useState("");
   const [filtroEdificio, setFiltroEdificio] = useState("");
   const [filtroDepartamento, setFiltroDepartamento] = useState("");
-
-const [filtroUbicacion, setFiltroUbicacion] = useState("");
-
-const [filtroEquipo, setFiltroEquipo] = useState("");
+  const [filtroUbicacion, setFiltroUbicacion] = useState("");
+  const [filtroEquipo, setFiltroEquipo] = useState("");
 
 
-  //filtros
-
+// FILTROS
 
   const [departamentos, setDepartamentos] = useState<string[]>([]);
-
-const [ubicaciones, setUbicaciones] = useState<string[]>([]);
-
-const [equipos, setEquipos] = useState<string[]>([]);
-
+  const [ubicaciones, setUbicaciones] = useState<string[]>([]);
+  const [equipos, setEquipos] = useState<string[]>([]);
   const [edificios, setEdificios] = useState<string[]>([]);
 
-  /* ======================================================
-     IMPRESORAS
-  ====================================================== */
+
+// IMPRESORAS
 
   const [impresoras, setImpresoras] = useState<Impresora[]>([]);
 
-  /* ======================================================
-     FORMULARIO DE IMPRESORAS
-  ====================================================== */
+// FORMULARIO DE IMPRESORAS
 
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [editandoId, setEditandoId] = useState<string | null>(null);
-
   const [form, setForm] =
     useState<Impresora>(vacioImpresora);
 
-  /* ======================================================
-     ADMINISTRADORES
-  ====================================================== */
 
+// ADMINISTRADORES
+  
   const [administradores, setAdministradores] =
     useState<UsuarioAdmin[]>([]);
-
   const [administradoresRegistrados, setAdministradoresRegistrados] =
     useState<UsuarioAdmin[]>([]);
-
   const [mostrarAdmins, setMostrarAdmins] =
     useState(false);
 
@@ -135,46 +115,32 @@ const [equipos, setEquipos] = useState<string[]>([]);
     setMostrarContrasenasAdmin,
   ] = useState(false);
 
-  /* ======================================================
-     REFERENCIAS
-     Permiten mover el foco con ENTER entre los inputs
-     del formulario de administradores.
-  ====================================================== */
+
+// REFERENCIAS CONTROL DE FOCO ENTRE INPUTS
 
   const adminInputRefs =
     useRef<(HTMLInputElement | null)[]>([]);
 
 
-  /* ======================================================
-     FORMULARIO DE ADMINISTRADORES
-  ====================================================== */
-
+// FORMULARIO DE ADMINISTRADORES
+ 
   const [formAdmin, setFormAdmin] = useState({
-
     nombre: "",
-
     usuario: "",
-
     password: "",
-
     repetirPassword: "",
-
     passwordActual: ""
-
 });
 
-  /* ======================================================
-     NAVEGACIÓN ENTRE INPUTS DEL FORMULARIO ADMIN
-  ====================================================== */
 
+// NAVEGACIÓN ENTRE INPUTS DEL FORMULARIO ADMIN
+ 
   const moverAdminConEnter = (
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
     if (e.key !== "Enter") return;
-
     e.preventDefault();
-
     const siguiente =
       adminInputRefs.current[index + 1];
 
@@ -185,111 +151,80 @@ const [equipos, setEquipos] = useState<string[]>([]);
     }
   };
 
-  /* ===========================================
-   ESTADÍSTICAS DEL DASHBOARD
-=========================================== */
 
-const [stats, setStats] = useState({
+// ESTADÍSTICAS DEL DASHBOARD
 
-  totalEquipos: 0,
-
-  equiposActivos: 0,
-
-  totalUsuarios: 0,
-
-  totalIPs: 0,
-
+  const [stats, setStats] = useState({
+    totalEquipos: 0,
+    equiposActivos: 0,
+    totalUsuarios: 0,
+    totalIPs: 0,
 });
-/* ==========================================
-   ORDENAMIENTO
-========================================== */
 
-const [ordenCampo, setOrdenCampo] = useState("");
 
-const [ordenDireccion, setOrdenDireccion] =
-useState<"asc" | "desc">("asc");
+ // ORDENAMIENTO
 
-function ordenarPor(campo: string) {
+  const [ordenCampo, setOrdenCampo] = useState("");
+  const [ordenDireccion, setOrdenDireccion] =
+    useState<"asc" | "desc">("asc");
 
+  function ordenarPor(campo: string) {
     if (ordenCampo === campo) {
-
         setOrdenDireccion(
-            ordenDireccion === "asc"
-                ? "desc"
-                : "asc"
+          ordenDireccion === "asc"
+            ? "desc"
+            : "asc"
         );
 
-    } else {
-
+     } else {
         setOrdenCampo(campo);
-
         setOrdenDireccion("asc");
-
     }
-
 }
-/* ===========================================
-   EXPORTAR A EXCEL y pdf
-=========================================== */
 
-const descargarExcel = () => {
 
+// EXPORTAR A EXCEL y pdf
+
+  const descargarExcel = () => {
     exportarExcel(impresoras);
+  };
 
-};
-const generarPDF = () => {
-
+  const generarPDF = () => {
     exportarPDF(impresorasOrdenadas);
-
 };
 
 
+//ORDENAMIENTO DE REGISTROS
 
-
-/////////////////comentario
-
-const impresorasOrdenadas = [...impresoras].sort((a, b) => {
-
+  const impresorasOrdenadas = [...impresoras].sort((a, b) => {
     if (!ordenCampo) return 0;
 
-    const valorA = String(
-        a[ordenCampo as keyof Impresora] ?? ""
-    ).toLowerCase();
+  const valorA = String(
+    a[ordenCampo as keyof Impresora] ?? ""
+  ).toLowerCase();
 
-    const valorB = String(
-        b[ordenCampo as keyof Impresora] ?? ""
-    ).toLowerCase();
+  const valorB = String(
+    b[ordenCampo as keyof Impresora] ?? ""
+  ).toLowerCase();
 
     if (valorA < valorB)
-        return ordenDireccion === "asc" ? -1 : 1;
+      return ordenDireccion === "asc" ? -1 : 1;
 
     if (valorA > valorB)
-        return ordenDireccion === "asc" ? 1 : -1;
+      return ordenDireccion === "asc" ? 1 : -1;
 
     return 0;
-
 });
 
 
-
-
-
-    
-  /* ======================================================
-     PAGINACIÓN
-  ====================================================== */
-
+// PAGINACIÓN
+ 
   const [paginaActual, setPaginaActual] = useState(1);
-
-/* ==========================================
-   REGISTROS POR PÁGINA
-========================================== */
-
-const [registrosPorPagina, setRegistrosPorPagina] =
+  const [registrosPorPagina, setRegistrosPorPagina] =
     useState(15);
 
 
-    //////////////////////////////comentario 
+//DIVIDE LOS REGISTROS POR PÁGINA
 
   const totalPaginas = Math.ceil(
     impresoras.length / registrosPorPagina
@@ -303,18 +238,17 @@ const [registrosPorPagina, setRegistrosPorPagina] =
 
   const impresorasPaginadas =
     impresorasOrdenadas.slice(
-        indiceInicio,
-        indiceFin
+      indiceInicio,
+      indiceFin
     );
-  /* ======================================================
-     CARGA INICIAL
-     - Recupera la sesión almacenada.
-     - Carga los registros.
-     - Si es administrador, carga la lista de usuarios.
-  ====================================================== */
 
+
+// CARGA INICIAL
+// RECUPERA LA SESIÓN ALMACENADA
+// CARGA REGISTROS DEL SISTEMA
+// SI ES ADMIN, CARGA LA LISTA DE USUARIOS
+  
   useEffect(() => {
-
   const tokenGuardado =
     localStorage.getItem("token");
 
@@ -323,65 +257,49 @@ const [registrosPorPagina, setRegistrosPorPagina] =
 
   const nombreGuardado =
     localStorage.getItem("nombre");
-
-  cargarImpresoras("", "");
-  cargarFiltros();
-  cargarEdificios();
-  cargarStats();
+    cargarImpresoras("", "");
+    cargarFiltros();
+    cargarEdificios();
+    cargarStats();
 
   if (!tokenGuardado) return;
-
-  setToken(tokenGuardado);
-  setRol(rolGuardado || "");
-  setNombreUsuario(nombreGuardado || "");
-  setLogueado(true);
+    setToken(tokenGuardado);
+    setRol(rolGuardado || "");
+    setNombreUsuario(nombreGuardado || "");
+    setLogueado(true);
 
   if (rolGuardado === "admin") {
-
     cargarAdministradores(tokenGuardado);
-
   }
-
 }, []);
 
   useEffect(() => {
-
   const tiempo = setTimeout(() => {
-
     buscar();
-
   }, 300);
 
   return () => clearTimeout(tiempo);
 
 }, [busqueda,
+   filtroDepartamento,
+   filtroEdificio,
+   filtroUbicacion,
+   filtroEquipo]);
 
-    filtroDepartamento,
 
-    filtroEdificio,
-
-    filtroUbicacion,
-
-    filtroEquipo]);
-
-  /* ======================================================
-     CABECERA DE AUTORIZACIÓN
-     Se utiliza para todas las peticiones protegidas.
-  ====================================================== */
-
+// CABECERA DE AUTORIZACIÓN SE USA EN PETICIONES PROTEGIDAS
+  
   const authHeader = (tok: string) => ({
     headers: {
-      Authorization: `Bearer ${tok}`,
+    Authorization: `Bearer ${tok}`,
     },
   });
 
-  /* ===========================================
-   CARGAR EDIFICIOS
-=========================================== */
+
+// CARGAR EDIFICIOS
+
 const cargarEdificios = async () => {
-
   try {
-
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/edificios`
     );
@@ -389,77 +307,51 @@ const cargarEdificios = async () => {
     const lista = res.data
       .filter((e: string) => e && e.trim() !== "")
       .sort((a: string, b: string) => a.localeCompare(b));
-
     setEdificios(lista);
-
   } catch (error) {
-
     console.log(error);
-
   }
-
 };
-/* ===========================================
-   CARGAR ESTADÍSTICAS
-=========================================== */
+
+
+// CARGAR ESTADÍSTICAS
 
 const cargarStats = async () => {
-
   try {
-
     const res = await axios.get(
-
       `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/stats`
-
     );
-
-    setStats(res.data);
-
+      setStats(res.data);
   } catch (error) {
-
-    console.error("Error al cargar estadísticas:", error);
-
+      console.error("Error al cargar estadísticas:", error);
   }
-
 };
 
-//cargar filtros
+
+//CARGAR FILTROS
+
 async function cargarFiltros() {
-
-    try {
-
-        const respuesta = await fetch(
+  try {
+    const respuesta = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/filtros`
 );
 
-        const datos = await respuesta.json();
-
-        setDepartamentos(datos.departamentos);
-
-        setEdificios(datos.edificios);
-
-        setUbicaciones(datos.ubicaciones);
-
-        setEquipos(datos.equipos);
-
-
+    const datos = await respuesta.json();
+      setDepartamentos(datos.departamentos);
+      setEdificios(datos.edificios);
+      setUbicaciones(datos.ubicaciones);
+      setEquipos(datos.equipos);
     } catch (error) {
-
-        console.error("Error cargando filtros", error);
-
+      console.error("Error cargando filtros", error);
     }
-
 }
 
-  /* ======================================================
-     INICIAR SESIÓN
-  ====================================================== */
 
-  const login = async () => {
-    if (!usuario.trim()) return;
+// INICIAR SESIÓN
 
-    if (!password.trim()) return;
-
+const login = async () => {
+  if (!usuario.trim()) return;
+  if (!password.trim()) return;
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/login`,
@@ -468,37 +360,38 @@ async function cargarFiltros() {
           password: password.trim(),
         }
       );
-           /* ===========================================
-         Login exitoso
-      =========================================== */
+          
+      
+// LOGIN EXITOSO
+   
+console.log("LOGIN:", res.data);
 
-      console.log("LOGIN:", res.data);
+// GUARDAR DATOS DE LA SESIÓN EN EL NAVEGADOR
 
-      // Guardar datos de la sesión en el navegador
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("rol", res.data.rol);
-      localStorage.setItem("nombre", res.data.nombre);
+  localStorage.setItem("token", res.data.token);
+  localStorage.setItem("rol", res.data.rol);
+  localStorage.setItem("nombre", res.data.nombre);
 
-      // Actualizar estados de la aplicación
-      setToken(res.data.token);
-      setRol(res.data.rol);
-      setNombreUsuario(res.data.nombre);
-      setLogueado(true);
+//ACTUALIZAR ESTADOS DE LA APLICACIÓN
 
-      // Cerrar el formulario de inicio de sesión
-      setMostrarLogin(false);
+  setToken(res.data.token);
+  setRol(res.data.rol);
+  setNombreUsuario(res.data.nombre);
+  setLogueado(true);
+  setMostrarLogin(false);
 
-      // Cargar los registros disponibles
-      cargarImpresoras("", "");
-      cargarFiltros();
-      cargarEdificios();
-      cargarStats();
+// CARGAR LOS REGISTROS DISPONIBLES
 
-      // Si el usuario es administrador, cargar la lista de administradores
-      if (res.data.rol === "admin") {
-        cargarAdministradores(res.data.token);
-      }
+  cargarImpresoras("", "");
+  cargarFiltros();
+  cargarEdificios();
+  cargarStats();
 
+// SI EL USUARIO ES ADMINISTRADOR, CARGAR LA LISTA DE ADMINISTRADORES
+
+if (res.data.rol === "admin") {
+  cargarAdministradores(res.data.token);
+ }
     } catch (error: any) {
       await Swal.fire({
         icon: "error",
@@ -510,159 +403,133 @@ async function cargarFiltros() {
     }
   };
 
-  /* ===========================================
-     CARGAR REGISTROS DE IMPRESORAS
-  =========================================== */
 
-  const cargarImpresoras = async (
-    tok: string,
-    textoBusqueda: string
-  ) => {
+// CARGAR REGISTROS DE IMPRESORAS
+
+const cargarImpresoras = async (
+  tok: string,
+  textoBusqueda: string
+) => {
     try {
       const config = tok ? authHeader(tok) : {};
-
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras?busqueda=${encodeURIComponent(
           textoBusqueda
-        )}`,
+      )}`,
         config
-      );
+    );
 
-      // Actualizar la tabla
-      setImpresoras(res.data);
 
-      // Guardar el número de coincidencias encontradas
-      setCoincidencias(res.data.length);
+// ACTUALIZAR LA TABLA
 
-      // Actualizar el total únicamente cuando no existe búsqueda
-      if (textoBusqueda === "") {
-        setTotalRegistros(res.data.length);
-      }
+  setImpresoras(res.data);
+  setCoincidencias(res.data.length);
 
-    } catch (error) {
-      console.log("Error al cargar impresoras:", error);
+  if (textoBusqueda === "") {
+    setTotalRegistros(res.data.length);
+  }
+
+  } catch (error) {
+    console.log("Error al cargar impresoras:", error);
     }
-  };
-
-  /* ===========================================
-     BUSCAR REGISTROS
-  =========================================== */
-
-const buscar = async () => {
-
-    try {
-
-        const config = token ? authHeader(token) : {};
-
-        const params = new URLSearchParams({
-
-            busqueda: busqueda.trim(),
-
-            departamento: filtroDepartamento,
-
-            edificio: filtroEdificio,
-
-            ubicacion: filtroUbicacion,
-
-            equipo: filtroEquipo,
-
-        });
-
-        const res = await axios.get(
-
-            `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras?${params.toString()}`,
-
-            config
-
-        );
-
-        setImpresoras(res.data);
-
-        setPaginaActual(1);
-
-        setCoincidencias(res.data.length);
-
-    } catch (error) {
-
-        console.log(error);
-
-    }
-
 };
 
-  /* ===========================================
-     ABRIR FORMULARIO PARA NUEVO REGISTRO
-  =========================================== */
 
-  const abrirNuevo = () => {
-    setEditandoId(null);
-    setForm(vacioImpresora);
-    setMostrarFormulario(true);
-  };
+// BUSCAR REGISTROS
+  
+const buscar = async () => {
+  try {
+    const config = token ? authHeader(token) : {};
 
-  /* ===========================================
-     ABRIR FORMULARIO PARA EDITAR REGISTRO
-  =========================================== */
+    const params = new URLSearchParams({
+      busqueda: busqueda.trim(),
+      departamento: filtroDepartamento,
+      edificio: filtroEdificio,
+      ubicacion: filtroUbicacion,
+      equipo: filtroEquipo,
 
-  const abrirEditar = (imp: Impresora) => {
-    setEditandoId(imp._id || null);
-
-    setForm({
-      _id: imp._id,
-      departamento: imp.departamento || "",
-      edificio: imp.edificio || "",
-      ubicacion: imp.ubicacion || "",
-      nombre: imp.nombre || "",
-      email: imp.email || "",
-      equipo: imp.equipo || "",
-      usuario: imp.usuario || "",
-      ip: imp.ip || "",
-      codigo: imp.codigo || "",
     });
 
-    setMostrarFormulario(true);
-  };
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras?${params.toString()}`,
+        config
+    );
+        setImpresoras(res.data);
+        setPaginaActual(1);
+        setCoincidencias(res.data.length);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-  /* ===========================================
-     ACTUALIZAR CAMPOS DEL FORMULARIO
-  =========================================== */
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
+// ABRIR FORMULARIO PARA NUEVO REGISTRO
+  
+const abrirNuevo = () => {
+  setEditandoId(null);
+  setForm(vacioImpresora);
+  setMostrarFormulario(true);
+};
 
-  /* ===========================================
-     GUARDAR O ACTUALIZAR REGISTRO
-  =========================================== */
 
-  const guardar = async () => {
+// ABRIR FORMULARIO PARA EDITAR REGISTRO
+ 
+const abrirEditar = (imp: Impresora) => {
+  setEditandoId(imp._id || null);
 
-    // Validar campos obligatorios
-    if (!form.departamento.trim() || !form.nombre.trim()) {
-      await Swal.fire({
-        icon: "warning",
-        title: "Datos incompletos",
-        html: `
-          Faltan datos obligatorios.<br>
-          (Nombre y/o Departamento)
-        `,
-        confirmButtonColor: "#8A2036",
-        confirmButtonText: "Aceptar",
-      });
+  setForm({
+    _id: imp._id,
+    departamento: imp.departamento || "",
+    edificio: imp.edificio || "",
+    ubicacion: imp.ubicacion || "",
+    nombre: imp.nombre || "",
+    email: imp.email || "",
+    equipo: imp.equipo || "",
+    usuario: imp.usuario || "",
+    ip: imp.ip || "",
+    codigo: imp.codigo || "",
+  });
 
-      return;
-    }
+  setMostrarFormulario(true);
+};
+
+
+// ACTUALIZAR CAMPOS DEL FORMULARIO
+ 
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
+  setForm({
+  ...form,
+  [e.target.name]: e.target.value,
+  });
+};
+
+
+// GUARDAR O ACTUALIZAR REGISTRO
+ 
+const guardar = async () => {
+
+
+// VALIDAR CAMPOS OBLIGATORIOS
+
+if (!form.departamento.trim() || !form.nombre.trim()) {
+  await Swal.fire({
+    icon: "warning",
+    title: "Datos incompletos",
+    html: `
+      Faltan datos obligatorios.<br>
+      (Nombre y/o Departamento)
+      `,
+      confirmButtonColor: "#8A2036",
+      confirmButtonText: "Aceptar",
+  });
+
+    return;
+  }
 
     try {
-
-      // Actualizar registro existente
       if (editandoId) {
-
         await axios.put(
           `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/${editandoId}`,
           form,
@@ -679,7 +546,8 @@ const buscar = async () => {
 
       } else {
 
-        // Crear un nuevo registro
+        // CREAR UN NUEVO REGISTRO
+
         await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras`,
           form,
@@ -696,12 +564,14 @@ const buscar = async () => {
 
       }
 
-      // Restablecer el formulario
+      // RESTABLECER EL FORMULARIO
+
       setMostrarFormulario(false);
       setEditandoId(null);
       setForm(vacioImpresora);
 
-      // Recargar la información
+      // RECARGAR LA INFORMACIÓN
+
       await cargarImpresoras(token, busqueda);
       await cargarStats();
 
@@ -714,19 +584,17 @@ const buscar = async () => {
         confirmButtonColor: "#8A2036",
         confirmButtonText: "Aceptar",
       });
-
     }
-  };
+};
 
-  /* ===========================================
-     ELIMINAR REGISTRO
-  =========================================== */
 
-  const eliminar = async (id?: string) => {
+// ELIMINAR REGISTRO
+ 
 
-    if (!id) return;
+const eliminar = async (id?: string) => {
+  if (!id) return;
 
-    const confirmar = await Swal.fire({
+  const confirmar = await Swal.fire({
       title: "¿Eliminar registro?",
       text: "Esta acción no se puede deshacer.",
       icon: "warning",
@@ -740,7 +608,6 @@ const buscar = async () => {
     if (!confirmar.isConfirmed) return;
 
     try {
-
       await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/${id}`,
         authHeader(token)
@@ -754,285 +621,234 @@ const buscar = async () => {
         confirmButtonText: "Aceptar",
       });
 
-      // Actualizar información
-      await cargarImpresoras(token, busqueda);
-      await cargarStats();
 
-    } catch (error) {
+      // ACTUALIZAR INFORMACIÓN
 
-      await Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudo eliminar el registro.",
-        confirmButtonColor: "#8A2036",
-        confirmButtonText: "Aceptar",
-      });
+    await cargarImpresoras(token, busqueda);
+    await cargarStats();
+  } catch (error) {
+    await Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudo eliminar el registro.",
+      confirmButtonColor: "#8A2036",
+      confirmButtonText: "Aceptar",
+    });
+  }
+};
 
-    }
-  };
-    /* ===========================================
-     CARGAR ADMINISTRADORES
-     Obtiene la lista de administradores desde
-     la API para mantenerla actualizada.
-  =========================================== */
 
-  const cargarAdministradores = async (tok: string) => {
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/users`,
-        authHeader(tok)
-      );
+// CARGAR ADMINISTRADORES
+// OBTIENE LA LISTA DE ADMINISTRADORES DESDE LA API
 
-      setAdministradores(res.data);
+const cargarAdministradores = async (tok: string) => {
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/users`,
+      authHeader(tok)
+    );
 
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    setAdministradores(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-  /* ===========================================
-     CARGAR ADMINISTRADORES REGISTRADOS
-     Obtiene la lista y abre el modal donde
-     se muestran los administradores.
-  =========================================== */
 
-  const cargarAdministradoresRegistrados = async (
-    tok: string
-  ) => {
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/users`,
-        authHeader(tok)
-      );
+// CARGA ADMINISTRADORES Y ABRE EL MODAL 
+
+const cargarAdministradoresRegistrados = async (tok: string) => {
+  try {
+    const res = await axios.get(
+     `${process.env.NEXT_PUBLIC_API_URL}/api/users`,
+      authHeader(tok)
+    );
 
       setAdministradoresRegistrados(res.data);
       setMostrarAdministradoresRegistrados(true);
 
-    } catch (error) {
-      console.log(error);
+  } catch (error) {
+    console.log(error);
 
-      await Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Error al cargar administradores.",
-        confirmButtonColor: "#8A2036",
-        confirmButtonText: "Aceptar",
-      });
-    }
-  };
-
-  /* ===========================================
-     ABRIR FORMULARIO PARA NUEVO ADMINISTRADOR
-  =========================================== */
-
-  const abrirNuevoAdmin = () => {
-    setMostrarContrasenasAdmin(false);
-    setMostrarAdministradoresRegistrados(false);
-    setEditandoAdminId(null);
-
-   setFormAdmin({
-
-    nombre: "",
-
-    usuario: "",
-
-    password: "",
-
-    repetirPassword: "",
-
-    passwordActual: ""
-
-});
-
-    setMostrarAdmins(true);
-  };
-
-  /* ===========================================
-     ABRIR FORMULARIO PARA EDITAR ADMINISTRADOR
-  =========================================== */
-
-  const abrirEditarAdmin = (admin: UsuarioAdmin) => {
-    setMostrarContrasenasAdmin(false);
-    setMostrarAdministradoresRegistrados(false);
-
-    setEditandoAdminId(admin._id || null);
-
-    setFormAdmin({
-
-    nombre: admin.nombre,
-
-    usuario: admin.usuario,
-
-    password: "",
-
-    repetirPassword: "",
-
-    passwordActual: ""
-
-});
-
-    setMostrarAdmins(true);
-  };
-
-  /* ===========================================
-     ACTUALIZAR CAMPOS DEL FORMULARIO
-     DE ADMINISTRADORES
-  =========================================== */
-
-  const handleAdminChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormAdmin({
-      ...formAdmin,
-      [e.target.name]: e.target.value,
+    await Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Error al cargar administradores.",
+      confirmButtonColor: "#8A2036",
+      confirmButtonText: "Aceptar",
     });
-  };
+  }
+};
 
-  /* ===========================================
-     VALIDAR CONTRASEÑA
-     Debe contener:
-     - Mínimo 8 caracteres
-     - Una mayúscula
-     - Una minúscula
-     - Un símbolo
-  =========================================== */
 
-  const passwordValida = (pass: string) => {
-    const regex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$/;
+// ABRIR FORMULARIO PARA NUEVO ADMINISTRADOR
+  
+const abrirNuevoAdmin = () => {
+  setMostrarContrasenasAdmin(false);
+  setMostrarAdministradoresRegistrados(false);
+  setEditandoAdminId(null);
+  
+  setFormAdmin({
+    nombre: "",
+    usuario: "",
+    password: "",
+    repetirPassword: "",
+    passwordActual: ""
+  });
 
-    return regex.test(pass);
-  };
+  setMostrarAdmins(true);
+};
 
-  /* ===========================================
-     VALIDACIONES VISUALES DE LA CONTRASEÑA
-     Se utilizan para mostrar los indicadores
-     de cumplimiento en el formulario.
-  =========================================== */
 
-  const passwordActualTexto = formAdmin.password;
+// ABRIR FORMULARIO PARA EDITAR ADMINISTRADOR
+ 
+const abrirEditarAdmin = (admin: UsuarioAdmin) => {
+  setMostrarContrasenasAdmin(false);
+  setMostrarAdministradoresRegistrados(false);
+  setEditandoAdminId(admin._id || null);
 
-  const cumpleLongitud =
-    passwordActualTexto.length >= 8;
+  setFormAdmin({
+    nombre: admin.nombre,
+    usuario: admin.usuario,
+    password: "",
+    repetirPassword: "",
+    passwordActual: ""
+  });
 
-  const cumpleMayuscula =
-    /[A-Z]/.test(passwordActualTexto);
+  setMostrarAdmins(true);
+};
 
-  const cumpleMinuscula =
-    /[a-z]/.test(passwordActualTexto);
 
-  const cumpleSimbolo =
-    /[^A-Za-z0-9]/.test(passwordActualTexto);
+// ACTUALIZAR CAMPOS DEL FORMULARIO DE ADMINISTRADORES
 
+const handleAdminChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+) => {
+  setFormAdmin({
+    ...formAdmin,
+    [e.target.name]: e.target.value,
+  });
+};
+
+
+// VALIDAR CONTRASEÑA: MÍNIMO 8 CARACTERES, UNA MAYÚSCULA, UNA MINÚSCULA Y UN SÍMBOLO
+ 
+const passwordValida = (pass: string) => {
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$/;
+
+  return regex.test(pass);
+};
+
+
+// VALIDACIONES VISUALES DE CONTRASEÑA: INDICADORES DE CUMPLIMIENTO EN EL FORMULARIO 
+
+const passwordActualTexto = formAdmin.password;
+
+  const cumpleLongitud = passwordActualTexto.length >= 8;
+  const cumpleMayuscula = /[A-Z]/.test(passwordActualTexto);
+  const cumpleMinuscula = /[a-z]/.test(passwordActualTexto);
+  const cumpleSimbolo = /[^A-Za-z0-9]/.test(passwordActualTexto);
   const cumpleRepeticion =
     formAdmin.repetirPassword.length > 0 &&
     formAdmin.password === formAdmin.repetirPassword;
 
-  /* ===========================================
-     GUARDAR ADMINISTRADOR
-     Crea un nuevo administrador o actualiza
-     uno existente.
-  =========================================== */
 
-  const guardarAdmin = async () => {
-    try {
+// GUARDAR ADMINISTRADOR: CREA O ACTUALIZA UN REGISTRO 
 
-      /* Validar que ambas contraseñas coincidan */
-
-      if (
-        formAdmin.password !==
-        formAdmin.repetirPassword
-      ) {
-        await Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Las contraseñas no coinciden.",
-          confirmButtonColor: "#8A2036",
-          confirmButtonText: "Aceptar",
-        });
+const guardarAdmin = async () => {
+  try {
+    if (
+      formAdmin.password !==
+      formAdmin.repetirPassword
+    ) {
+      await Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Las contraseñas no coinciden.",
+        confirmButtonColor: "#8A2036",
+        confirmButtonText: "Aceptar",
+      });
 
         return;
-      }
+    }
 
-      /* Validar requisitos de seguridad */
 
-      if (!passwordValida(formAdmin.password)) {
-        await Swal.fire({
-          icon: "error",
-          title: "Contraseña inválida",
-          text: "Debe contener mayúscula, minúscula, símbolo y mínimo 8 caracteres.",
-          confirmButtonColor: "#8A2036",
-          confirmButtonText: "Aceptar",
-        });
+// VALIDAR REQUISITOS DE SEGURIDAD
 
-        return;
-      }
+if (!passwordValida(formAdmin.password)) {
+  await Swal.fire({
+    icon: "error",
+    title: "Contraseña inválida",
+    text: "Debe contener mayúscula, minúscula, símbolo y mínimo 8 caracteres.",
+    confirmButtonColor: "#8A2036",
+    confirmButtonText: "Aceptar",
+  });
 
-      /* Actualizar administrador */
+  return;
+}
 
-      if (editandoAdminId) {
 
-        await axios.put(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/users/${editandoAdminId}`,
-          formAdmin,
-          authHeader(token)
-        );
+// ACTUALIZAR ADMINISTRADOR
 
-        await Swal.fire({
-          icon: "success",
-          title: "Administrador actualizado",
-          text: "Los cambios fueron guardados correctamente.",
-          confirmButtonColor: "#8A2036",
-          confirmButtonText: "Aceptar",
-        });
+if (editandoAdminId) {
+  await axios.put(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${editandoAdminId}`,
+    formAdmin,
+    authHeader(token)
+  );
 
-      } else {
+  await Swal.fire({
+    icon: "success",
+    title: "Administrador actualizado",
+    text: "Los cambios fueron guardados correctamente.",
+    confirmButtonColor: "#8A2036",
+    confirmButtonText: "Aceptar",
+  });
 
-        /* Crear administrador */
+  } else {
 
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/users`,
-          formAdmin,
-          authHeader(token)
-        );
 
-        await Swal.fire({
-          icon: "success",
-          title: "Administrador creado",
-          text: "El administrador fue registrado correctamente.",
-          confirmButtonColor: "#8A2036",
-          confirmButtonText: "Aceptar",
-        });
+// CREAR ADMINISTRADOR
 
-      }
+  await axios.post(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users`,
+      formAdmin,
+      authHeader(token)
+  );
 
-      /* Limpiar formulario */
+  await Swal.fire({
+    icon: "success",
+    title: "Administrador creado",
+    text: "El administrador fue registrado correctamente.",
+    confirmButtonColor: "#8A2036",
+    confirmButtonText: "Aceptar",
+  });
 
-      setEditandoAdminId(null);
+  }
 
-      setFormAdmin({
+  // LIMPIAR FORMULARIO
 
+  setEditandoAdminId(null);
+  setFormAdmin({
     nombre: "",
-
     usuario: "",
-
     password: "",
-
     repetirPassword: "",
-
     passwordActual: ""
 
-});
+  });
 
-      /* Actualizar listas */
+  // ACTUALIZAR LISTAS 
 
-      await cargarAdministradores(token);
-      await cargarAdministradoresRegistrados(token);
+  await cargarAdministradores(token);
+  await cargarAdministradoresRegistrados(token);
 
-      /* Mostrar nuevamente la lista */
 
-      setMostrarAdmins(false);
-      setMostrarAdministradoresRegistrados(true);
+  // MOSTRAR NUEVAMENTE LA LISTA 
+
+  setMostrarAdmins(false);
+  setMostrarAdministradoresRegistrados(true);
 
     } catch (error: any) {
 
@@ -1047,36 +863,35 @@ const buscar = async () => {
       });
 
     }
-  };
-  /* ===========================================
-     ELIMINAR ADMINISTRADOR
-     Solicita confirmación antes de eliminar un
-     administrador y actualiza la lista.
-  =========================================== */
+};
 
-  const eliminarAdmin = async (id?: string) => {
-    if (!id) return;
 
-    const confirmar = await Swal.fire({
-      title: "¿Eliminar administrador?",
-      text: "Esta acción no se puede deshacer.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#8A2036",
-      cancelButtonColor: "#6c757d",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    });
+// ELIMINAR ADMINISTRADOR: CONFIRMA Y ACTUALIZA LISTA
+ 
+const eliminarAdmin = async (id?: string) => {
+  if (!id) return;
 
-    if (!confirmar.isConfirmed) return;
+  const confirmar = await Swal.fire({
+    title: "¿Eliminar administrador?",
+    text: "Esta acción no se puede deshacer.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#8A2036",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+ });
 
+  if (!confirmar.isConfirmed) return;
+  
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`,
+       `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`,
         authHeader(token)
       );
 
-      // Actualizar las listas de administradores
+      // ACTUALIZAR LISTAS DE ADMINISTRADORES
+
       setAdministradores((prev) =>
         prev.filter((admin) => admin._id !== id)
       );
@@ -1093,7 +908,8 @@ const buscar = async () => {
         confirmButtonText: "Aceptar",
       });
 
-      // Recargar información desde el servidor
+      // RECARGAR INFORMACIÓN DESDE EL SERVIDOR
+
       await cargarAdministradores(token);
       await cargarAdministradoresRegistrados(token);
 
@@ -1108,279 +924,219 @@ const buscar = async () => {
         confirmButtonText: "Aceptar",
       });
     }
-  };
+ };
 
-  /* ===========================================
-     CERRAR FORMULARIO DE ADMINISTRADOR
-     Oculta el formulario y vuelve a mostrar
-     la lista de administradores.
-  =========================================== */
+
+// CERRAR FORMULARIO DE ADMINISTRADOR: OCULTA EL FORMULARIO Y REINICIA ESTADOS
 
  const cerrarFormularioAdmin = () => {
-
     setMostrarAdmins(false);
-
     setEditandoAdminId(null);
-
     setMostrarAdministradoresRegistrados(false);
-
     setMostrarContrasenasAdmin(false);
+  };
 
-};
-
-const cancelarFormularioAdmin = () => {
-
+  const cancelarFormularioAdmin = () => {
     setMostrarAdmins(false);
-
     setEditandoAdminId(null);
-
     setMostrarAdministradoresRegistrados(true);
-
     setMostrarContrasenasAdmin(false);
+ };
 
-};
 
-  /* ===========================================
-     CERRAR SESIÓN
-     Elimina la sesión actual y restablece
-     todos los estados de la aplicación.
-  =========================================== */
+// CERRAR SESIÓN, ELIMINA LA SESIÓN Y REINICIA ESTADOS DE LA APP
 
   const cerrarSesion = async () => {
+  
     /* Eliminar datos almacenados */
-
     localStorage.removeItem("token");
     localStorage.removeItem("rol");
     localStorage.removeItem("nombre");
 
-    /* Reiniciar datos del usuario */
+      /* Reiniciar datos del usuario */
+      setUsuario("");
+      setPassword("");
+      setToken("");
+      setRol("");
+      setNombreUsuario("");
+      setLogueado(false);
 
-    setUsuario("");
-    setPassword("");
+      /* Reiniciar filtros */
+      setBusqueda("");
+      setFiltroEdificio("");
 
-    setToken("");
-    setRol("");
-    setNombreUsuario("");
-    setLogueado(false);
+      /* Limpiar información cargada */
+      setImpresoras([]);
+      setCoincidencias(0);
+      setTotalRegistros(0);
+      setAdministradores([]);
+      setAdministradoresRegistrados([]);
 
-    /* Reiniciar filtros */
+      /* Cerrar todos los formularios */
+      setMostrarFormulario(false);
+      setMostrarAdmins(false);
+      setMostrarAdministradoresRegistrados(false);
+      setMostrarContrasenasAdmin(false);
+      setMostrarLogin(false);
+      setMostrarMenuUsuario(false);
 
-    setBusqueda("");
-    setFiltroEdificio("");
+      /* Restablecer formularios */
+      setEditandoId(null);
+      setEditandoAdminId(null);
+      setForm(vacioImpresora);
+      
+      setFormAdmin({
+        nombre: "",
+        usuario: "",
+        password: "",
+        repetirPassword: "",
+        passwordActual: ""
 
-    /* Limpiar información cargada */
+      });
 
-    setImpresoras([]);
-    setCoincidencias(0);
-    setTotalRegistros(0);
-
-    setAdministradores([]);
-    setAdministradoresRegistrados([]);
-
-    /* Cerrar todos los formularios */
-
-    setMostrarFormulario(false);
-    setMostrarAdmins(false);
-    setMostrarAdministradoresRegistrados(false);
-    setMostrarContrasenasAdmin(false);
-    setMostrarLogin(false);
-    setMostrarMenuUsuario(false);
-
-    /* Restablecer formularios */
-
-    setEditandoId(null);
-    setEditandoAdminId(null);
-
-    setForm(vacioImpresora);
-
-   setFormAdmin({
-
-    nombre: "",
-
-    usuario: "",
-
-    password: "",
-
-    repetirPassword: "",
-
-    passwordActual: ""
-
-});
-
-    /* Cargar nuevamente los registros públicos */
-
-    await cargarImpresoras("", "");
-  };
-
-
-  //comentar
-const abrirAdministradoresRegistrados = () => {
-
-    cargarAdministradoresRegistrados(token);
-
+      /* Cargar nuevamente los registros públicos */
+      await cargarImpresoras("", "");
 };
 
-  /* ===========================================
-     INTERFAZ PRINCIPAL
-  =========================================== */
 
-  return (
-    <>
-      {/* =======================================
-          ENCABEZADO
-          Contiene los logotipos, el acceso al
-          sistema y el menú del usuario.
-      ======================================== */}
+// ABRIR ADMINISTRADORES REGISTRADOS
 
-      <Header
-        logueado={logueado}
-        usuario={usuario}
-        password={password}
-        nombreUsuario={nombreUsuario}
-        rol={rol}
-        mostrarMenuUsuario={mostrarMenuUsuario}
-        setMostrarMenuUsuario={setMostrarMenuUsuario}
-        mostrarLogin={mostrarLogin}
-        setMostrarLogin={setMostrarLogin}
-        setUsuario={setUsuario}
-        setPassword={setPassword}
-        login={login}
-        abrirAdministradoresRegistrados={
-        abrirAdministradoresRegistrados
-    }
-        cerrarSesion={cerrarSesion}
+const abrirAdministradoresRegistrados = () => {
+    cargarAdministradoresRegistrados(token);
+};
+
+
+// INTERFAZ PRINCIPAL
+
+return (
+  <>
+ {/* ENCABEZADO: LOGOTIPOS, ACCESO Y MENÚ DE USUARIO */}
+
+<Header
+      logueado={logueado}
+      usuario={usuario}
+      password={password}
+      nombreUsuario={nombreUsuario}
+      rol={rol}
+      mostrarMenuUsuario={mostrarMenuUsuario}
+      setMostrarMenuUsuario={setMostrarMenuUsuario}
+      mostrarLogin={mostrarLogin}
+      setMostrarLogin={setMostrarLogin}
+      setUsuario={setUsuario}
+      setPassword={setPassword}
+      login={login}
+      abrirAdministradoresRegistrados={
+      abrirAdministradoresRegistrados}
+      cerrarSesion={cerrarSesion}
         
-      />
+    />
 
-      {/* =======================================
-          CONTENIDO PRINCIPAL
-      ======================================== */}
 
-      <div className="panel">
+{/* CONTENIDO PRINCIPAL */}
 
-        {/* Barra de búsqueda y filtros */}
-
-        <SearchBar
-
+<div className="panel">
+{/* Barra de búsqueda y filtros */}
+  <SearchBar
     logueado={logueado}
-
     token={token}
-
     busqueda={busqueda}
-
     setBusqueda={setBusqueda}
-
     filtroEdificio={filtroEdificio}
-
     setFiltroEdificio={setFiltroEdificio}
-
     edificios={edificios}
-
     abrirNuevo={abrirNuevo}
-
     stats={stats}
     departamentos={departamentos}
-
-ubicaciones={ubicaciones}
-
-equipos={equipos}
-
-
-filtroDepartamento={filtroDepartamento}
-setFiltroDepartamento={setFiltroDepartamento}
-
-filtroUbicacion={filtroUbicacion}
-setFiltroUbicacion={setFiltroUbicacion}
-
-filtroEquipo={filtroEquipo}
-setFiltroEquipo={setFiltroEquipo}
-
-exportarExcel={descargarExcel}
-exportarPDF={generarPDF}
+    ubicaciones={ubicaciones}
+    equipos={equipos}
+    filtroDepartamento={filtroDepartamento}
+    setFiltroDepartamento={setFiltroDepartamento}
+    filtroUbicacion={filtroUbicacion}
+    setFiltroUbicacion={setFiltroUbicacion}
+    filtroEquipo={filtroEquipo}
+    setFiltroEquipo={setFiltroEquipo}
+    exportarExcel={descargarExcel}
+    exportarPDF={generarPDF}
+  />
 
 
+{/* Tabla de registros */}
 
-
-/>
-
-        {/* Tabla de registros */}
-
-        <EquipmentTable
+<EquipmentTable
   impresoras={impresoras}
   impresorasPaginadas={impresorasPaginadas}
   logueado={logueado}
   abrirEditar={abrirEditar}
   eliminar={eliminar}
-
   ordenarPor={ordenarPor}
   ordenCampo={ordenCampo}
   ordenDireccion={ordenDireccion}
 />
 
-        {/* Controles de paginación */}
+{/* Controles de paginación */}
 
-        <Pagination
-    impresoras={impresoras}
-    indiceInicio={indiceInicio}
-    indiceFin={indiceFin}
-    paginaActual={paginaActual}
-    totalPaginas={totalPaginas}
-    setPaginaActual={setPaginaActual}
-
-    registrosPorPagina={registrosPorPagina}
-    setRegistrosPorPagina={setRegistrosPorPagina}
+<Pagination
+  impresoras={impresoras}
+  indiceInicio={indiceInicio}
+  indiceFin={indiceFin}
+  paginaActual={paginaActual}
+  totalPaginas={totalPaginas}
+  setPaginaActual={setPaginaActual}
+  registrosPorPagina={registrosPorPagina}
+  setRegistrosPorPagina={setRegistrosPorPagina}
 />
-      </div>
+</div>
 
-      {/* =======================================
-          MODALES
-      ======================================== */}
 
-      {/* Modal para agregar o editar registros */}
+{/* MODALES */}
 
-      <EquipmentModal
-        mostrarFormulario={mostrarFormulario}
-        editandoId={editandoId}
-        form={form}
-        handleChange={handleChange}
-        guardar={guardar}
-        setMostrarFormulario={setMostrarFormulario}
-        setEditandoId={setEditandoId}
-      />
+{/* Modal para agregar o editar registros */}
 
-      {/* Modal para crear o editar administradores */}
+<EquipmentModal
+  mostrarFormulario={mostrarFormulario}
+  editandoId={editandoId}
+  form={form}
+  handleChange={handleChange}
+  guardar={guardar}
+  setMostrarFormulario={setMostrarFormulario}
+  setEditandoId={setEditandoId}
+/>
 
-      <AdminModal
-        rol={rol}
-        mostrar={mostrarAdmins}
-        editandoAdminId={editandoAdminId}
-        formAdmin={formAdmin}
-        mostrarContrasenasAdmin={mostrarContrasenasAdmin}
-        setMostrarContrasenasAdmin={setMostrarContrasenasAdmin}
-        cumpleLongitud={cumpleLongitud}
-        cumpleMayuscula={cumpleMayuscula}
-        cumpleMinuscula={cumpleMinuscula}
-        cumpleSimbolo={cumpleSimbolo}
-        cumpleRepeticion={cumpleRepeticion}
-        adminInputRefs={adminInputRefs}
-        guardarAdmin={guardarAdmin}
-        cerrarFormularioAdmin={cerrarFormularioAdmin}
-        handleAdminChange={handleAdminChange}
-        moverAdminConEnter={moverAdminConEnter}
-    cancelarFormularioAdmin={cancelarFormularioAdmin}
-      />
+{/* Modal para crear o editar administradores */}
 
-      {/* Modal con la lista de administradores */}
+<AdminModal
+  rol={rol}
+  mostrar={mostrarAdmins}
+  editandoAdminId={editandoAdminId}
+  formAdmin={formAdmin}
+  mostrarContrasenasAdmin={mostrarContrasenasAdmin}
+  setMostrarContrasenasAdmin={setMostrarContrasenasAdmin}
+  cumpleLongitud={cumpleLongitud}
+  cumpleMayuscula={cumpleMayuscula}
+  cumpleMinuscula={cumpleMinuscula}
+  cumpleSimbolo={cumpleSimbolo}
+  cumpleRepeticion={cumpleRepeticion}
+  adminInputRefs={adminInputRefs}
+  guardarAdmin={guardarAdmin}
+  cerrarFormularioAdmin={cerrarFormularioAdmin}
+  handleAdminChange={handleAdminChange}
+  moverAdminConEnter={moverAdminConEnter}
+  cancelarFormularioAdmin={cancelarFormularioAdmin}
+/>
 
-      <AdminListModal
-        rol={rol}
-        mostrar={mostrarAdministradoresRegistrados}
-        administradoresRegistrados={administradoresRegistrados}
-        setMostrar={setMostrarAdministradoresRegistrados}
-        abrirEditarAdmin={abrirEditarAdmin}
-        eliminarAdmin={eliminarAdmin}
-        abrirNuevoAdmin={abrirNuevoAdmin}
-      />
-    </>
-  );
+
+{/* Modal con la lista de administradores */}
+
+<AdminListModal
+  rol={rol}
+  mostrar={mostrarAdministradoresRegistrados}
+  administradoresRegistrados={administradoresRegistrados}
+  setMostrar={setMostrarAdministradoresRegistrados}
+  abrirEditarAdmin={abrirEditarAdmin}
+  eliminarAdmin={eliminarAdmin}
+  abrirNuevoAdmin={abrirNuevoAdmin}
+
+/>
+</>
+);
 }

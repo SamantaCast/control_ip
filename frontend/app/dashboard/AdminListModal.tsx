@@ -1,238 +1,195 @@
+/* MODAL PARA VISUALIZAR Y ADMINISTRAR LOS USUARIOS REGISTRADOS EN EL SISTEMA */
+
 "use client";
 
-/* ==================================================
-   IMPORTACIONES
-================================================== */
 
+// IMPORTACIONES
+   
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {
-  faPenToSquare,
-  faTrash,
-  faXmark,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
-
+  import {
+    faPenToSquare,
+    faTrash,
+    faXmark,
+    faPlus,
+  } from "@fortawesome/free-solid-svg-icons";
 import type { UsuarioAdmin } from "./types";
 
-/* ==================================================
-   PROPIEDADES DEL COMPONENTE
-================================================== */
+
+// PROPIEDADES DEL COMPONENTE
 
 interface Props {
-  rol: string;
-
-  mostrar: boolean;
-
-  administradoresRegistrados: UsuarioAdmin[];
-
-  setMostrar: (value: boolean) => void;
-
-  abrirEditarAdmin: (
+    rol: string;
+    mostrar: boolean;
+    administradoresRegistrados: UsuarioAdmin[];
+      setMostrar: (value: boolean) => void;
+      abrirEditarAdmin: (
     admin: UsuarioAdmin
-  ) => void;
-
-  eliminarAdmin: (
+    ) => void;
+      eliminarAdmin: (
     id?: string
-  ) => void;
-
-  abrirNuevoAdmin: () => void;
+    ) => void;
+      abrirNuevoAdmin: () => void;
 }
 
-/* ==================================================
-   COMPONENTE
-================================================== */
+
+// COMPONENTE
 
 export default function AdminListModal({
-
-  rol,
-
-  mostrar,
-
-  administradoresRegistrados,
-
-  setMostrar,
-
-  abrirEditarAdmin,
-
-  eliminarAdmin,
-
-  abrirNuevoAdmin,
-
+    rol,
+    mostrar,
+    administradoresRegistrados,
+      setMostrar,
+      abrirEditarAdmin,
+      eliminarAdmin,
+      abrirNuevoAdmin,
+    
 }: Props) {
+  
 
-  /* ===============================================
-     SI NO ES ADMIN O EL MODAL ESTÁ CERRADO
-     NO SE RENDERIZA NADA
-  ================================================ */
+// MOSTRAR EL MODAL SOLO A LOS ADMINISTRADORES 
 
-  if (rol !== "admin" || !mostrar) {
+if (rol !== "admin" || !mostrar) {
     return null;
   }
+    return (
 
-  return (
 
-    /* ===============================================
-       OVERLAY
-    ================================================ */
+// OVERLAY
+   
+<div className="overlayStyle">
+  <div className="adminListModal">
 
-    <div className="overlayStyle">
+{/* ENCABEZADO DEL MODAL*/}
 
-      <div className="adminListModal">
+<div className="modalHeader">
+  <div>
+      <h2 className="modalTitle">
+          Administradores
+      </h2>
 
-        {/* ===========================================
-            ENCABEZADO DEL MODAL
-        ============================================ */}
+      <p className="modalDescription">
+          Administradores registrados.
+      </p>
 
-        <div className="modalHeader">
+  </div>
 
-          <div>
 
-            <h2 className="modalTitle">
-              Administradores
-            </h2>
+{/* Botón para cerrar */}
 
-            <p className="modalDescription">
-              Administradores registrados.
-            </p>
+<button
+  className="adminCloseBtn"
+    onClick={() => setMostrar(false)}
+      >
+    <FontAwesomeIcon icon={faXmark} />
+</button>
 
-          </div>
+</div>
+  <div className="modalDivider"></div>
 
-          {/* Botón para cerrar */}
 
-          <button
-            className="adminCloseBtn"
-            onClick={() => setMostrar(false)}
-          >
-            <FontAwesomeIcon icon={faXmark} />
-          </button>
+{/* CONTENIDO */}
 
-        </div>
+<div className="adminListBody">
 
-        <div className="modalDivider"></div>
 
-        {/* ===========================================
-            CONTENIDO
-        ============================================ */}
+{/* Total de administradores */}
 
-        <div className="adminListBody">
+<p className="adminListTotal">
+    Total: {administradoresRegistrados.length}
+  </p>
 
-          {/* Total de administradores */}
 
-          <p className="adminListTotal">
-            Total: {administradoresRegistrados.length}
-          </p>
+{/* TABLA */}
 
-          {/* =======================================
-              TABLA
-          ======================================== */}
+<div className="adminTableBox">
+    <table className="adminDataTable">
+      <thead>
+        <tr>
+          <th className="adminHeadCell">
+            Usuario
+          </th>
+          <th className="adminHeadCell">
+            Rol
+          </th>
+          <th className="adminHeadCell">
+            Acciones
+          </th>
+        </tr>
+              
+    </thead>
+      <tbody>
+        {administradoresRegistrados.map((admin) => (
+          <tr key={admin._id}>
 
-          <div className="adminTableBox">
 
-            <table className="adminDataTable">
+  {/* Usuario */}
 
-              <thead>
+  <td className="adminCell">
+      {admin.usuario}
+  </td>
 
-                <tr>
 
-                  <th className="adminHeadCell">
-                    Usuario
-                  </th>
+  {/* Rol */}
 
-                  <th className="adminHeadCell">
-                    Rol
-                  </th>
+  <td className="adminCell">
+      {admin.rol}
+  </td>
 
-                  <th className="adminHeadCell">
-                    Acciones
-                  </th>
 
-                </tr>
+  {/* Botones */}
 
-              </thead>
+  <td className="adminCell">
+      <div className="adminActionBtns">
 
-              <tbody>
 
-                {administradoresRegistrados.map((admin) => (
+  {/* Editar */}
 
-                  <tr key={admin._id}>
+  <button
+      className="iconBtn editBtn"
+      onClick={() =>
+        abrirEditarAdmin(admin)
+      }
+      >
+      <FontAwesomeIcon
+        icon={faPenToSquare}
+    />
+  </button>
 
-                    {/* Usuario */}
 
-                    <td className="adminCell">
-                      {admin.usuario}
-                    </td>
-
-                    {/* Rol */}
-
-                    <td className="adminCell">
-                      {admin.rol}
-                    </td>
-
-                    {/* Botones */}
-
-                    <td className="adminCell">
-
-                      <div className="adminActionBtns">
-
-                        {/* Editar */}
-
-                        <button
-                          className="iconBtn editBtn"
-                          onClick={() =>
-                            abrirEditarAdmin(admin)
-                          }
-                        >
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                          />
-                        </button>
-
-                        {/* Eliminar */}
-
-                        <button
-                          className="iconBtn deleteBtn"
-                          onClick={() =>
-                            eliminarAdmin(admin._id)
-                          }
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                          />
-                        </button>
-
-                      </div>
-
-                    </td>
-
-                  </tr>
-
-                ))}
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-          {/* =======================================
-              BOTÓN NUEVO REGISTRO
-          ======================================== */}
+  {/* Eliminar */}
 
           <button
+              className="iconBtn deleteBtn"
+               onClick={() =>
+                 eliminarAdmin(admin._id)
+                     }
+                     >
+                    <FontAwesomeIcon
+                    icon={faTrash}
+                     />
+             </button>
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+
+{/* BOTÓN NUEVO REGISTRO */}
+
+<button
     type="button"
     className="newAdminBtn"
     onClick={abrirNuevoAdmin}
 >
     <FontAwesomeIcon icon={faPlus} />
-    Nuevo registro
-</button>
+       Nuevo registro 
 
+         </button>
         </div>
-
       </div>
-
     </div>
-
   );
 }

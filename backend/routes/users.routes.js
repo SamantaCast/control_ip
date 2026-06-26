@@ -1,27 +1,33 @@
+/* RUTAS PARA GESTIÓN DE ADMINISTRADORES (USUARIOS) CON VALIDACIONES Y SEGURIDAD */
+
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
+
 // VALIDAR CONTRASEÑA
+
 function passwordValida(password) {
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$/;
   return regex.test(password);
 }
 
+
 // COMPARAR CONTRASEÑA
 
 async function compararPassword(entrada, guardada) {
-  if (!guardada) return false;
+    if (!guardada) return false;
+    if (guardada.startsWith('$2a$') || guardada.startsWith('$2b$')) {
+      return bcrypt.compare(entrada, guardada);
+    }
 
-  if (guardada.startsWith('$2a$') || guardada.startsWith('$2b$')) {
-    return bcrypt.compare(entrada, guardada);
+    return entrada === guardada;
   }
 
-  return entrada === guardada;
-}
 
 // OBTENER ADMINISTRADORES
+
 router.get('/', async (req, res) => {
   try {
     const usuarios = await User.find({ rol: 'admin' })
@@ -34,28 +40,30 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 // CREAR ADMINISTRADOR
+
 router.post('/', async (req, res) => {
   try {
     console.log('DATOS RECIBIDOS POST:', req.body);
+  const {
+    nombre,
+    usuario,
+    password,
+    repetirPassword,
+    rol
+  } = req.body;
 
-    const {
-  nombre,
-  usuario,
-  password,
-  repetirPassword,
-  rol
-} = req.body;
-
-    if (!nombre || !usuario || !password || !repetirPassword) {
+if (!nombre || !usuario || !password || !repetirPassword) {
   return res.status(400).json({
     mensaje: "Completa todos los campos"
   });
 }
 
-    if (password !== repetirPassword) {
-      return res.status(400).json({ mensaje: 'Las contraseñas no coinciden' });
-    }
+if (password !== repetirPassword) {
+  return res.status(400).json({ mensaje: 'Las contraseñas no coinciden' });
+    
+  }
 
     if (!passwordValida(password)) {
       return res.status(400).json({
@@ -71,11 +79,11 @@ router.post('/', async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10);
 
-   const nuevo = new User({
-  nombre: nombre.trim(),
-  usuario: usuario.trim(),
-  password: hash,
-  rol: rol || "admin"
+    const nuevo = new User({
+     nombre: nombre.trim(),
+     usuario: usuario.trim(),
+     password: hash,
+     rol: rol || "admin"
 });
 
     await nuevo.save();
@@ -93,7 +101,7 @@ router.put('/:id', async (req, res) => {
   try {
     console.log('DATOS RECIBIDOS PUT:', req.body);
 
-    const {
+  const {
   nombre,
   usuario,
   passwordActual,
@@ -102,7 +110,7 @@ router.put('/:id', async (req, res) => {
   rol
 } = req.body;
 
-    const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ mensaje: 'Administrador no encontrado' });
     }
@@ -120,9 +128,9 @@ router.put('/:id', async (req, res) => {
   });
 }
 
-    const usuarioRepetido = await User.findOne({
-      usuario: usuario.trim(),
-      _id: { $ne: req.params.id }
+const usuarioRepetido = await User.findOne({
+    usuario: usuario.trim(),
+    _id: { $ne: req.params.id }
     });
 
     if (usuarioRepetido) {
@@ -144,21 +152,22 @@ router.put('/:id', async (req, res) => {
       });
     }
 
-    user.nombre = nombre.trim();
-user.usuario = usuario.trim();
-user.rol = rol || "admin";
-user.password = await bcrypt.hash(password, 10);
+  user.nombre = nombre.trim();
+  user.usuario = usuario.trim();
+  user.rol = rol || "admin";
+  user.password = await bcrypt.hash(password, 10);
 
-    await user.save();
-
+  await user.save();
     res.json({ mensaje: 'Administrador actualizado correctamente' });
   } catch (error) {
-    console.log('ERROR AL ACTUALIZAR ADMIN:', error);
+  console.log('ERROR AL ACTUALIZAR ADMIN:', error);
     res.status(500).json({ mensaje: 'Error al actualizar administrador' });
   }
 });
 
+
 // ELIMINAR ADMINISTRADOR
+
 router.delete('/:id', async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -168,5 +177,4 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ mensaje: 'Error al eliminar administrador' });
   }
 });
-
 module.exports = router;

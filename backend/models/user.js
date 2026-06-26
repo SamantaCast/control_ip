@@ -1,3 +1,5 @@
+/* MODELO DE USUARIOS PARA GESTIÓN DE AUTENTICACIÓN Y ROLES EN MONGODB */
+
 const mongoose = require('mongoose');
 
 // ESQUEMA DE USUARIOS
