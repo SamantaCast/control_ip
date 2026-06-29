@@ -216,7 +216,7 @@ export default function SearchBar({
         onChange={(e) => setFiltroDepartamento(e.target.value)}
     >
     <option value="">
-        Departamento
+        DEPARTAMENTO
     </option>
 
     {departamentos.map((item) => (
@@ -240,7 +240,7 @@ export default function SearchBar({
         onChange={(e)=>setFiltroEdificio(e.target.value)}
     >
     <option value="">
-        Edificio
+        EDIFICIO
     </option>
 
     {edificios.map((edificio)=>(
@@ -265,7 +265,7 @@ export default function SearchBar({
         onChange={(e)=>setFiltroUbicacion(e.target.value)}
     >
     <option value="">
-        Ubicación
+        UBICACIÓN
     </option>
 
     {ubicaciones.map((item)=>(
@@ -289,7 +289,7 @@ export default function SearchBar({
         onChange={(e)=>setFiltroEquipo(e.target.value)}
     >
         <option value="">
-            Equipo
+            EQUIPO
         </option>
 
         {equipos.map((item)=>(
