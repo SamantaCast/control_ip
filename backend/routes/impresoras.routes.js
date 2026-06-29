@@ -133,7 +133,6 @@ router.get("/filtros", async (req, res) => {
 
 });
 
-
 // AGREGAR IMPRESORA (SOLO ADMINISTRADORES) 
 
 router.post('/', verificarToken, soloAdmin, async (req, res) => {

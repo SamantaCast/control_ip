@@ -333,17 +333,21 @@ const cargarStats = async () => {
 async function cargarFiltros() {
   try {
     const respuesta = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/filtros`
-);
+      `${process.env.NEXT_PUBLIC_API_URL}/api/impresoras/filtros`
+    );
 
     const datos = await respuesta.json();
-      setDepartamentos(datos.departamentos);
-      setEdificios(datos.edificios);
-      setUbicaciones(datos.ubicaciones);
-      setEquipos(datos.equipos);
-    } catch (error) {
-      console.error("Error cargando filtros", error);
-    }
+
+    console.log(datos.departamentos);
+
+    setDepartamentos(datos.departamentos);
+    setEdificios(datos.edificios);
+    setUbicaciones(datos.ubicaciones);
+    setEquipos(datos.equipos);
+
+  } catch (error) {
+    console.error("Error cargando filtros", error);
+  }
 }
 
 
