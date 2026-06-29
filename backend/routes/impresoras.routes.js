@@ -36,57 +36,44 @@ router.get('/', async (req, res) => {
       ];
     }
 
-/* FILTRO EDIFICIO*/
+/* FILTRO EDIFICIO */
+if (edificio && edificio.trim() !== "") {
+  filtro.edificio = edificio.trim();
+}
 
-if (edificio && edificio.trim() !== '') {
-  const letra = edificio.trim();
-
-  filtro.edificio = {
-      $regex: `^${letra}$`,
-      $options: 'i'
-    };
-  }
-
-
-/*  FILTRO DEPARTAMENTO */
-
-if (departamento && departamento.trim() !== '') {
-
-  filtro.departamento = {
-      $regex: `^${departamento.trim()}$`,
-      $options: 'i'
-    };
-  }
-
+/* FILTRO DEPARTAMENTO */
+if (departamento && departamento.trim() !== "") {
+  filtro.departamento = departamento.trim();
+}
 
 /* FILTRO UBICACIÓN */
-
-if (ubicacion && ubicacion.trim() !== '') {
-
-  filtro.ubicacion = {
-      $regex: `^${ubicacion.trim()}$`,
-      $options: 'i'
-    };
-  }
-
+if (ubicacion && ubicacion.trim() !== "") {
+  filtro.ubicacion = ubicacion.trim();
+}
 
 /* FILTRO EQUIPO */
+if (equipo && equipo.trim() !== "") {
+  filtro.equipo = equipo.trim();
+}
 
-if (equipo && equipo.trim() !== '') {
+console.log("QUERY:", req.query);
+console.log("FILTRO:", JSON.stringify(filtro, null, 2));
 
-  filtro.equipo = {
-     $regex: `^${equipo.trim()}$`,
-     $options: 'i'
-    };
-  }
+const datos = await Impresora.find(filtro)
+  .sort({ departamento: 1 });
 
-   const datos = await Impresora.find(filtro)
-      .sort({ departamento: 1 });
-      res.json(datos);
-     } catch (error) {
-      res.status(500).json({ mensaje: 'Error al obtener impresoras' });
-    }
+console.log("REGISTROS ENCONTRADOS:", datos.length);
+
+res.json(datos);
+
+} catch (error) {
+
+  res.status(500).json({
+    mensaje: "Error al obtener impresoras"
   });
+
+}
+});
 
 
 // CONTAR REGISTROS TOTALES
@@ -120,32 +107,30 @@ router.get('/edificios', async (req, res) => {
   }
 });
 
-
-// OBTENER FILTROS
-
 router.get("/filtros", async (req, res) => {
 
   try {
 
-      const departamentos = await Impresora.distinct("departamento");
-      const edificios = await Impresora.distinct("edificio");
-      const ubicaciones = await Impresora.distinct("ubicacion");
-      const equipos = await Impresora.distinct("equipo");
+    const departamentos = await Impresora.distinct("departamento");
+    const edificios = await Impresora.distinct("edificio");
+    const ubicaciones = await Impresora.distinct("ubicacion");
+    const equipos = await Impresora.distinct("equipo");
 
-      res.json({
+    res.json({
+      departamentos: departamentos.sort(),
+      edificios: edificios.sort(),
+      ubicaciones: ubicaciones.sort(),
+      equipos: equipos.sort()
+    });
 
-        departamentos: departamentos.sort(),
-        edificios: edificios.sort(),
-        ubicaciones: ubicaciones.sort(),
-        equipos: equipos.sort(),
-      });
+  } catch (error) {
 
-    } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al obtener filtros"
+    });
 
-      res.status(500).json({
-        mensaje: "Error al obtener filtros"
-        });
-    }
+  }
+
 });
 
 

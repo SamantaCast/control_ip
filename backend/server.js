@@ -95,8 +95,16 @@ return res.json({
 
 
 // RUTAS DE IMPRESORAS
+console.log("Cargando rutas de impresoras...");
 
-app.use('/api/impresoras', impresorasRoutes);
+app.use("/api/impresoras", impresorasRoutes);
+
+app.get("/api/prueba", (req, res) => {
+  res.json({
+    ok: true,
+    mensaje: "Servidor correcto"
+  });
+});
 
 
 // RUTAS DE ADMINISTRADORES
