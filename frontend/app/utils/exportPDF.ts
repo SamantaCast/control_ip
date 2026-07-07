@@ -1,418 +1,369 @@
-/* ==================================================
-   EXPORTAR REPORTE PDF
-   Control Equipos de Cómputo
-================================================== */
+/* Exportación del reporte en formato PDF. */
+
+// Importaciones.
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-
 import type { Impresora } from "../dashboard/types";
 
-/* ==================================================
-   CONVERTIR IMAGEN A BASE64
-================================================== */
+// Convierte una imagen a formato Base64.
 
 async function cargarImagen(
-    url: string
+  url: string
 ): Promise<string> {
 
-    return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
-        const img = new Image();
+    const img = new Image();
 
-        img.crossOrigin = "anonymous";
+    img.crossOrigin = "anonymous";
+    img.src = url;
 
-        img.src = url;
+    img.onload = () => {
 
-        img.onload = () => {
+      const canvas =
+        document.createElement("canvas");
 
-            const canvas =
-                document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
 
-            canvas.width = img.width;
+      const ctx = canvas.getContext("2d");
 
-            canvas.height = img.height;
+      if (!ctx) {
+        reject(
+          "No fue posible crear el Canvas."
+        );
+        return;
+      }
 
-            const ctx =
-                canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
 
-            if (!ctx) {
+      resolve(
+        canvas.toDataURL("image/png")
+      );
 
-                reject(
-                    "No fue posible crear el Canvas."
-                );
+    };
 
-                return;
+    img.onerror = () => {
 
-            }
+      reject(
+        `No fue posible cargar ${url}`
+      );
 
-            ctx.drawImage(img, 0, 0);
+    };
 
-            resolve(
-                canvas.toDataURL("image/png")
-            );
-
-        };
-
-        img.onerror = () => {
-
-            reject(
-                `No fue posible cargar ${url}`
-            );
-
-        };
-
-    });
+  });
 
 }
 
-/* ==================================================
-   EXPORTAR PDF
-================================================== */
+// Genera el reporte en formato PDF.
 
 export async function exportarPDF(
-    impresoras: Impresora[]
+  impresoras: Impresora[]
 ) {
 
-    /* ==========================================
-       CREAR DOCUMENTO
-    ========================================== */
+  // Crea el documento PDF.
 
-    const doc = new jsPDF({
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: "a4",
+  });
 
-        orientation: "landscape",
+  // Carga los logotipos.
 
-        unit: "mm",
+  const logo1 =
+    await cargarImagen("/logos/1.png");
 
-        format: "a4",
+  const logo2 =
+    await cargarImagen("/logos/2.png");
 
-    });
+  const logo3 =
+    await cargarImagen("/logos/3.png");
 
-    /* ==========================================
-       CARGAR LOGOS
-    ========================================== */
+  // Obtiene la fecha actual.
 
-    const logo1 =
-        await cargarImagen("/logos/1.png");
+  const fecha = new Date();
 
-    const logo2 =
-        await cargarImagen("/logos/2.png");
+  // Genera la tabla del reporte.
 
-    const logo3 =
-        await cargarImagen("/logos/3.png");
+  autoTable(doc, {
 
-    /* ==========================================
-       FECHA ACTUAL
-    ========================================== */
+    startY: 59,
 
-    const fecha = new Date();
+    theme: "grid",
 
-    /* ==========================================
-       TABLA
-    ========================================== */
+    margin: {
+      top: 12,
+      left: 10,
+      right: 10,
+      bottom: 20,
+    },
 
-    autoTable(doc,{
+    head: [[
+      "Departamento",
+      "Edificio",
+      "Ubicación",
+      "Nombre",
+      "Email",
+      "Equipo",
+      "Usuario",
+      "IP",
+      "Código",
+    ]],
 
-        startY:59,
+    body: impresoras.map((imp) => [
+      imp.departamento,
+      imp.edificio,
+      imp.ubicacion,
+      imp.nombre,
+      imp.email,
+      imp.equipo,
+      imp.usuario,
+      imp.ip,
+      imp.codigo,
+    ]),
 
-        theme:"grid",
+    headStyles: {
+      fillColor: [138, 32, 54],
+      textColor: [255, 255, 255],
+      halign: "center",
+      fontStyle: "bold",
+    },
 
-        margin:{
-    top:12,
-    left:10,
-    right:10,
-    bottom:20
-},
+    styles: {
+      fontSize: 7,
+      cellPadding: 1.6,
+      overflow: "linebreak",
+    },
 
-        head:[[
+    alternateRowStyles: {
+      fillColor: [248, 248, 248],
+    },
 
-            "Departamento",
+        // Configura el encabezado de la primera página.
 
-            "Edificio",
+    willDrawPage: (data) => {
 
-            "Ubicación",
+      // Muestra el encabezado únicamente en la primera página.
 
-            "Nombre",
+      if (data.pageNumber !== 1) return;
 
-            "Email",
+      // Inserta los logotipos.
 
-            "Equipo",
+      doc.addImage(
+        logo1,
+        "PNG",
+        10,
+        10,
+        43,
+        13
+      );
 
-            "Usuario",
-
-            "IP",
-
-            "Código"
-
-        ]],
-
-        body: impresoras.map((imp)=>[
-
-            imp.departamento,
-
-            imp.edificio,
-
-            imp.ubicacion,
-
-            imp.nombre,
-
-            imp.email,
-
-            imp.equipo,
-
-            imp.usuario,
-
-            imp.ip,
-
-            imp.codigo
-
-        ]),
-
-        headStyles:{
-
-            fillColor:[138,32,54],
-
-            textColor:[255,255,255],
-
-            halign:"center",
-
-            fontStyle:"bold"
-
-        },
-
-        styles:{
-
-            fontSize:7,
-
-            cellPadding:1.6,
-
-            overflow:"linebreak"
-
-        },
-
-        alternateRowStyles:{
-
-            fillColor:[248,248,248]
-
-        },
-        /* ==========================================
-   ENCABEZADO
-   (Sólo en la primera página)
-========================================== */
-
-willDrawPage:(data)=>{
-
-    if(data.pageNumber!==1)return;
-
-    /* ======================================
-       LOGOS
-    ====================================== */
-
-   doc.addImage(
-    logo1,
-    "PNG",
-    10,
-    10,
-    43,
-    13
-);
-
-    doc.setFont(
+      doc.setFont(
         "helvetica",
         "bold"
-    );
+      );
 
-    doc.setFontSize(18);
+      doc.setFontSize(18);
+      doc.setTextColor(170);
 
-    doc.setTextColor(170);
+      doc.text(
+        "|",
+        55,
+        18
+      );
 
-    doc.text("|",55,18);
-
-    doc.addImage(
+      doc.addImage(
         logo2,
         "PNG",
         59,
-10,
-39,
-13
-    );
+        10,
+        39,
+        13
+      );
 
-    doc.addImage(
+      doc.addImage(
         logo3,
         "PNG",
-       101,
-9,
-26,
-13
-    );
+        101,
+        9,
+        26,
+        13
+      );
 
-    /* ======================================
-       TÍTULO
-    ====================================== */
+      // Agrega el título del reporte.
 
-    doc.setFont(
+      doc.setFont(
         "helvetica",
         "bold"
-    );
+      );
 
-    doc.setFontSize(22);
+      doc.setFontSize(22);
 
-    doc.setTextColor(
+      doc.setTextColor(
         138,
         32,
         54
-    );
+      );
 
-    doc.text(
+      doc.text(
         "Control Equipos de Cómputo",
         165,
         35,
         {
-            align:"center"
+          align: "center",
         }
-    );
+      );
 
-    /* ======================================
-       SUBTÍTULO
-    ====================================== */
+      // Agrega el subtítulo.
 
-    doc.setFont(
+      doc.setFont(
         "helvetica",
         "normal"
-    );
+      );
 
-    doc.setFontSize(11);
+      doc.setFontSize(11);
 
-    doc.setTextColor(90);
+      doc.setTextColor(90);
 
-    doc.text(
+      doc.text(
         "Sistema de Gestión de Activos Informáticos",
         165,
         43,
         {
-            align:"center"
+          align: "center",
         }
-    );
+      );
 
-    /* ======================================
-       FECHA / HORA / TOTAL
-    ====================================== */
+      // Agrega la fecha, hora y total de registros.
 
-    doc.setFont(
+      doc.setFont(
         "helvetica",
         "bold"
-    );
+      );
 
-    doc.setFontSize(10);
+      doc.setFontSize(10);
 
-    doc.setTextColor(
+      doc.setTextColor(
         138,
         32,
         54
-    );
+      );
 
-    doc.text(
+      doc.text(
         "FECHA:",
         168,
         52
-    );
+      );
 
-    doc.text(
+      doc.text(
         "HORA:",
         215,
         52
-    );
+      );
 
-    doc.text(
+      doc.text(
         "TOTAL:",
         258,
         52
-    );
+      );
 
-    doc.setFont(
+      doc.setFont(
         "helvetica",
         "normal"
-    );
+      );
 
-    doc.setTextColor(70);
+      doc.setTextColor(70);
 
-    doc.text(
+      doc.text(
         fecha.toLocaleDateString("es-MX"),
         184,
         52
-    );
+      );
 
-    doc.text(
+      doc.text(
         fecha.toLocaleTimeString("es-MX"),
         228,
         52
-    );
+      );
 
-    doc.text(
+      doc.text(
         `${impresoras.length}`,
         287,
         52,
         {
-            align:"right"
+          align: "right",
         }
-    );
+      );
 
+    },
 
-},
-    });
+  });
 
-/* ==========================================
-   AGREGAR PIE DE PÁGINA
-========================================== */
+  // Agrega el pie de página.
 
-const paginas = doc.getNumberOfPages();
+  const paginas = doc.getNumberOfPages();
 
-for (let pagina = 1; pagina <= paginas; pagina++) {
+  for (
+    let pagina = 1;
+    pagina <= paginas;
+    pagina++
+  ) {
 
     doc.setPage(pagina);
 
     doc.setDrawColor(220);
-    doc.setLineWidth(.3);
+    doc.setLineWidth(0.3);
+
+    // Dibuja la línea separadora.
 
     doc.line(
-        10,
-        196,
-        287,
-        196
+      10,
+      196,
+      287,
+      196
     );
 
-    doc.setFont("helvetica","normal");
+    // Configura el texto del pie de página.
+
+    doc.setFont(
+      "helvetica",
+      "normal"
+    );
+
     doc.setFontSize(9);
     doc.setTextColor(90);
 
     doc.text(
-        "Documento generado automáticamente por el Sistema Control Equipos de Cómputo | Departamento de Informática",
-        10,
-        201
+      "Documento generado automáticamente por el Sistema Control Equipos de Cómputo | Departamento de Informática",
+      10,
+      201
     );
+
+    // Muestra la numeración de páginas.
 
     doc.text(
-        `Página ${pagina} de ${paginas}`,
-        287,
-        201,
-        {
-            align: "right"
-        }
+      `Página ${pagina} de ${paginas}`,
+      287,
+      201,
+      {
+        align: "right",
+      }
     );
 
-}
-    /* ==========================================
-       GUARDAR PDF
-    ========================================== */
+  }
+    // Genera el nombre del archivo.
 
-    const nombreArchivo =
+  const nombreArchivo =
+    `Control_Equipos_${fecha
+      .toLocaleDateString("es-MX")
+      .replace(/\//g, "-")}.pdf`;
 
-        `Control_Equipos_${fecha
-            .toLocaleDateString("es-MX")
-            .replace(/\//g,"-")}.pdf`;
+  // Descarga el archivo PDF.
 
-    doc.save(
-        nombreArchivo
-    );
+  doc.save(
+    nombreArchivo
+  );
 
 }

@@ -1,41 +1,49 @@
-// COMPONENTE DE PAGINACIÓN DE REGISTROS 
+/* Componente de paginación de registros. */
 
 "use client";
 
-// IMPORTACIONES
+// Importaciones.
 
 import {
-    faChevronLeft,
-    faChevronRight
+  faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Impresora } from "./types";
 
-
-// PROPIEDADES DEL COMPONENTE
+// Propiedades del componente.
 
 interface Props {
-  /* Registros mostrados en la tabla */
+
+  // Registros mostrados en la tabla.
+
   impresoras: Impresora[];
 
-  /* Índices */
+  // Índices de los registros visibles.
+
   indiceInicio: number;
   indiceFin: number;
 
-  /* Estado */
+  // Estado de la paginación.
+
   paginaActual: number;
   totalPaginas: number;
 
-  /* Página actual */
-  setPaginaActual: React.Dispatch<React.SetStateAction<number>>;
+  // Actualiza la página actual.
 
-  /* Registros por página */
+  setPaginaActual: React.Dispatch<
+    React.SetStateAction<number>
+  >;
+
+  // Configuración de registros por página.
+
   registrosPorPagina: number;
-  setRegistrosPorPagina: React.Dispatch<React.SetStateAction<number>>;
+  setRegistrosPorPagina: React.Dispatch<
+    React.SetStateAction<number>
+  >;
 }
 
-
-// COMPONENTE
+// Componente principal.
 
 export default function Pagination({
   impresoras,
@@ -48,122 +56,144 @@ export default function Pagination({
   setRegistrosPorPagina,
 }: Props) {
 
+  // Genera la lista de páginas que se mostrarán.
 
-const obtenerPaginas = (): (number | string)[] => {
+  const obtenerPaginas = (): (number | string)[] => {
+
     if (totalPaginas <= 7) {
-        return Array.from(
-            { length: totalPaginas },
-            (_, i) => i + 1
-        );
+      return Array.from(
+        { length: totalPaginas },
+        (_, i) => i + 1
+      );
     }
 
-    // Inicio
+    // Primeras páginas.
+
     if (paginaActual <= 4) {
-        return [1, 2, 3, 4, 5, "...", totalPaginas];
-
+      return [1, 2, 3, 4, 5, "...", totalPaginas];
     }
 
-    // Final
+    // Últimas páginas.
+
     if (paginaActual >= totalPaginas - 3) {
-        return [
-            1,
-            "...",
-            totalPaginas - 4,
-            totalPaginas - 3,
-            totalPaginas - 2,
-            totalPaginas - 1,
-            totalPaginas
-        ];
-    }
-
-        // Centro
-        return [
+      return [
         1,
         "...",
-        paginaActual - 1,
-        paginaActual,
-        paginaActual + 1,
-        "...",
-        totalPaginas
+        totalPaginas - 4,
+        totalPaginas - 3,
+        totalPaginas - 2,
+        totalPaginas - 1,
+        totalPaginas,
+      ];
+    }
+
+    // Páginas intermedias.
+
+    return [
+      1,
+      "...",
+      paginaActual - 1,
+      paginaActual,
+      paginaActual + 1,
+      "...",
+      totalPaginas,
     ];
-};
+  };
 
-return (
+  return (
 
-// PAGINACIÓN
+    <>
+      {/* Controles de paginación. */}
 
-<div className="tablePagination">
-{/* INFORMACIÓN */}
-   <div className="paginationInfo">
-        Mostrando
-        <strong>
+      <div className="tablePagination">
+
+        {/* Información de los registros mostrados. */}
+
+        <div className="paginationInfo">
+          Mostrando
+          <strong>
             {impresoras.length === 0 ? 0 : indiceInicio + 1}
             {" - "}
             {Math.min(indiceFin, impresoras.length)}
-        </strong>
-        de <strong> {impresoras.length} </strong> registros
-    </div>
+          </strong>
+          de <strong>{impresoras.length}</strong> registros
+        </div>
 
+        {/* Navegación entre páginas. */}
 
-{/*  CONTROLES */}
+        <div className="paginationControls">
 
-<div className="paginationControls">
-    <button
-        className="pageBtn pageArrow"
-        disabled={paginaActual === 1}
-        onClick={() => setPaginaActual((p) => p - 1)}
-     >
-        <FontAwesomeIcon icon={faChevronLeft} />
-    </button>
+          {/* Página anterior. */}
 
+          <button
+            className="pageBtn pageArrow"
+            disabled={paginaActual === 1}
+            onClick={() => setPaginaActual((p) => p - 1)}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
 
-{obtenerPaginas().map((item, index) => (
-    typeof item === "string" ? (
-        <span key={`dots-${index}`} className="pageDots">
-            ...
-         </span>
-    ) : (
+          {/* Botones de páginas. */}
 
-        <button
-            key={`page-${item}-${index}`} 
-            className={`pageBtn ${
-             paginaActual === item ? "activePageBtn" : ""
-            }`}
-            onClick={() => setPaginaActual(item)}
-        >
-            {item}
-        </button>
-    )
-))}
+          {obtenerPaginas().map((item, index) =>
+            typeof item === "string" ? (
+              <span
+                key={`dots-${index}`}
+                className="pageDots"
+              >
+                ...
+              </span>
+            ) : (
+              <button
+                key={`page-${item}-${index}`}
+                className={`pageBtn ${
+                  paginaActual === item
+                    ? "activePageBtn"
+                    : ""
+                }`}
+                onClick={() => setPaginaActual(item)}
+              >
+                {item}
+              </button>
+            )
+          )}
 
-<button
-   className="pageBtn pageArrow"
-   disabled={paginaActual === totalPaginas}
-   onClick={() => setPaginaActual((p) => p + 1)}
->
-   <FontAwesomeIcon icon={faChevronRight} />
-</button>
-</div>
+          {/* Página siguiente. */}
 
+          <button
+            className="pageBtn pageArrow"
+            disabled={paginaActual === totalPaginas}
+            onClick={() => setPaginaActual((p) => p + 1)}
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </button>
 
-{/* REGISTROS POR PÁGINA */}
+        </div>
 
-<div className="rowsPerPage">
-    <span> Mostrar </span>
+        {/* Selector de registros por página. */}
 
-    <select
-        value={registrosPorPagina}
-        onChange={(e) => {
-            setPaginaActual(1);
-            setRegistrosPorPagina(Number(e.target.value));
-        }}
-    >
-        <option value={15}>15</option>
-        <option value={25}>25</option>
-        <option value={50}>50</option>
-        <option value={100}>100</option>
-    </select>
-  </div>
-</div>
-);
+        <div className="rowsPerPage">
+
+          <span>Mostrar</span>
+
+          <select
+            value={registrosPorPagina}
+            onChange={(e) => {
+              setPaginaActual(1);
+              setRegistrosPorPagina(
+                Number(e.target.value)
+              );
+            }}
+          >
+            <option value={15}>15</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>
+
+        </div>
+
+      </div>
+    </>
+  );
 }

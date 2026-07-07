@@ -1,128 +1,87 @@
-/* ==================================================
-   CONTENEDOR PRINCIPAL DE PAGINACIÓN
-================================================== */
+/* CONTENEDOR PRINCIPAL DE LA PAGINACIÓN */
 
 .tablePagination{
 
     margin-top:18px;
-
     background:#ffffff00;
-
     border:1px solid #e8e8e800;
-
     border-radius:18px;
-
     padding:16px 24px;
-
     display:grid;
-
     grid-template-columns:240px 1fr 170px;
-
     align-items:center;
-
     gap:20px;
-
     box-shadow:0 4px 14px rgba(0,0,0,.05);
 
 }
 
-/* ==================================================
-   INFORMACIÓN DE REGISTROS
-================================================== */
+/* INFORMACIÓN DE LOS REGISTROS */
 
 .paginationInfo{
 
     justify-self:start;
-
     display:flex;
-
     align-items:center;
-
     gap:6px;
-
     font-size:14px;
-
     color:#555;
 
 }
+
 .paginationInfo strong{
 
     color:#8A2036;
-
     font-weight:700;
 
 }
 
-
-/* ==================================================
-   CONTROLES
-================================================== */
+/* CONTROLES DE PAGINACIÓN */
 
 .paginationControls{
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     gap:8px;
 
 }
 
-/* ==================================================
-   BOTONES DE PAGINACIÓN
-================================================== */
+/* BOTONES DE PAGINACIÓN */
 
 .pageBtn{
 
     border-radius:14px;
     min-width:42px;
-
     height:42px;
-
     padding:0 14px;
-
     border:1px solid #E2E2E2;
-
     background:#FFF;
-
     color:#555;
-
     font-size:14px;
-
     font-weight:600;
-
     cursor:pointer;
-
     transition:.20s;
 
 }
 
+/* BOTÓN DE PAGINACIÓN AL PASAR EL CURSOR */
+
 .pageBtn:hover{
 
     background:#F8F8F8;
-
     border-color:#B8861F;
-
     color:#8A2036;
 
 }
 
+/* BOTÓN DE PÁGINA ACTIVO */
 
-/* ==================================================
-   BOTÓN ACTIVO
-================================================== */
 .activePageBtn{
 
     background:#8A2036;
-
     border-color:#8A2036;
-
     color:#FFF;
-
     transform:scale(1.05);
-
     box-shadow:0 6px 16px rgba(138,32,54,.22);
 
 }
@@ -130,20 +89,15 @@
 .activePageBtn:hover{
 
     background:#74192D;
-
     color:#FFF;
 
 }
 
-
-/* ==================================================
-   BOTÓN DESHABILITADO
-================================================== */
+/* BOTÓN DE PÁGINA DESHABILITADO */
 
 .pageBtn:disabled{
 
     opacity:.45;
-
     cursor:not-allowed;
 
 }
@@ -151,60 +105,43 @@
 .pageBtn:disabled:hover{
 
     background:#FFF;
-
     border-color:#E2E2E2;
-
     color:#555;
 
 }
 
-
-/* ==================================================
-   REGISTROS POR PÁGINA
-================================================== */
+/* CONTENEDOR DE REGISTROS POR PÁGINA */
 
 .rowsPerPage{
 
     justify-self:end;
-
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     font-size:14px;
-
     color:#555;
 
 }
 
+/* SELECTOR DE REGISTROS POR PÁGINA */
+
 .rowsPerPage select{
 
-     width:70px;
-
+    width:70px;
     height:40px;
-
     border-radius:10px;
-
     border:1px solid #DDDDDD;
-
-
     background:#FFF;
-
     padding:0 12px;
-
     font-size:14px;
-
     font-weight:600;
-
     cursor:pointer;
-
     outline:none;
-
     transition:.20s;
 
 }
+
+/* SELECTOR AL PASAR EL CURSOR */
 
 .rowsPerPage select:hover{
 
@@ -212,70 +149,54 @@
 
 }
 
+/* SELECTOR ENFOCADO */
+
 .rowsPerPage select:focus{
 
     border-color:#B8861F;
-
     box-shadow:0 0 0 4px rgba(184,134,31,.12);
 
 }
+
+/* INDICADOR DE PÁGINAS OCULTAS */
+
 .pageDots{
 
     width:42px;
-
     height:42px;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     color:#9A9A9A;
-
     font-size:18px;
-
     font-weight:700;
 
 }
 
-/* ===========================================
-   BOTONES DE FLECHAS
-=========================================== */
+/* BOTONES DE NAVEGACIÓN */
 
 .pageArrow{
-padding:0;
 
+    padding:0;
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
-
-
     width:42px;
-
     min-width:42px;
-
     height:42px;
-
     border:1px solid #E2E2E2;
-
     border-radius:12px;
-
     background:#FFF;
-
     color:#666;
 
 }
 
+/* BOTÓN DE NAVEGACIÓN AL PASAR EL CURSOR */
+
 .pageArrow:hover{
 
     border-color:#8A2036;
-
     color:#8A2036;
-
     background:#FAF6F7;
 
 }

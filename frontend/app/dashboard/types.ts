@@ -1,6 +1,6 @@
-//  TIPOS DEL SISTEMA: IMPRESORAS, ADMINISTRADORES Y FORMULARIOS 
+/* Tipos utilizados en el sistema. */
 
-// MODELO DE IMPRESORA / EQUIPO
+// Modelo de equipos de cómputo.
 
 export interface Impresora {
   _id?: string;
@@ -15,23 +15,21 @@ export interface Impresora {
   codigo: string;
 }
 
-
-// MODELO DE USUARIO ADMINISTRADOR
+// Modelo de administrador.
 
 export interface UsuarioAdmin {
-    _id?: string;
-    nombre: string;
-    usuario: string;
-    rol: string;
+  _id?: string;
+  nombre: string;
+  usuario: string;
+  rol: string;
 }
 
-
-// FORMULARIO DE ADMINISTRADOR
+// Modelo del formulario de administradores.
 
 export interface FormAdmin {
-    nombre: string;
-    usuario: string;
-    password: string;
-    repetirPassword: string;
-    passwordActual: string;
+  nombre: string;
+  usuario: string;
+  password: string;
+  repetirPassword: string;
+  passwordActual: string;
 }

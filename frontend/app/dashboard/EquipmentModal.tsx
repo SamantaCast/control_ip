@@ -1,8 +1,8 @@
-/* MODAL PARA AGREGAR Y EDITAR EQUIPOS DE CÓMPUTO */
+/* Modal para agregar y editar equipos de cómputo. */
 
 "use client";
 
-// IMPORTACIONES
+// Importaciones.
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,8 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import type { Impresora } from "./types";
 
-
-// PROPIEDADES DEL COMPONENTE
+// Propiedades del componente.
 
 interface Props {
   mostrarFormulario: boolean;
@@ -29,7 +28,9 @@ interface Props {
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void;
+
   guardar: () => void;
+
   setMostrarFormulario: React.Dispatch<
     React.SetStateAction<boolean>
   >;
@@ -39,7 +40,7 @@ interface Props {
   >;
 }
 
-// COMPONENTE
+// Componente principal.
 
 export default function EquipmentModal({
   mostrarFormulario,
@@ -49,303 +50,294 @@ export default function EquipmentModal({
   guardar,
   setMostrarFormulario,
   setEditandoId,
-
 }: Props) {
+
+  // Verifica que el formulario esté visible.
+
   if (!mostrarFormulario) return null;
+
   return (
     <div className="overlayStyle">
 
+      {/* Modal del formulario. */}
 
-{/* MODAL*/}
-     <div className="modalStyle">
+      <div className="modalStyle">
 
+        {/* Botón para cerrar el modal. */}
 
-{/* BOTÓN CERRAR */}
+        <button
+          type="button"
+          className="closeModalBtn"
+          onClick={() => {
+            setMostrarFormulario(false);
+            setEditandoId(null);
+          }}
+        >
+          <FontAwesomeIcon icon={faXmark} />
+        </button>
 
-<button
-  type="button"
-  className="closeModalBtn"
-  onClick={() => {
-    setMostrarFormulario(false);
-    setEditandoId(null);
-     }}
-      >
-  <FontAwesomeIcon icon={faXmark} />
-</button>
+        {/* Encabezado del modal. */}
 
+        <div className="modalHeader">
+          <div className="modalHeaderIcon">
+            <FontAwesomeIcon
+              icon={faClipboardList}
+            />
+          </div>
 
-{/* ENCABEZADO */}
+          <div>
+            <h2 className="modalTitle">
+              {editandoId
+                ? "Editar registro"
+                : "Agregar registro"}
+            </h2>
 
-<div className="modalHeader">
-  <div className="modalHeaderIcon">
-    <FontAwesomeIcon
-      icon={faClipboardList}
-        />
-</div>
+            <p className="modalDescription">
+              Complete la información correspondiente
+              al equipo de cómputo.
+            </p>
+          </div>
+        </div>
 
-<div>
-  <h2 className="modalTitle">
-    {editandoId
-      ? "Editar registro"
-      : "Agregar registro"}
+        <div className="modalDivider"></div>
 
-  </h2>
+        {/* Sección de datos generales. */}
 
-  <p className="modalDescription">
-    Complete la información correspondiente
-      al equipo de cómputo.
-  </p>
-
-  </div>
-</div>
-
-<div className="modalDivider"></div>
-
-
-{/* DATOS GENERALES */}
-
-<div className="formSection">
-  <div className="sectionHeader">
-  <div className="sectionIcon">
-    <FontAwesomeIcon
-      icon={faClipboardList}
-    />
-</div>
-
-  <h3 className="sectionTitle">
-    Datos Generales
-  </h3>
-</div>
-
-<div className="formGrid">
-
-
-{/* DEPARTAMENTO*/}
-
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon
-      icon={faBuilding}
-    />
-
-</div>
-
-<input
-  className="formInput"
-  name="departamento"
-  placeholder="Departamento"
-  value={form.departamento}
-  onChange={handleChange}
-  />
-
-</div>
-
-
-{/* EDIFICIO */}
-
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon
-      icon={faBuilding}
-    />
-</div>
-
-  <input
-    className="formInput"
-    name="edificio"
-    placeholder="Edificio"
-    value={form.edificio}
-    onChange={handleChange}
-  />
-</div>
-
-
-{/* UBICACION */}
-
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon
-      icon={faLocationDot}
-    />
- </div>
-
-  <input
-    className="formInput"
-    name="ubicacion"
-    placeholder="Ubicación"
-    value={form.ubicacion}
-    onChange={handleChange}
+        <div className="formSection">
+          <div className="sectionHeader">
+            <div className="sectionIcon">
+              <FontAwesomeIcon
+                icon={faClipboardList}
               />
-    </div>
-  </div>
-</div>
+            </div>
 
+            <h3 className="sectionTitle">
+              Datos Generales
+            </h3>
+          </div>
 
-{/* RESPONSABLE */}
+          <div className="formGrid">
 
-<div className="formSection">
-  <div className="sectionHeader">
-  <div className="sectionIcon">
-    <FontAwesomeIcon icon={faUser} />
+            {/* Campo para el departamento. */}
 
-</div>
-
-  <h3 className="sectionTitle">
-    Responsable
-  </h3>
-</div>
-
-<div className="formGrid">
-
-
-{/* NOMBRE DEL RESPONSABLE */}
-
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon icon={faUser} />
+            <div className="inputWrapper">
+              <div className="inputIcon">
+                <FontAwesomeIcon
+                  icon={faBuilding}
+                />
               </div>
 
-  <input
-    className="formInput"
-    name="nombre"
-    placeholder="Nombre"
-    value={form.nombre}
-    onChange={handleChange}
-  />
-</div>
+              <input
+                className="formInput"
+                name="departamento"
+                placeholder="Departamento"
+                value={form.departamento}
+                onChange={handleChange}
+              />
+            </div>
 
+            {/* Campo para el edificio. */}
 
-{/* CORREO ELECTRÓNICO */}
+            <div className="inputWrapper">
+              <div className="inputIcon">
+                <FontAwesomeIcon
+                  icon={faBuilding}
+                />
+              </div>
 
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon icon={faEnvelope} />
-</div>
+              <input
+                className="formInput"
+                name="edificio"
+                placeholder="Edificio"
+                value={form.edificio}
+                onChange={handleChange}
+              />
+            </div>
 
-  <input
-    className="formInput"
-    name="email"
-    placeholder="Correo electrónico"
-    value={form.email}
-    onChange={handleChange}
-  />
+            {/* Campo para la ubicación. */}
 
-</div>
+            <div className="inputWrapper">
+              <div className="inputIcon">
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                />
+              </div>
 
+              <input
+                className="formInput"
+                name="ubicacion"
+                placeholder="Ubicación"
+                value={form.ubicacion}
+                onChange={handleChange}
+              />
+            </div>
 
-{/* USUARIO */}
+          </div>
+        </div>
 
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon icon={faUser} />
-</div>
+        {/* Sección del responsable del equipo. */}
 
-  <input
-    className="formInput"
-    name="usuario"
-    placeholder="Usuario"
-    value={form.usuario}
-    onChange={handleChange}
-      />
-    </div>
-  </div>
-</div>
+        <div className="formSection">
+          <div className="sectionHeader">
+            <div className="sectionIcon">
+              <FontAwesomeIcon icon={faUser} />
+            </div>
 
+            <h3 className="sectionTitle">
+              Responsable
+            </h3>
+          </div>
 
-{/* EQUIPO */}
+          <div className="formGrid">
 
-<div className="formSection">
-  <div className="sectionHeader">
-  <div className="sectionIcon">
-    <FontAwesomeIcon icon={faDesktop} />
-</div>
+                      {/* Campo para el nombre del responsable. */}
 
-  <h3 className="sectionTitle">
-      Equipo
-  </h3>
-</div>
+          <div className="inputWrapper">
+            <div className="inputIcon">
+              <FontAwesomeIcon icon={faUser} />
+            </div>
 
-<div className="formGrid">
+            <input
+              className="formInput"
+              name="nombre"
+              placeholder="Nombre"
+              value={form.nombre}
+              onChange={handleChange}
+            />
+          </div>
 
+          {/* Campo para el correo electrónico. */}
 
-{/* EQUIPO */}
+          <div className="inputWrapper">
+            <div className="inputIcon">
+              <FontAwesomeIcon icon={faEnvelope} />
+            </div>
 
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon icon={faDesktop} />
-  </div>
+            <input
+              className="formInput"
+              name="email"
+              placeholder="Correo electrónico"
+              value={form.email}
+              onChange={handleChange}
+            />
+          </div>
 
-    <input
-      className="formInput"
-      name="equipo"
-      placeholder="Equipo"
-      value={form.equipo}
-      onChange={handleChange}
-      />
- </div>
+          {/* Campo para el usuario. */}
 
+          <div className="inputWrapper">
+            <div className="inputIcon">
+              <FontAwesomeIcon icon={faUser} />
+            </div>
 
-{/* DIRECCIÓN IP */}
+            <input
+              className="formInput"
+              name="usuario"
+              placeholder="Usuario"
+              value={form.usuario}
+              onChange={handleChange}
+            />
+          </div>
 
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon icon={faNetworkWired} />
-  </div>
-
-  <input
-    className="formInput"
-    name="ip"
-    placeholder="Dirección IP"
-    value={form.ip}
-    onChange={handleChange}
-  />
-</div>
-
-
-{/* CÓDIGO */}
-
-<div className="inputWrapper">
-  <div className="inputIcon">
-    <FontAwesomeIcon icon={faBarcode} />
-</div>
-
-  <input
-    className="formInput"
-    name="codigo"
-    placeholder="Código"
-    value={form.codigo}
-    onChange={handleChange}
-   />
-    </div>
-  </div>
-</div>
-
-
-{/* BOTONES DEL MODAL */}
-
-<div className="modalFooter">        
-  <button
-    type="button"
-    className="cancelBtn"
-    onClick={() => {
-      setMostrarFormulario(false);
-      setEditandoId(null);
-     }}
-      >
-     Cancelar
-  </button>
-
-  <button
-             type="button"
-              className="saveBtn"
-              onClick={guardar}
-                >
-              {editandoId
-              ? "Actualizar"
-              : "Guardar"}
-          </button>
         </div>
       </div>
+
+      {/* Sección de información del equipo. */}
+
+      <div className="formSection">
+        <div className="sectionHeader">
+          <div className="sectionIcon">
+            <FontAwesomeIcon icon={faDesktop} />
+          </div>
+
+          <h3 className="sectionTitle">
+            Equipo
+          </h3>
+        </div>
+
+        <div className="formGrid">
+
+          {/* Campo para el nombre del equipo. */}
+
+          <div className="inputWrapper">
+            <div className="inputIcon">
+              <FontAwesomeIcon icon={faDesktop} />
+            </div>
+
+            <input
+              className="formInput"
+              name="equipo"
+              placeholder="Equipo"
+              value={form.equipo}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Campo para la dirección IP. */}
+
+          <div className="inputWrapper">
+            <div className="inputIcon">
+              <FontAwesomeIcon icon={faNetworkWired} />
+            </div>
+
+            <input
+              className="formInput"
+              name="ip"
+              placeholder="Dirección IP"
+              value={form.ip}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Campo para el código del equipo. */}
+
+          <div className="inputWrapper">
+            <div className="inputIcon">
+              <FontAwesomeIcon icon={faBarcode} />
+            </div>
+
+            <input
+              className="formInput"
+              name="codigo"
+              placeholder="Código"
+              value={form.codigo}
+              onChange={handleChange}
+            />
+          </div>
+
+        </div>
+      </div>
+
+      {/* Pie del modal. */}
+
+      <div className="modalFooter">
+
+        {/* Botón para cancelar la operación. */}
+
+        <button
+          type="button"
+          className="cancelBtn"
+          onClick={() => {
+            setMostrarFormulario(false);
+            setEditandoId(null);
+          }}
+        >
+          Cancelar
+        </button>
+
+        {/* Botón para guardar o actualizar el registro. */}
+
+        <button
+          type="button"
+          className="saveBtn"
+          onClick={guardar}
+        >
+          {editandoId
+            ? "Actualizar"
+            : "Guardar"}
+        </button>
+
+      </div>
     </div>
-  );
+  </div>
+);
 }

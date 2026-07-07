@@ -1,85 +1,51 @@
-/* ==================================================
-   CONTENEDOR PRINCIPAL DE LA TABLA
-================================================== */
+/* CONTENEDOR PRINCIPAL DE LA TABLA */
 
 .tableBox{
 
     width:100%;
-
     background:#FFF;
-
     border:1px solid #E8E8E8;
-
     border-radius:10px;
-
     overflow:auto;
-
     box-shadow:0 4px 16px rgba(0,0,0,.05);
-
     margin-top:1px;
-    
 
 }
 
-/* ==================================================
-   TABLA
-================================================== */
+/* TABLA DE REGISTROS */
 
 .dataTable{
 
     width:100%;
-
     border-collapse:collapse;
-
     table-layout:auto;
 
 }
 
-
-/* ==================================================
-   CABECERA
-================================================== */
+/* CABECERA DE LA TABLA */
 
 .dataTable thead{
 
     background:#8A2036;
-
     position:sticky;
-
     top:0;
-
     z-index:5;
 
 }
 
-
-/* ==================================================
-   TITULOS DE COLUMNAS
-================================================== */
-/* ==================================================
-   ENCABEZADO DE COLUMNAS
-================================================== */
+/* ENCABEZADO DE COLUMNAS */
 
 .tableHeadCell{
 
     background:#8A2036;
-
     color:#FFF;
-
     font-size:14px;
-
     font-weight:600;
-
     padding:10px 16px;
-
     text-align:left;
-
     white-space:nowrap;
-
     border-right:1px solid rgba(255,255,255,.12);
-
     letter-spacing:.2px;
-    
 
 }
 
@@ -89,58 +55,7 @@
 
 }
 
-
-/* ==================================================
-   FILAS
-================================================== */
-
-.dataTable tbody tr{
-
-    transition:.18s;
-
-}
-
-.dataTable tbody tr:hover{
-
-    background:#fafafa;
-
-}
-
-
-/* ==================================================
-   CELDAS
-================================================== */
-/* ==================================================
-   CELDAS
-================================================== */
-
-.tableCell{
-
-    padding:1px 16px;
-
-    font-size:14px;
-
-    color:#444;
-
-    border-bottom:1px solid #E2E2E2;
-
-    vertical-align:middle;
-
-    line-height:1.35;
-    border-right:1px solid #ECECEC;
-
-}
-
-
-
-
-/* ==================================================
-   PRIMERA FILA
-================================================== */
-
-/* ==================================================
-   EFECTO HOVER
-================================================== */
+/* FILAS DE LA TABLA */
 
 .dataTable tbody tr{
 
@@ -154,9 +69,21 @@
 
 }
 
-/* ==================================================
-   DEPARTAMENTO
-================================================== */
+/* CELDAS DE LA TABLA */
+
+.tableCell{
+
+    padding:1px 16px;
+    font-size:14px;
+    color:#444;
+    border-bottom:1px solid #E2E2E2;
+    border-right:1px solid #ECECEC;
+    vertical-align:middle;
+    line-height:1.35;
+
+}
+
+/* COLUMNA DEPARTAMENTO */
 
 .tableCell:nth-child(1){
 
@@ -164,10 +91,7 @@
 
 }
 
-
-/* ==================================================
-   EMAIL
-================================================== */
+/* COLUMNA EMAIL */
 
 .tableCell:nth-child(5){
 
@@ -175,63 +99,40 @@
 
 }
 
-
-/* ==================================================
-   BOTONES DE ACCIONES
-================================================== */
+/* CONTENEDOR DE BOTONES DE ACCIÓN */
 
 .actionBtns{
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     gap:8px;
 
 }
 
-
-/* ==================================================
-   BOTÓN GENERAL
-================================================== */
+/* BOTÓN DE ACCIÓN */
 
 .iconBtn{
 
     width:38px;
-
     height:38px;
-
     border:none;
-
     border-radius:12px;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     cursor:pointer;
-
     font-size:14px;
-
     transition:all .20s ease;
-
     box-shadow:0 2px 6px rgba(0,0,0,.08);
 
 }
 
-
-/* ==================================================
-   EDITAR
-================================================== */
+/* BOTÓN EDITAR */
 
 .editBtn{
 
     background:#FFF7E8;
-
     color:#B8861F;
 
 }
@@ -239,24 +140,17 @@
 .editBtn:hover{
 
     background:#B8861F;
-
     color:#FFF;
-
     transform:translateY(-2px);
-
     box-shadow:0 6px 14px rgba(184,134,31,.28);
 
 }
 
-
-/* ==================================================
-   ELIMINAR
-================================================== */
+/* BOTÓN ELIMINAR */
 
 .deleteBtn{
 
     background:#FCEEEF;
-
     color:#8A2036;
 
 }
@@ -264,18 +158,13 @@
 .deleteBtn:hover{
 
     background:#8A2036;
-
     color:#FFF;
-
     transform:translateY(-2px);
-
     box-shadow:0 6px 14px rgba(138,32,54,.28);
 
 }
 
-/* ==================================================
-   FILAS ALTERNADAS
-================================================== */
+/* FILAS ALTERNADAS */
 
 .dataTable tbody tr:nth-child(even){
 
@@ -289,48 +178,36 @@
 
 }
 
-
-/* ==================================================
-   MENSAJE SIN REGISTROS
-================================================== */
+/* MENSAJE CUANDO NO HAY REGISTROS */
 
 .emptyState{
 
     text-align:center;
-
     padding:35px;
-
     color:#666;
-
     font-size:15px;
 
 }
 
-
-/* ==================================================
-   BARRA DE SCROLL
-================================================== */
+/* BARRA DE DESPLAZAMIENTO */
 
 .tableBox::-webkit-scrollbar{
 
     width:9px;
-
     height:9px;
 
 }
 
 .tableBox::-webkit-scrollbar-track{
 
-    background:#f2f2f2;
-
+    background:#F2F2F2;
     border-radius:10px;
 
 }
 
 .tableBox::-webkit-scrollbar-thumb{
 
-    background:#b5b5b5;
-
+    background:#B5B5B5;
     border-radius:10px;
 
 }
@@ -340,52 +217,45 @@
     background:#999;
 
 }
-/* ==================================================
-   COLUMNAS ORDENABLES
-================================================== */
+
+/* ENCABEZADO DE COLUMNAS ORDENABLES */
 
 .tableHeadCell.sortable{
 
     cursor:pointer;
-
     user-select:none;
-
     transition:.20s;
 
 }
 
 .tableHeadCell.sortable:hover{
 
-    background:#74192d;
+    background:#74192D;
 
 }
+
+/* ICONO DE ORDENAMIENTO */
 
 .sortIcon{
 
     margin-left:8px;
-
     font-size:11px;
-
     opacity:.85;
 
 }
 
-/* ==================================================
-   COLUMNAS ORDENABLES
-================================================== */
+/* COLUMNAS ORDENABLES */
 
 .sortable{
 
     cursor:pointer;
-
     user-select:none;
-
     transition:.2s;
 
 }
 
 .sortable:hover{
 
-    background:#a32540;
+    background:#A32540;
 
 }

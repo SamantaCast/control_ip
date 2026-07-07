@@ -1,195 +1,181 @@
-/* MODAL PARA VISUALIZAR Y ADMINISTRAR LOS USUARIOS REGISTRADOS EN EL SISTEMA */
+/* Modal para visualizar y administrar los usuarios registrados en el sistema. */
 
 "use client";
 
+// Importaciones.
 
-// IMPORTACIONES
-   
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-  import {
-    faPenToSquare,
-    faTrash,
-    faXmark,
-    faPlus,
-  } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faTrash,
+  faXmark,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import type { UsuarioAdmin } from "./types";
 
-
-// PROPIEDADES DEL COMPONENTE
+// Propiedades del componente.
 
 interface Props {
-    rol: string;
-    mostrar: boolean;
-    administradoresRegistrados: UsuarioAdmin[];
-      setMostrar: (value: boolean) => void;
-      abrirEditarAdmin: (
+  rol: string;
+  mostrar: boolean;
+  administradoresRegistrados: UsuarioAdmin[];
+  setMostrar: (value: boolean) => void;
+  abrirEditarAdmin: (
     admin: UsuarioAdmin
-    ) => void;
-      eliminarAdmin: (
+  ) => void;
+  eliminarAdmin: (
     id?: string
-    ) => void;
-      abrirNuevoAdmin: () => void;
+  ) => void;
+  abrirNuevoAdmin: () => void;
 }
 
-
-// COMPONENTE
+// Componente principal.
 
 export default function AdminListModal({
-    rol,
-    mostrar,
-    administradoresRegistrados,
-      setMostrar,
-      abrirEditarAdmin,
-      eliminarAdmin,
-      abrirNuevoAdmin,
-    
+  rol,
+  mostrar,
+  administradoresRegistrados,
+  setMostrar,
+  abrirEditarAdmin,
+  eliminarAdmin,
+  abrirNuevoAdmin,
+
 }: Props) {
-  
 
-// MOSTRAR EL MODAL SOLO A LOS ADMINISTRADORES 
+  // Verifica que el usuario sea administrador y que el modal esté visible.
 
-if (rol !== "admin" || !mostrar) {
+  if (rol !== "admin" || !mostrar) {
     return null;
   }
-    return (
 
+  return (
 
-// OVERLAY
-   
-<div className="overlayStyle">
-  <div className="adminListModal">
+    // Overlay del modal.
 
-{/* ENCABEZADO DEL MODAL*/}
+    <div className="overlayStyle">
+      <div className="adminListModal">
 
-<div className="modalHeader">
-  <div>
-      <h2 className="modalTitle">
-          Administradores
-      </h2>
+        {/* Encabezado del modal. */}
 
-      <p className="modalDescription">
-          Administradores registrados.
-      </p>
+        <div className="modalHeader">
+          <div>
+            <h2 className="modalTitle">
+              Administradores
+            </h2>
 
-  </div>
+            <p className="modalDescription">
+              Administradores registrados.
+            </p>
 
+          </div>
 
-{/* Botón para cerrar */}
-
-<button
-  className="adminCloseBtn"
-    onClick={() => setMostrar(false)}
-      >
-    <FontAwesomeIcon icon={faXmark} />
-</button>
-
-</div>
-  <div className="modalDivider"></div>
-
-
-{/* CONTENIDO */}
-
-<div className="adminListBody">
-
-
-{/* Total de administradores */}
-
-<p className="adminListTotal">
-    Total: {administradoresRegistrados.length}
-  </p>
-
-
-{/* TABLA */}
-
-<div className="adminTableBox">
-    <table className="adminDataTable">
-      <thead>
-        <tr>
-          <th className="adminHeadCell">
-            Usuario
-          </th>
-          <th className="adminHeadCell">
-            Rol
-          </th>
-          <th className="adminHeadCell">
-            Acciones
-          </th>
-        </tr>
-              
-    </thead>
-      <tbody>
-        {administradoresRegistrados.map((admin) => (
-          <tr key={admin._id}>
-
-
-  {/* Usuario */}
-
-  <td className="adminCell">
-      {admin.usuario}
-  </td>
-
-
-  {/* Rol */}
-
-  <td className="adminCell">
-      {admin.rol}
-  </td>
-
-
-  {/* Botones */}
-
-  <td className="adminCell">
-      <div className="adminActionBtns">
-
-
-  {/* Editar */}
-
-  <button
-      className="iconBtn editBtn"
-      onClick={() =>
-        abrirEditarAdmin(admin)
-      }
-      >
-      <FontAwesomeIcon
-        icon={faPenToSquare}
-    />
-  </button>
-
-
-  {/* Eliminar */}
+          {/* Botón para cerrar el modal. */}
 
           <button
-              className="iconBtn deleteBtn"
-               onClick={() =>
-                 eliminarAdmin(admin._id)
-                     }
-                     >
-                    <FontAwesomeIcon
-                    icon={faTrash}
-                     />
-             </button>
-            </div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+            className="adminCloseBtn"
+            onClick={() => setMostrar(false)}
+          >
+            <FontAwesomeIcon icon={faXmark} />
+          </button>
 
-
-{/* BOTÓN NUEVO REGISTRO */}
-
-<button
-    type="button"
-    className="newAdminBtn"
-    onClick={abrirNuevoAdmin}
->
-    <FontAwesomeIcon icon={faPlus} />
-       Nuevo registro 
-
-         </button>
         </div>
+
+        <div className="modalDivider"></div>
+
+        {/* Contenido del modal. */}
+
+        <div className="adminListBody">
+
+        {/* Total de administradores registrados. */}
+
+        <p className="adminListTotal">
+          Total: {administradoresRegistrados.length}
+        </p>
+
+        {/* Tabla de administradores. */}
+
+        <div className="adminTableBox">
+          <table className="adminDataTable">
+            <thead>
+              <tr>
+                <th className="adminHeadCell">
+                  Usuario
+                </th>
+
+                <th className="adminHeadCell">
+                  Rol
+                </th>
+
+                <th className="adminHeadCell">
+                  Acciones
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {administradoresRegistrados.map((admin) => (
+                <tr key={admin._id}>
+
+                  {/* Usuario del administrador. */}
+
+                  <td className="adminCell">
+                    {admin.usuario}
+                  </td>
+
+                  {/* Rol del administrador. */}
+
+                  <td className="adminCell">
+                    {admin.rol}
+                  </td>
+
+                  {/* Acciones disponibles. */}
+
+                  <td className="adminCell">
+                    <div className="adminActionBtns">
+
+                      {/* Botón para editar el administrador. */}
+
+                      <button
+                        className="iconBtn editBtn"
+                        onClick={() => abrirEditarAdmin(admin)}
+                      >
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                        />
+                      </button>
+
+                      {/* Botón para eliminar el administrador. */}
+
+                      <button
+                        className="iconBtn deleteBtn"
+                        onClick={() => eliminarAdmin(admin._id)}
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                        />
+                      </button>
+
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Botón para registrar un nuevo administrador. */}
+
+        <button
+          type="button"
+          className="newAdminBtn"
+          onClick={abrirNuevoAdmin}
+        >
+          <FontAwesomeIcon icon={faPlus} />
+          Nuevo registro
+        </button>
+
       </div>
     </div>
-  );
+  </div>
+);
 }

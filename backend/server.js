@@ -1,120 +1,123 @@
-/* CONFIGURACIÓN DEL SERVIDOR, CONEXIÓN A MONGODB Y CONTROL DE ACCESO DE USUARIOS */
+// Configuración del servidor y conexión a MongoDB.
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-require('dotenv').config();
+const express = require("express");
+const conectarDB = require("./config/db");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+require("dotenv").config();
 
-
-// APP
+// Inicializa la aplicación de Express.
 
 const app = express();
-  app.use(cors());
-  app.use(express.json());
 
+app.use(cors());
+app.use(express.json());
 
-// IMPORTACIONES DE MODELOS, RUTAS Y MIDDLEWARE
+// Importa los modelos, rutas y middlewares.
 
-const User = require('./models/user');
-const impresorasRoutes = require('./routes/impresoras.routes');
-const usersRoutes = require('./routes/users.routes');
-const { verificarToken, soloAdmin } = require('./middleware/auth');
+const User = require("./models/user");
+const impresorasRoutes = require("./routes/impresoras.routes");
+const usersRoutes = require("./routes/users.routes");
+const { verificarToken, soloAdmin } = require("./middleware/auth");
 
+// Establece la conexión con la base de datos.
 
-// CONEXIÓN A MONGODB
+conectarDB();
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB conectado"))
-  .catch((err) => console.log("Error al conectar a MongoDB:", err));
+// Ruta de prueba para verificar que el servidor está funcionando.
 
-
-// RUTA DE PRUEBA
-
-app.get('/', (req, res) => {
-  res.send('Servidor funcionando correctamente');
+app.get("/", (req, res) => {
+  res.send("Servidor funcionando correctamente");
 });
 
+// Autentica a los usuarios y genera un token JWT.
 
-// LOGIN
-
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
     const { usuario, password } = req.body;
+
+    // Busca el usuario registrado.
     const user = await User.findOne({ usuario });
+
     if (!user) {
       return res.status(401).json({
-        mensaje: 'Datos incorrectos'
+        mensaje: "Datos incorrectos",
       });
     }
 
-const coincide = user.password.startsWith('$2')
-   ? await bcrypt.compare(password, user.password)
-   : password === user.password;
-   if (!coincide) {
-    return res.status(401).json({
-      mensaje: 'Datos incorrectos'
+    // Verifica que la contraseña sea correcta.
+    const coincide = user.password.startsWith("$2")
+      ? await bcrypt.compare(password, user.password)
+      : password === user.password;
+
+    if (!coincide) {
+      return res.status(401).json({
+        mensaje: "Datos incorrectos",
+      });
+    }
+
+    // Genera el token de autenticación.
+    const token = jwt.sign(
+      {
+        id: user._id,
+        rol: user.rol,
+        usuario: user.usuario,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    // Muestra la información del inicio de sesión.
+    console.log("RESPUESTA LOGIN:");
+    console.log({
+      mensaje: "Login correcto",
+      token,
+      rol: user.rol,
+      nombre: user.nombre,
+      usuario: user.usuario,
     });
-  }
 
-const token = jwt.sign(
-  {
-    id: user._id,
-    rol: user.rol,
-    usuario: user.usuario
-  },
-    process.env.JWT_SECRET,
-      { expiresIn: '1h' }
-  );
-
-console.log("RESPUESTA LOGIN:");
-  console.log({
-  mensaje: 'Login correcto',
-  token,
-  rol: user.rol,
-  nombre: user.nombre,
-  usuario: user.usuario
-});
-
-return res.json({
-  mensaje: 'Login correcto',
-  token,
-  rol: user.rol,
-  nombre: user.nombre,
-  usuario: user.usuario
-});
-
+    return res.json({
+      mensaje: "Login correcto",
+      token,
+      rol: user.rol,
+      nombre: user.nombre,
+      usuario: user.usuario,
+    });
   } catch (error) {
     return res.status(500).json({
-      mensaje: 'Error en el servidor'
+      mensaje: "Error en el servidor",
     });
   }
 });
 
+// Registra las rutas para la gestión de impresoras.
 
-// RUTAS DE IMPRESORAS
 console.log("Cargando rutas de impresoras...");
 
 app.use("/api/impresoras", impresorasRoutes);
 
+// Ruta de prueba para comprobar el funcionamiento de la API.
+
 app.get("/api/prueba", (req, res) => {
   res.json({
     ok: true,
-    mensaje: "Servidor correcto"
+    mensaje: "Servidor correcto",
   });
 });
 
+// Registra las rutas para la gestión de administradores.
+// Requiere autenticación y permisos de administrador.
 
-// RUTAS DE ADMINISTRADORES
+app.use("/api/users", verificarToken, soloAdmin, usersRoutes);
 
-app.use('/api/users', verificarToken, soloAdmin, usersRoutes);
-
-
-// PUERTO
+// Inicia el servidor en el puerto configurado.
 
 const PORT = process.env.PORT || 5000;
-   app.listen(PORT, "0.0.0.0", () => {
-     console.log(`Servidor corriendo en el puerto ${PORT}`);
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

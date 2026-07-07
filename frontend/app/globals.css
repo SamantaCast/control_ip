@@ -1,36 +1,35 @@
-/* ==========================================================
-   VARIABLES GLOBALES DEL SISTEMA
-   Colores principales utilizados en toda la aplicación.
-========================================================== */
+/* Variables globales del sistema. */
 
 :root {
 
-  /* Colores base */
+  /* Colores principales. */
+
   --background: #fff8f2;
   --foreground: #171717;
 
-  /* Color institucional */
+  /* Color institucional. */
+
   --vino: #8A2036;
   --vino-hover: #5f1625;
 
-  /* Color secundario */
+  /* Color secundario. */
+
   --dorado: #A5802E;
   --dorado-hover: #72581f;
 
-  /* Fondos */
+  /* Colores de fondo. */
+
   --fondo: #fffaf4;
   --crema-modal: #F7F2EC;
   --crema-seccion: #FCF9F6;
 
-  /* Bordes */
+  /* Bordes. */
+
   --borde-suave: #E5D9D1;
+
 }
 
-
-/* ==========================================================
-   CONFIGURACIÓN DE TAILWIND
-   Variables utilizadas por Next.js / Tailwind.
-========================================================== */
+/* Variables utilizadas por Tailwind. */
 
 @theme inline {
 
@@ -42,11 +41,7 @@
 
 }
 
-
-/* ==========================================================
-   FUENTES PERSONALIZADAS
-   Fuentes utilizadas en todo el sistema.
-========================================================== */
+/* Fuentes personalizadas. */
 
 @font-face {
 
@@ -69,11 +64,7 @@
 
 }
 
-
-/* ==========================================================
-   CONFIGURACIÓN GENERAL DEL DOCUMENTO
-   Estilos base aplicados a toda la aplicación.
-========================================================== */
+/* Configuración general del documento. */
 
 html,
 body {
@@ -96,11 +87,7 @@ body {
 
 }
 
-
-/* ==========================================================
-   CONFIGURACIÓN GLOBAL
-   Se aplica a todos los elementos HTML.
-========================================================== */
+/* Configuración global. */
 
 * {
 
@@ -108,11 +95,7 @@ body {
 
 }
 
-
-/* ==========================================================
-   PERSONALIZACIÓN DE SWEETALERT2
-   Estilos utilizados por todas las alertas del sistema.
-========================================================== */
+/* Personalización de SweetAlert2. */
 
 .swal2-popup {
 

@@ -1,379 +1,445 @@
-// COMPONENTE SEARCHBAR (FILTROS Y ACCIONES)
- 
+/* Componente de búsqueda, filtros y acciones. */
+
 "use client";
 
-
-// IMPORTACIONES
+// Importaciones.
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faList,
-    faPlus,
-    faSearch,
-    faBuilding,
-    faChevronDown,
-    faDesktop,
-    faComputer,
-    faUsers,
-    faNetworkWired,
-    faFileExcel,
-    faFilePdf,
+  faList,
+  faPlus,
+  faSearch,
+  faDesktop,
+  faUsers,
+  faNetworkWired,
+  faFileExcel,
+  faFilePdf,
 } from "@fortawesome/free-solid-svg-icons";
 
-
-// PROPIEDADES DEL COMPONENTE
+// Propiedades del componente.
 
 interface SearchBarProps {
-    /* Estado del usuario */
-    logueado: boolean;
-    token: string;
 
-    /* Buscador */
-    busqueda: string;
-    setBusqueda: React.Dispatch<React.SetStateAction<string>>;
+  // Estado del usuario.
 
-    /* Filtro por edificio */
-    filtroEdificio: string;
-    setFiltroEdificio: React.Dispatch<React.SetStateAction<string>>;
+  logueado: boolean;
+  token: string;
 
-    /* Lista de edificios */
-    edificios: string[];
-    departamentos: string[];
-    ubicaciones: string[];
-    equipos: string[];
-    
-    filtroDepartamento: string;
-    setFiltroDepartamento: React.Dispatch<React.SetStateAction<string>>;
+  // Estado del buscador.
 
-    filtroUbicacion: string;
-    setFiltroUbicacion: React.Dispatch<React.SetStateAction<string>>;
+  busqueda: string;
+  setBusqueda: React.Dispatch<
+    React.SetStateAction<string>
+  >;
 
-    filtroEquipo: string;
-    setFiltroEquipo: React.Dispatch<React.SetStateAction<string>>;
+  // Filtro por edificio.
 
-    stats: {
-        totalEquipos: number;
-        equiposActivos: number;
-        totalUsuarios: number;
-        totalIPs: number;
-};
+  filtroEdificio: string;
+  setFiltroEdificio: React.Dispatch<
+    React.SetStateAction<string>
+  >;
 
+  // Listas de filtros.
 
-// FUNCIONES
+  edificios: string[];
+  departamentos: string[];
+  ubicaciones: string[];
+  equipos: string[];
 
-    abrirNuevo: () => void;
-    exportarExcel: () => void;
-    exportarPDF: () => void;
+  // Filtro por departamento.
 
-}   
+  filtroDepartamento: string;
+  setFiltroDepartamento: React.Dispatch<
+    React.SetStateAction<string>
+  >;
 
+  // Filtro por ubicación.
 
-// COMPONENTE
+  filtroUbicacion: string;
+  setFiltroUbicacion: React.Dispatch<
+    React.SetStateAction<string>
+  >;
+
+  // Filtro por equipo.
+
+  filtroEquipo: string;
+  setFiltroEquipo: React.Dispatch<
+    React.SetStateAction<string>
+  >;
+
+  // Estadísticas del sistema.
+
+  stats: {
+    totalEquipos: number;
+    equiposActivos: number;
+    totalUsuarios: number;
+    totalIPs: number;
+  };
+
+  // Funciones.
+
+  abrirNuevo: () => void;
+  exportarExcel: () => void;
+  exportarPDF: () => void;
+}
+
+// Componente principal.
 
 export default function SearchBar({
-    logueado,
-    token,
-    busqueda,
-    setBusqueda,
-    filtroEdificio,
-    setFiltroEdificio,
-    edificios,
-    stats,
-    abrirNuevo,
-    exportarExcel,
-    exportarPDF,
-    departamentos,
-    ubicaciones,
-    equipos,
-    filtroDepartamento,
-    setFiltroDepartamento,
-    filtroUbicacion,
-    setFiltroUbicacion,
-    filtroEquipo,
-    setFiltroEquipo,
+  logueado,
+  token,
+  busqueda,
+  setBusqueda,
+  filtroEdificio,
+  setFiltroEdificio,
+  edificios,
+  stats,
+  abrirNuevo,
+  exportarExcel,
+  exportarPDF,
+  departamentos,
+  ubicaciones,
+  equipos,
+  filtroDepartamento,
+  setFiltroDepartamento,
+  filtroUbicacion,
+  setFiltroUbicacion,
+  filtroEquipo,
+  setFiltroEquipo,
 }: SearchBarProps) {
-    return (
 
+  return (
+    <>
 
-// ENCABEZADO DEL PANEL
-   
-<div className="panelHeader">
+      {/* Encabezado del panel. */}
 
-{/* TÍTULO */}
+      <div className="panelHeader">
 
-<div className="headerTopRow">
-    <div className="titleArea">
-        <div className="panelTitle">
-            Control Equipos de Cómputo
+        {/* Título del sistema. */}
+
+        <div className="headerTopRow">
+
+          <div className="titleArea">
+
+            <div className="panelTitle">
+              Control Equipos de Cómputo
+            </div>
+
+            <p className="panelSubtitle">
+              Sistema de Gestión de Activos Informáticos
+            </p>
+
+          </div>
+
+          {/* Tarjetas de estadísticas. */}
+
+          <div className="statsArea">
+
+            {/* Tarjeta de equipos registrados. */}
+
+            <div className="statCard">
+
+              <div className="statIcon">
+                <FontAwesomeIcon icon={faDesktop} />
+              </div>
+
+              <div>
+
+                <span className="statLabel">
+                  Total de equipos
+                </span>
+
+                <h3 className="statNumber">
+                  {stats.totalEquipos.toLocaleString()}
+                </h3>
+
+                <small className="statSmall">
+                  Registros
+                </small>
+
+              </div>
+
+            </div>
+
+            {/* Tarjeta de usuarios registrados. */}
+
+            <div className="statCard">
+
+              <div className="statIcon users">
+                <FontAwesomeIcon icon={faUsers} />
+              </div>
+
+              <div>
+
+                <span className="statLabel">
+                  Usuarios
+                </span>
+
+                <h3 className="statNumber">
+                  {stats.totalUsuarios.toLocaleString()}
+                </h3>
+
+                <small className="statSmall">
+                  Registrados
+                </small>
+
+              </div>
+
+            </div>
+
+            {/* Tarjeta de direcciones IP registradas. */}
+
+            <div className="statCard">
+
+              <div className="statIcon ip">
+                <FontAwesomeIcon
+                  icon={faNetworkWired}
+                />
+              </div>
+
+              <div>
+
+                <span className="statLabel">
+                  IPs registradas
+                </span>
+
+                <h3 className="statNumber">
+                  {stats.totalIPs.toLocaleString()}
+                </h3>
+
+                <small className="statSmall">
+                  Asignadas
+                </small>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <p className="panelSubtitle">
-            Sistema de Gestión de Activos Informáticos
-        </p>
+                {/* Barra de acciones. */}
 
-    </div>
+        <div className="filtersCard">
 
-    <div className="statsArea">
-    <div className="statCard">
-    <div className="statIcon">
-    <FontAwesomeIcon icon={faDesktop} />
-</div>
+          {/* Fila de filtros. */}
 
+          <div className="filtersRow">
 
-<div>
-  <span className="statLabel">
-    Total de equipos
-  </span>
+            {/* Buscador. */}
 
-  <h3 className="statNumber">
-    {stats.totalEquipos.toLocaleString()}
-  </h3>
+            <div className="searchBox">
 
-  <small className="statSmall">
-    Registros
-  </small>
-</div>
-</div>
+              <FontAwesomeIcon
+                icon={faSearch}
+                className="searchIcon"
+              />
 
-<div className="statCard">
-   <div className="statIcon users">
-    <FontAwesomeIcon icon={faUsers} />
-</div>
+              <input
+                type="text"
+                className="searchInput"
+                placeholder="Buscar por nombre, usuario, IP..."
+                value={busqueda}
+                onChange={(e) =>
+                  setBusqueda(e.target.value)
+                }
+              />
 
-<div>
-    <span className="statLabel">
-        Usuarios
-    </span>
+            </div>
 
-    <h3 className="statNumber">
-        {stats.totalUsuarios.toLocaleString()}
-    </h3>
+            {/* Contenedor de filtros. */}
 
-    <small className="statSmall">
-        Registrados
-    </small>
-</div>
-</div>
+            <div className="filtersRight">
 
-<div className="statCard">
-    <div className="statIcon ip">
-    <FontAwesomeIcon icon={faNetworkWired} />
-</div>
+              {/* Filtro por departamento. */}
 
-<div>
-    <span className="statLabel">
-        IPs registradas
-    </span>
+              <div className="filterItem">
 
-    <h3 className="statNumber">
-        {stats.totalIPs.toLocaleString()}
-    </h3>
+                <select
+                  className="filterSelect"
+                  value={filtroDepartamento}
+                  onChange={(e) =>
+                    setFiltroDepartamento(
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="">
+                    DEPARTAMENTO
+                  </option>
 
-    <small className="statSmall">
-        Asignadas
-    </small>
-</div>
-</div>
-</div>
-</div>
+                  {departamentos.map((item) => (
+                    <option
+                      key={item}
+                      value={item}
+                    >
+                      {item}
+                    </option>
+                  ))}
 
+                </select>
 
-{/* BARRA DE ACCIONES */}
+              </div>
 
-<div className="filtersCard">
+              {/* Filtro por edificio. */}
 
-    {/* FILA DE FILTROS */}
-    <div className="filtersRow">
+              <div className="filterItem">
 
-    {/* BUSCADOR */}
-    <div className="searchBox">
-        <FontAwesomeIcon
-            icon={faSearch}
-            className="searchIcon"
-        />
+                <select
+                  className="filterSelect"
+                  value={filtroEdificio}
+                  onChange={(e) =>
+                    setFiltroEdificio(
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="">
+                    EDIFICIO
+                  </option>
 
-        <input
-            type="text"
-            className="searchInput"
-            placeholder="Buscar por nombre, usuario, IP..."
-            value={busqueda}
-            onChange={(e) =>
-                setBusqueda(e.target.value)
-           }
-        />
-    </div>
+                  {edificios.map((edificio) => (
+                    <option
+                      key={edificio}
+                      value={edificio}
+                    >
+                      {edificio}
+                    </option>
+                  ))}
 
-<div className="filtersRight">
+                </select>
 
+              </div>
 
+              {/* Filtro por ubicación. */}
 
-{/* DEPARTAMENTO */}
+              <div className="filterItem">
 
-<div className="filterItem">
-    <select
-        className="filterSelect"
-        value={filtroDepartamento}
-        onChange={(e) => setFiltroDepartamento(e.target.value)}
-    >
-    <option value="">
-        DEPARTAMENTO
-    </option>
+                <select
+                  className="filterSelect"
+                  value={filtroUbicacion}
+                  onChange={(e) =>
+                    setFiltroUbicacion(
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="">
+                    UBICACIÓN
+                  </option>
 
-    {departamentos.map((item) => (
-      <option
-        key={item}
-        value={item}
-      >
-        {item}
-      </option>
-    ))}
-  </select>
-</div>
+                  {ubicaciones.map((item) => (
+                    <option
+                      key={item}
+                      value={item}
+                    >
+                      {item}
+                    </option>
+                  ))}
 
+                </select>
 
-{/* EDIFICIO */}
+              </div>
 
-<div className="filterItem">
-    <select
-        className="filterSelect"
-        value={filtroEdificio}
-        onChange={(e)=>setFiltroEdificio(e.target.value)}
-    >
-    <option value="">
-        EDIFICIO
-    </option>
+              {/* Filtro por equipo. */}
 
-    {edificios.map((edificio)=>(
-        <option
-            key={edificio}
-            value={edificio}
-        >
-            {edificio}
-        </option>
-    ))}
+              <div className="filterItem">
 
-   </select>
-</div>
+                <select
+                  className="filterSelect"
+                  value={filtroEquipo}
+                  onChange={(e) =>
+                    setFiltroEquipo(
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="">
+                    EQUIPO
+                  </option>
 
+                  {equipos.map((item) => (
+                    <option
+                      key={item}
+                      value={item}
+                    >
+                      {item}
+                    </option>
+                  ))}
 
-{/* UBICACIÓN */}
+                </select>
 
-<div className="filterItem">
-    <select
-        className="filterSelect"
-        value={filtroUbicacion}
-        onChange={(e)=>setFiltroUbicacion(e.target.value)}
-    >
-    <option value="">
-        UBICACIÓN
-    </option>
+              </div>
 
-    {ubicaciones.map((item)=>(
-        <option
-            key={item}
-            value={item}
-        >
-            {item}
-        </option>
-    ))}
-   </select>
-</div>
+              {/* Botón para limpiar los filtros. */}
 
-
-{/* EQUIPO */}
-
-<div className="filterItem">
-    <select
-        className="filterSelect"
-        value={filtroEquipo}
-        onChange={(e)=>setFiltroEquipo(e.target.value)}
-    >
-        <option value="">
-            EQUIPO
-        </option>
-
-        {equipos.map((item)=>(
-            <option
-                key={item}
-                value={item}
-            >
-                {item}
-            </option>
-        ))}
-    </select>
-</div>
-
-
-{/* VER TODOS */}
-
-<button
-    className="btnTodos"
-    onClick={() => {
-        setBusqueda("");
-        setFiltroDepartamento("");
-        setFiltroEdificio("");
-        setFiltroUbicacion("");
-        setFiltroEquipo("");
-    }}
->
-    <FontAwesomeIcon icon={faList} />
-</button>
-
-
-{/* LIMPIAR */}
-
-<button
-    className="btnClearMini"
-    onClick={() => {
-        setBusqueda("");
-        setFiltroDepartamento("");
-        setFiltroEdificio("");
-        setFiltroUbicacion("");
-        setFiltroEquipo("");
-    }}
->
-    Limpiar Filtros
-</button>
-</div>
-</div>
-
-    
-{/* BOTONES */}
-
-<div className="actionsRow">
-    {logueado && (
-       <div className="leftButtons">
-             <button
-                 className="btnExcel"
-                 onClick={exportarExcel}
+              <button
+                className="btnClearMini"
+                onClick={() => {
+                  setBusqueda("");
+                  setFiltroDepartamento("");
+                  setFiltroEdificio("");
+                  setFiltroUbicacion("");
+                  setFiltroEquipo("");
+                }}
               >
-            <FontAwesomeIcon icon={faFileExcel}/>
-            Exportar Excel
-        </button>
+                Limpiar filtros
+              </button>
 
-        <button
-            className="btnPDF"
-            onClick={exportarPDF}
-        >
-            <FontAwesomeIcon icon={faFilePdf}/>
-            Exportar PDF
-        </button>
-    </div>
-)}
+            </div>
 
-<div className="rightButtons">
-    {logueado && (
-        <button
-            className="dashboardNewBtn"
-            onClick={abrirNuevo}
-        >
-            <FontAwesomeIcon icon={faPlus}/>
+          </div>
+                  {/* Botones de acciones. */}
+
+        <div className="actionsRow">
+
+          {/* Botones de exportación. */}
+
+          {logueado && (
+            <div className="leftButtons">
+
+              <button
+                className="btnExcel"
+                onClick={exportarExcel}
+              >
+                <FontAwesomeIcon icon={faFileExcel} />
+                Exportar Excel
+              </button>
+
+              <button
+                className="btnPDF"
+                onClick={exportarPDF}
+              >
+                <FontAwesomeIcon icon={faFilePdf} />
+                Exportar PDF
+              </button>
+
+            </div>
+          )}
+
+          {/* Botón para agregar un registro. */}
+
+          <div className="rightButtons">
+
+            {logueado && (
+              <button
+                className="dashboardNewBtn"
+                onClick={abrirNuevo}
+              >
+                <FontAwesomeIcon icon={faPlus} />
                 Nuevo registro
-        </button>
-    )}
-</div>
-</div>
-</div>
-</div>
+              </button>
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </>
 );
 }

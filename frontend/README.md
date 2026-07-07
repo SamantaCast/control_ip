@@ -1,36 +1,227 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Control de Direcciones IP
 
-## Getting Started
+Sistema web para la administración y control de direcciones IP asignadas dentro de la infraestructura informática de LICONSA.
 
-First, run the development server:
+Permite registrar, consultar, editar y eliminar direcciones IP, asociándolas con el usuario, equipo, departamento, edificio y ubicación correspondiente. Además, incluye autenticación de administradores, filtros avanzados, ordenamiento de registros, exportación de reportes y estadísticas del sistema.
+
+---
+
+# Características
+
+- Inicio de sesión mediante JWT.
+- Administración de direcciones IP.
+- Administración de usuarios administradores.
+- Registro de:
+  - Departamento
+  - Edificio
+  - Ubicación
+  - Usuario
+  - Equipo
+  - Correo electrónico
+  - Dirección IP
+  - Código de inventario
+- Búsqueda dinámica.
+- Filtros por:
+  - Departamento
+  - Edificio
+  - Ubicación
+  - Equipo
+- Ordenamiento por columnas.
+- Paginación.
+- Estadísticas generales.
+- Exportación a Excel.
+- Exportación a PDF.
+- Diseño responsivo.
+
+---
+
+# Tecnologías utilizadas
+
+## Frontend
+
+- Next.js
+- React
+- TypeScript
+- Axios
+- SweetAlert2
+- FontAwesome
+- ExcelJS
+- jsPDF
+- jspdf-autotable
+- File Saver
+
+## Backend
+
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- JSON Web Token (JWT)
+- bcrypt
+
+---
+
+# Estructura del proyecto
+
+```
+frontend
+│
+├── app
+│   ├── dashboard
+│   │   ├── Header.tsx
+│   │   ├── SearchBar.tsx
+│   │   ├── EquipmentTable.tsx
+│   │   ├── Pagination.tsx
+│   │   ├── EquipmentModal.tsx
+│   │   ├── AdminModal.tsx
+│   │   ├── AdminListModal.tsx
+│   │   ├── page.tsx
+│   │   └── types.ts
+│   │
+│   ├── utils
+│   │   ├── exportExcel.ts
+│   │   └── exportPDF.ts
+│   │
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+│
+├── public
+│   ├── logos
+│   └── fonts
+│
+├── styles
+│   ├── dashboard.css
+│   ├── forms.css
+│   ├── modal.css
+│   ├── pagination.css
+│   ├── searchbar.css
+│   ├── table.css
+│   └── user-menu.css
+│
+└── package.json
+```
+
+---
+
+# Funcionalidades
+
+## Gestión de direcciones IP
+
+- Registrar nuevas direcciones IP.
+- Editar registros.
+- Eliminar registros.
+- Consultar información.
+- Buscar registros.
+- Ordenar por cualquier columna.
+- Paginación.
+- Exportar información.
+
+---
+
+## Administración
+
+- Inicio de sesión.
+- Crear administradores.
+- Editar administradores.
+- Eliminar administradores.
+- Validación de contraseñas.
+- Control de permisos.
+
+---
+
+# Estadísticas
+
+El sistema muestra información general como:
+
+- Total de registros.
+- Total de usuarios.
+- Total de direcciones IP.
+
+---
+
+# Variables de entorno
+
+Frontend
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+Backend
+
+```env
+MONGODB_URI=
+
+JWT_SECRET=
+```
+
+---
+
+# Instalación
+
+Clonar el repositorio
+
+```bash
+git clone https://github.com/usuario/control-direcciones-ip.git
+```
+
+Entrar al proyecto
+
+```bash
+cd control-direcciones-ip
+```
+
+Instalar dependencias
+
+```bash
+npm install
+```
+
+Ejecutar el proyecto
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Exportación de reportes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El sistema permite generar reportes en:
 
-## Learn More
+- Excel (.xlsx)
+- PDF (.pdf)
 
-To learn more about Next.js, take a look at the following resources:
+Los reportes incluyen:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Logos institucionales.
+- Fecha y hora de generación.
+- Total de registros.
+- Diseño institucional.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+# Seguridad
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Autenticación mediante JWT.
+- Protección de rutas.
+- Control de acceso por administradores.
+- Contraseñas cifradas.
+- Manejo de sesiones expiradas.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+# Autor
+
+Departamento de Informática
+
+LECHE PARA EL BIENESTAR S.A DE C.V
+
+Sistema de Control de Direcciones IP
+
+---
+
+# Licencia
+
+Este proyecto fue desarrollado para uso interno de la organización.

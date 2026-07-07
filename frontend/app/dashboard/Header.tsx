@@ -1,10 +1,9 @@
-//HEADER DEL SISTEMA MANEJA LA BARRA SUPERIOR CON LOGOTIPOS
+/* Encabezado del sistema con acceso de usuario y autenticación. */
 
 "use client";
 
+// Importaciones.
 
-// IMPORTACIONES
- 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef } from "react";
 
@@ -16,8 +15,7 @@ import {
   faLock,
 } from "@fortawesome/free-solid-svg-icons";
 
-
-// PROPIEDADES DEL COMPONENTE
+// Propiedades del componente.
 
 type HeaderProps = {
   logueado: boolean;
@@ -26,11 +24,13 @@ type HeaderProps = {
   nombreUsuario: string;
   rol: string;
   mostrarMenuUsuario: boolean;
+
   setMostrarMenuUsuario: React.Dispatch<
     React.SetStateAction<boolean>
   >;
 
   mostrarLogin: boolean;
+
   setMostrarLogin: React.Dispatch<
     React.SetStateAction<boolean>
   >;
@@ -38,6 +38,7 @@ type HeaderProps = {
   abrirAdministradoresRegistrados: () => void;
   cerrarSesion: () => void;
   login: () => void;
+
   setUsuario: React.Dispatch<
     React.SetStateAction<string>
   >;
@@ -47,8 +48,7 @@ type HeaderProps = {
   >;
 };
 
-
-// COMPONENTE
+// Componente principal.
 
 export default function Header({
   logueado,
@@ -67,267 +67,266 @@ export default function Header({
   setPassword,
 }: HeaderProps) {
 
+  // Referencias utilizadas para detectar clics fuera del menú y del formulario.
 
-//COMENTAR
+  const menuRef = useRef<HTMLDivElement>(null);
+  const loginRef = useRef<HTMLFormElement>(null);
 
-const menuRef = useRef<HTMLDivElement>(null);
-const loginRef = useRef<HTMLFormElement>(null);
+  // Cierra el menú de usuario y el formulario de inicio de sesión
+  // cuando el usuario hace clic fuera de ellos.
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
 
+      // Cierra el menú de usuario.
 
-// CERRAR MENÚ DE USUARIO
+      if (
+        mostrarMenuUsuario &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setMostrarMenuUsuario(false);
+      }
 
-if (
-  mostrarMenuUsuario &&
-     menuRef.current &&
-    !menuRef.current.contains(event.target as Node)
-  ) {
+      // Cierra el formulario de inicio de sesión.
 
-    setMostrarMenuUsuario(false);
+      if (
+        mostrarLogin &&
+        loginRef.current &&
+        !loginRef.current.contains(event.target as Node)
+      ) {
+        setMostrarLogin(false);
+      }
     }
 
+    // Registra el evento para detectar clics fuera de los elementos.
 
-// CERRAR FORMULARIO DE LOGIN
-
-if (
-  mostrarLogin &&
-    loginRef.current &&
-    !loginRef.current.contains(event.target as Node)
-  ) {
-
-    setMostrarLogin(false);
-    }
-}
-
-  document.addEventListener(
-    "mousedown",
+    document.addEventListener(
+      "mousedown",
       handleClickOutside
-  );
+    );
+
+    // Elimina el evento al desmontar el componente.
 
     return () => {
       document.removeEventListener(
         "mousedown",
         handleClickOutside
       );
-
     };
 
-}, [
+  }, [
     mostrarMenuUsuario,
     mostrarLogin,
     setMostrarMenuUsuario,
-    setMostrarLogin
-]);
+    setMostrarLogin,
+  ]);
 
   return (
-
     <>
 
+      {/* Barra superior del sistema. */}
 
-{/* BARRA SUPERIOR */}
+      <div className="topBar">
 
-<div className="topBar">
+        {/* Logotipos institucionales. */}
 
-        
-{/* LOGOTIPOS */}
+        <div className="logosLeft">
+          <img
+            src="/logos/1.png"
+            alt="Logo 1"
+            className="topLogo"
+          />
 
-<div className="logosLeft">
-  <img
-      src="/logos/1.png"
-      alt="Logo 1"
-      className="topLogo"
-  />
+          <span className="logoDivider">
+            |
+          </span>
 
-  <span className="logoDivider">
-    |
-  </span>
+          <img
+            src="/logos/2.png"
+            alt="Logo 2"
+            className="topLogo"
+          />
 
-  <img
-    src="/logos/2.png"
-    alt="Logo 2"
-    className="topLogo"
-  />
+          <img
+            src="/logos/3.png"
+            alt="Logo 3"
+            className="topLogo"
+          />
+        </div>
 
-  <img
-    src="/logos/3.png"
-    alt="Logo 3"
-    className="topLogo"
-  />
+        {/* Información del usuario e inicio de sesión. */}
 
-</div>
+        <div style={{ position: "relative" }}>
+          {logueado ? (
+      
+          <div
+            className="userMenuContainer"
+            ref={menuRef}
+          >
 
+            {/* Botón para mostrar el menú del usuario. */}
 
-{/* USUARIO / LOGIN */}
+            <button
+              className="userProfileBtn"
+              onClick={() =>
+                setMostrarMenuUsuario(
+                  !mostrarMenuUsuario
+                )
+              }
+            >
 
-  <div style={{ position: "relative" }}>
-    {logueado ? (
+              {/* Avatar del usuario. */}
 
-            
-// MENÚ DEL USUARIO
-               
-  <div
-    className="userMenuContainer"
-    ref={menuRef}
->
+              <div className="userAvatar">
+                <FontAwesomeIcon
+                  icon={faUser}
+                />
+              </div>
 
-  <button
-    className="userProfileBtn"
-    onClick={() =>
-      setMostrarMenuUsuario(
-      !mostrarMenuUsuario
-      )
-    }
-  >
+              {/* Información del usuario. */}
 
+              <div className="userInfo">
+                <span className="userName">
+                  {(nombreUsuario ||
+                    usuario ||
+                    "ADMIN").toUpperCase()}
+                </span>
 
-{/* AVATAR */}
+                <span className="userRole">
+                  Rol: {(rol || "").toUpperCase()}
+                </span>
+              </div>
 
-<div className="userAvatar">
-    <FontAwesomeIcon 
-     icon={faUser} 
-     />
-</div>
+              {/* Indicador del menú desplegable. */}
 
+              <span className="userArrow">
+                ▼
+              </span>
 
-{/* INFORMACIÓN */}
+            </button>
 
-<div className="userInfo">
-  <span className="userName">
-    {(nombreUsuario ||
-      usuario ||
-      "ADMIN").toUpperCase()}
-  </span>
+            {/* Menú desplegable del usuario. */}
 
-  <span className="userRole">
-    Rol: {(rol || "").toUpperCase()}
-  </span>
-</div>
+            {mostrarMenuUsuario && (
+              <div className="userDropdown">
 
+                {/* Opción para visualizar los administradores registrados. */}
 
-{/* FLECHA */}
-  <span className="userArrow">
-      ▼
-  </span>
-</button>
+                <button
+                  className="dropdownItem"
+                  onClick={() => {
+                    setMostrarMenuUsuario(false);
+                    abrirAdministradoresRegistrados();
+                  }}
+                >
+                  <FontAwesomeIcon icon={faUsers} />
+                  Ver administradores registrados
+                </button>
 
+                {/* Opción para cerrar la sesión. */}
 
-{/* MENÚ DESPLEGABLE */}
+                <button
+                  className="dropdownItem"
+                  onClick={() => {
+                    setMostrarMenuUsuario(false);
+                    cerrarSesion();
+                  }}
+                >
+                  <FontAwesomeIcon icon={faRightFromBracket} />
+                  Cerrar sesión
+                </button>
 
-{mostrarMenuUsuario && (
-  <div className="userDropdown">
+              </div>
+            )}
 
-    <button
-      className="dropdownItem"
-      onClick={() => {
-        setMostrarMenuUsuario(false);
-        abrirAdministradoresRegistrados();
-      }}
-    >
+          </div>
 
-        <FontAwesomeIcon icon={faUsers} />
-          Ver administradores registrados
-    </button>
+        ) : (
 
-    <button
-      className="dropdownItem"
-      onClick={() => {
-        setMostrarMenuUsuario(false);
-        cerrarSesion();
-      }}
-    >
-        <FontAwesomeIcon icon={faRightFromBracket} />
-            Cerrar sesión
-    </button>
-  </div>
-)}
+          // Formulario de inicio de sesión.
 
-</div>
+          <>
 
-) : (
+            {/* Botón para mostrar el formulario de inicio de sesión. */}
 
+            <button
+              className="loginIconBtn"
+              onClick={() =>
+                setMostrarLogin(!mostrarLogin)
+              }
+            >
+              <FontAwesomeIcon icon={faUser} />
+            </button>
 
-// LOGIN
-           
-    <>
+            {/* Formulario de inicio de sesión. */}
 
-{/* BOTÓN */}
+            {mostrarLogin && (
+              <form
+                ref={loginRef}
+                className="loginBox"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  login();
+                }}
+              >
 
-      <button
-        className="loginIconBtn"
-        onClick={() =>
-          setMostrarLogin(!mostrarLogin)
-        }
-      >
-        <FontAwesomeIcon icon={faUser} />
-      </button>
+                <div className="loginInputs">
 
+                  {/* Campo para el nombre de usuario. */}
 
-{/* FORMULARIO */}
+                  <div className="inputGroup">
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="inputIcon"
+                    />
 
-{mostrarLogin && (
- <form
-    ref={loginRef}
-    className="loginBox"
-    onSubmit={(e) => {
-        e.preventDefault();
-        login();
-    }}
->
+                    <input
+                      type="text"
+                      placeholder="Usuario"
+                      value={usuario}
+                      onChange={(e) => setUsuario(e.target.value)}
+                      autoComplete="username"
+                      required
+                    />
+                  </div>
 
+                  {/* Campo para la contraseña. */}
 
-<div className="loginInputs">
+                  <div className="inputGroup">
+                    <FontAwesomeIcon
+                      icon={faLock}
+                      className="inputIcon"
+                    />
 
-{/* USUARIO */}
+                    <input
+                      type="password"
+                      placeholder="Contraseña"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
+                      required
+                    />
+                  </div>
 
-<div className="inputGroup">
-  <FontAwesomeIcon
-    icon={faUser}
-    className="inputIcon"
-/>
+                  {/* Botón para iniciar sesión. */}
 
-  <input
-    type="text"
-    placeholder="Usuario"
-    value={usuario}
-    onChange={(e)=>setUsuario(e.target.value)}
-    autoComplete="username"
-    required
-  />
-</div>
+                  <button
+                    type="submit"
+                    className="btnLogin"
+                  >
+                    Iniciar sesión
+                  </button>
 
+                </div>
+              </form>
+            )}
 
-{/* CONTRASEÑA */}
+          </>
+        )}
 
-<div className="inputGroup">
-  <FontAwesomeIcon
-    icon={faLock}
-    className="inputIcon"
-/>
-
-  <input
-    type="password"
-    placeholder="Contraseña"
-    value={password}
-    onChange={(e)=>setPassword(e.target.value)}
-    autoComplete="current-password"
-    required
-  />
-</div>
-
-  <button
-    type="submit"
-    className="btnLogin"
-  >
-    Iniciar sesión
-  </button>
-</div>
-</form>
-)}
-</>
-)}
-</div>
-</div>
-</>
+      </div>
+    </div>
+  </>
 );
 }
