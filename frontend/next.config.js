@@ -7,7 +7,7 @@ const nextConfig = {
   // ORÍGENES PERMITIDOS DURANTE EL DESARROLLO
 
   allowedDevOrigins: [
-    "192.168.0.107",
+    "192.168.0.120",
   ],
 
 };
