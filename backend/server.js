@@ -20,6 +20,7 @@ const User = require("./models/user");
 const impresorasRoutes = require("./routes/impresoras.routes");
 const usersRoutes = require("./routes/users.routes");
 const { verificarToken, soloAdmin } = require("./middleware/auth");
+const { useReducer } = require("react");
 
 // Establece la conexión con la base de datos.
 
@@ -31,14 +32,18 @@ app.get("/", (req, res) => {
   res.send("Servidor funcionando correctamente");
 });
 
-// Autentica a los usuarios y genera un token JWT.
+// Autentifica a los usuarios y genera un token JWT.
 
 app.post("/login", async (req, res) => {
   try {
     const { usuario, password } = req.body;
 
+    console.log("Usuario recibido", usuario);
+
     // Busca el usuario registrado.
     const user = await User.findOne({ usuario });
+
+    console.log("Usuario encontrado", user);
 
     if (!user) {
       return res.status(401).json({
@@ -51,6 +56,8 @@ app.post("/login", async (req, res) => {
       ? await bcrypt.compare(password, user.password)
       : password === user.password;
 
+    console.log("Coincide la contraseña:", coincide);
+    
     if (!coincide) {
       return res.status(401).json({
         mensaje: "Datos incorrectos",
